@@ -34,14 +34,15 @@ flowchart TD
     G -->|"change instruction<br/>e.g. 'less technical'"| H["Change edit"]
     H -->|"delta + why-changed"| F
 
-    style A fill:#f1efe8,stroke:#5f5e5a
-    style B fill:#e1f5ee,stroke:#0f6e56
-    style C fill:#e1f5ee,stroke:#0f6e56
-    style D fill:#e1f5ee,stroke:#0f6e56
-    style E fill:#faece7,stroke:#993c1d
-    style F fill:#eeedfe,stroke:#534ab7
-    style G fill:#faece7,stroke:#993c1d
-    style H fill:#faeeda,stroke:#854f0b
+    style A fill:#f1efe8,stroke:#2c2c2a,stroke-width:2px,color:#2c2c2a
+    style B fill:#9fe1cb,stroke:#04342c,stroke-width:2px,color:#04342c
+    style C fill:#9fe1cb,stroke:#04342c,stroke-width:2px,color:#04342c
+    style D fill:#9fe1cb,stroke:#04342c,stroke-width:2px,color:#04342c
+    style E fill:#f5c4b3,stroke:#4a1b0c,stroke-width:2px,color:#4a1b0c
+    style F fill:#cecbf6,stroke:#26215c,stroke-width:2px,color:#26215c
+    style G fill:#f5c4b3,stroke:#4a1b0c,stroke-width:2px,color:#4a1b0c
+    style H fill:#fac775,stroke:#412402,stroke-width:2px,color:#412402
+```
 ```
 
 **Pipeline stages:**
