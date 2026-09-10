@@ -43,17 +43,14 @@ flowchart TD
     style G fill:#f5c4b3,stroke:#4a1b0c,stroke-width:2px,color:#4a1b0c
     style H fill:#fac775,stroke:#412402,stroke-width:2px,color:#412402
 ```
-```
 
 **Pipeline stages:**
 
-| Stage | File | What it does |
-|---|---|---|
-| Ingestion | `ingest.py` | Extracts text per page (PyMuPDF), chunks it while protecting LaTeX math blocks (`$...$`, `\begin{equation}`) from being split mid-expression, embeds chunks with `sentence-transformers` (`all-MiniLM-L6-v2`), and stores them in a FAISS index with page-number metadata |
-| Retrieval | `retrieve.py` | Embeds the user's query and does top-k cosine similarity search over the FAISS index, returning chunk text + page number + score |
-| Generation | `generate.py` | Builds a parameterized prompt (audience/length/style) from retrieved chunks, calls Gemini, and post-processes citation tags. Also implements `apply_change()` for iterative edits: re-generates the targeted section, computes an old-vs-new diff with `difflib`, and asks the model for a one-line "why changed" explanation |
-| Evaluation | `eval.py` | Computes citation coverage (% of lines with a `[Cx]` tag) and a factuality proxy (average cosine similarity between each generated sentence and the source chunk it cites) |
-| UI | `app.py` | Minimal Streamlit chat-style interface: set audience/length/style + a source query, generate, then apply follow-up change instructions and see the diff inline |
+- **Ingestion** (`ingest.py`) — Extracts text per page using PyMuPDF, chunks it while protecting LaTeX math blocks (inline `$...$` and `\begin{equation}` blocks) from being split mid-expression, embeds chunks with `sentence-transformers` (`all-MiniLM-L6-v2`), and stores them in a FAISS index along with page-number metadata.
+- **Retrieval** (`retrieve.py`) — Embeds the user's query and runs top-k cosine similarity search over the FAISS index, returning chunk text, page number, and similarity score for each match.
+- **Generation** (`generate.py`) — Builds a parameterized prompt (audience, length, style) from the retrieved chunks and calls Gemini, then post-processes citation tags. Also implements `apply_change()` for iterative edits: it re-generates the targeted section, computes an old-vs-new diff with `difflib`, and asks the model for a short "why changed" explanation.
+- **Evaluation** (`eval.py`) — Computes citation coverage (the percentage of output lines carrying a `[Cx]` tag) and a factuality proxy (the average cosine similarity between each generated sentence and the source chunk it cites).
+- **UI** (`app.py`) — A minimal Streamlit chat-style interface: set audience, length, and style plus a source query, generate the output, then apply follow-up change instructions and see the diff inline.
 
 ## Setup
 
@@ -133,10 +130,8 @@ Full conversation log: [`logs/conversation_example.md`](logs/conversation_exampl
 Run on the sample landslide paper (instruction: "Summarize the methodology used",
 audience=grad students, length=90s, style=technical):
 
-| Metric | Result |
-|---|---|
-| Citation coverage | 70.6% of non-empty output lines carry at least one `[Cx]` tag |
-| Factuality proxy (avg. sentence-to-source cosine similarity) | 0.574, across 19 cited sentences |
+- Citation coverage: **70.6%** of non-empty output lines carry at least one `[Cx]` tag
+- Factuality proxy (average sentence-to-source cosine similarity): **0.574**, computed across 19 cited sentences
 
 **What's not included, and why:** ROUGE/BERTScore against a human-authored
 reference script, and 3-rater human evaluation for audience-appropriateness,
