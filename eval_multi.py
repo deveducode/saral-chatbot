@@ -11,22 +11,49 @@ For each paper:
 Then prints (and saves) a markdown comparison table across all papers.
 
 Usage:
-    python eval_multi.py --papers data/paper1.pdf data/paper2.pdf data/paper3.pdf \
-        --instruction "Summarize the methodology used" \
+    python eval_multi.py --papers data/paper1.pdf data/paper2.pdf data/paper3.pdf \\
+        --instruction "Summarize the methodology used" \\
         --audience "grad students" --length 90s --style technical
 """
 
+from __future__ import annotations
+
 import argparse
+import logging
 import os
 from pathlib import Path
 
 from ingest import build_index
 from eval import run_eval
 
+logger = logging.getLogger(__name__)
 
-def run_multi_eval(paper_paths, audience, length, style, instruction, k=6,
-                    out_md="eval_comparison.md"):
-    rows = []
+
+def run_multi_eval(
+    paper_paths: list[str],
+    audience: str,
+    length: str,
+    style: str,
+    instruction: str,
+    k: int = 6,
+    out_md: str = "eval_comparison.md",
+) -> list[dict]:
+    """Run evaluation across multiple papers and produce a comparison table.
+
+    Args:
+        paper_paths: Paths to the PDF papers.
+        audience, length, style, instruction: Generation parameters.
+        k: Number of chunks to retrieve.
+        out_md: Path for the output markdown comparison table.
+
+    Returns:
+        A list of result dicts, one per paper.
+    """
+    if not paper_paths:
+        logger.warning("No papers provided — nothing to evaluate.")
+        return []
+
+    rows: list[dict] = []
     for paper_path in paper_paths:
         stem = Path(paper_path).stem
         index_dir = f"data/index_{stem}"
@@ -50,10 +77,16 @@ def run_multi_eval(paper_paths, audience, length, style, instruction, k=6,
         })
 
     # Build markdown comparison table
-    lines = []
+    lines: list[str] = []
     lines.append(f"## Multi-paper evaluation comparison\n")
-    lines.append(f"Instruction: \"{instruction}\" | audience={audience}, length={length}, style={style}\n")
-    lines.append("| Paper | Citation coverage (%) | Factuality proxy (avg similarity) | Sentences checked |")
+    lines.append(
+        f'Instruction: "{instruction}" | audience={audience}, '
+        f"length={length}, style={style}\n"
+    )
+    lines.append(
+        "| Paper | Citation coverage (%) | Factuality proxy (avg similarity) "
+        "| Sentences checked |"
+    )
     lines.append("|---|---|---|---|")
     for r in rows:
         lines.append(
@@ -62,7 +95,11 @@ def run_multi_eval(paper_paths, audience, length, style, instruction, k=6,
         )
 
     avg_cov = round(sum(r["citation_coverage_pct"] for r in rows) / len(rows), 1)
-    fact_vals = [r["factuality_avg_similarity"] for r in rows if r["factuality_avg_similarity"] is not None]
+    fact_vals = [
+        r["factuality_avg_similarity"]
+        for r in rows
+        if r["factuality_avg_similarity"] is not None
+    ]
     avg_fact = round(sum(fact_vals) / len(fact_vals), 3) if fact_vals else None
     lines.append(f"\n**Average citation coverage: {avg_cov}%**")
     lines.append(f"**Average factuality proxy: {avg_fact}**")
@@ -79,6 +116,7 @@ def run_multi_eval(paper_paths, audience, length, style, instruction, k=6,
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
     parser = argparse.ArgumentParser()
     parser.add_argument("--papers", nargs="+", required=True, help="Paths to 2-3 PDF papers")
     parser.add_argument("--audience", default="grad students")
@@ -88,5 +126,7 @@ if __name__ == "__main__":
     parser.add_argument("--k", type=int, default=6)
     args = parser.parse_args()
 
-    run_multi_eval(args.papers, args.audience, args.length, args.style,
-                    args.instruction, k=args.k)
+    run_multi_eval(
+        args.papers, args.audience, args.length, args.style,
+        args.instruction, k=args.k,
+    )
