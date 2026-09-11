@@ -22,12 +22,12 @@ import os
 import google.generativeai as genai
 from dotenv import load_dotenv
 
-from retrieve import Retriever, format_context
+from retrieve import Retriever, format_context, instruction_wants_math
 
 load_dotenv()
 
 API_KEY = os.getenv("GEMINI_API_KEY")
-MODEL_NAME = "gemini-3.5-flash"  # fast + cheap, good enough for this task
+MODEL_NAME = "gemini-3.6-flash"  # fast + cheap, good enough for this task
 
 SYSTEM_TEMPLATE = """You are SARAL's script & bullet generator. You turn research paper
 content into audience-adapted scripts, slide bullets, and short summaries.
@@ -107,9 +107,14 @@ def build_prompt(audience, length, style, instruction, context):
 
 
 def generate(index_dir, audience, length, style, instruction, k=6):
-    """Full pipeline: retrieve -> prompt -> generate. Returns (output_text, retrieved_chunks)."""
+    """Full pipeline: retrieve -> prompt -> generate. Returns (output_text, retrieved_chunks).
+
+    Automatically enables math-aware retrieval boosting when the instruction
+    implies equations/math should be preserved (see retrieve.py Retriever.search).
+    """
     retriever = Retriever(index_dir)
-    retrieved = retriever.search(instruction, k=k)
+    boost_math = instruction_wants_math(instruction)
+    retrieved = retriever.search(instruction, k=k, boost_math=boost_math)
     context = format_context(retrieved)
 
     prompt = build_prompt(audience, length, style, instruction, context)

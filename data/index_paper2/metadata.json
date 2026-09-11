@@ -1,0 +1,891 @@
+{
+  "source_pdf": "paper2.pdf",
+  "embedding_model": "all-MiniLM-L6-v2",
+  "records": [
+    {
+      "chunk_id": "C1",
+      "page": 1,
+      "text": "8664\nIEEE JOURNAL OF SELECTED TOPICS IN APPLIED EARTH OBSERVATIONS AND REMOTE SENSING, VOL. 19, 2026\nCS-Mamba: A Novel Mamba-Based Framework for\nLandslide Detection With Attention Guided\nCross-Scale Context Semantic Integration\nYanrong Mao\n, Haiming Zhang\n, Rongfan Dai\n, Tingjian Yang, and Guanting Liu\nAbstract\u2014Landslides are a frequent natural hazard, and the\nprecise detection of affected areas using high-resolution"
+    },
+    {
+      "chunk_id": "C2",
+      "page": 1,
+      "text": "he\nprecise detection of affected areas using high-resolution optical\nimagery is of great signi\ufb01cance for geological disaster emergency\nresponse and risk assessment. In optical images, landslides often\nexhibit substantial scale variations, complex and diverse mor-\nphologies, and blurred boundaries, and are susceptible to envi-\nronmental in\ufb02uences. Existing deep learning approaches have not\nfully exploited cross-scale"
+    },
+    {
+      "chunk_id": "C3",
+      "page": 1,
+      "text": "ep learning approaches have not\nfully exploited cross-scale dependencies among pixels or ensured\nthe consistency between feature representations and semantic em-\nbeddings, leading to insuf\ufb01cient model robustness. To address\nthese limitations, we propose a novel Mamba-based framework\nfor landslides detection with attention-guided cross-scale context\nsemantic integration (CS-Mamba). In the encoder, parallel mul-\ntiscal"
+    },
+    {
+      "chunk_id": "C4",
+      "page": 1,
+      "text": "integration (CS-Mamba). In the encoder, parallel mul-\ntiscale convolutional branches are introduced to enhance the net-\nwork\u2019s representation capability. At the core, a multiscale-aware\nstate-space module in the neck adopts bidirectional information\n\ufb02ows and a gated fusion mechanism to integrate global and lo-\ncal features, thereby improving semantic consistency in boundary\nsegmentation. In the decoder, an attention-"
+    },
+    {
+      "chunk_id": "C5",
+      "page": 1,
+      "text": "ency in boundary\nsegmentation. In the decoder, an attention-guided strategy is em-\nployed to fuse multilevel features, achieving precise preservation\nof boundary details and strong robustness to cross-domain data.\nThe proposed method is evaluated on multiple representative land-\nslide datasets, including the large-scale multisource high-resolution\nlandslide dataset, Bijie, and GLVM datasets. Experimental results\ndemo"
+    },
+    {
+      "chunk_id": "C6",
+      "page": 1,
+      "text": "dataset, Bijie, and GLVM datasets. Experimental results\ndemonstrate that CS-Mamba achieves superior performance on\nnearly all metrics and exhibits strong generalization ability in\ndomain generalization analysis.\nIndex Terms\u2014Deep learning, high-resolution remote sensing\nimagery, Landslide detection.\nReceived 25 October 2025; revised 10 January 2026; accepted 9 February\n2026. Date of publication 12 February 2026; date"
+    },
+    {
+      "chunk_id": "C7",
+      "page": 1,
+      "text": "9 February\n2026. Date of publication 12 February 2026; date of current version 13 March\n2026. This work was supported by the Key R&D Program of Shandong Province,\nChina and Open Fund of Hubei Luojia Laboratory under Grant 2025SFGC0301\nand Grant 260100005. (Corresponding author: Haiming Zhang.)\nYanrong Mao is with Oriental Space Port Research Institute, Yantai 265100,\nChina, and also with the School of Future Technolo"
+    },
+    {
+      "chunk_id": "C8",
+      "page": 1,
+      "text": "i 265100,\nChina, and also with the School of Future Technology, China University of\nGeosciences, Wuhan 430074, China (e-mail: persona@cug.edu.cn).\nHaiming Zhang and Rongfan Dai are with Oriental Space Port Research Insti-\ntute, Yantai 265100, China, also with the State Key Laboratory of Information\nEngineering in Surveying, Mapping and Remote Sensing, Wuhan University,\nWuhan 430079, China, and also with the Hubei Luo"
+    },
+    {
+      "chunk_id": "C9",
+      "page": 1,
+      "text": "University,\nWuhan 430079, China, and also with the Hubei Luojia Laboratory, Wuhan\n430079, China (e-mail: zhanghaiming@whu.edu.cn; dairongfan@whu.edu.cn).\nTingjian Yang is with Oriental Space Port Research Institute, Yantai 265100,\nChina (e-mail: yangtingjian@ospri.org.cn).\nGuanting Liu is with the Institute of Space and Earth Information Sci-\nence, The Chinese University of Hong Kong, Shatin Hong Kong (e-mail:\nguan.t"
+    },
+    {
+      "chunk_id": "C10",
+      "page": 1,
+      "text": "se University of Hong Kong, Shatin Hong Kong (e-mail:\nguan.ting.liu2000@gmail.com).\nDigital Object Identi\ufb01er 10.1109/JSTARS.2026.3664425\nI. INTRODUCTION\nL\nANDSLIDES are a common and highly destructive natural\nhazard that poses serious threats to human life, property,\nand infrastructure. In\ufb02uenced by the intensi\ufb01cation of global cli-\nmate change and the acceleration of urbanization, the frequency\nand severity of lands"
+    },
+    {
+      "chunk_id": "C11",
+      "page": 1,
+      "text": "eration of urbanization, the frequency\nand severity of landslide events have been continuously increas-\ning [1]. According to statistics released by the National Bureau\nof Statistics of China, a total of 2335 landslide events occurred\nin 2024, resulting in 129 casualties, including 8 fatalities, and\ncausing direct economic losses of up to CNY 3.20 billion [2].\nConsequently, the timely and accurate detection of affect"
+    },
+    {
+      "chunk_id": "C12",
+      "page": 1,
+      "text": "].\nConsequently, the timely and accurate detection of affected areas\nafter a landslide has become a pressing challenge in response to\nemergency geological disasters and risk assessment.\nTraditional landslide detection methods are largely based on\nmanual visual interpretation, typically involving \ufb01eld surveys\nand expert experience for comprehensive analysis and judg-\nment. However, such approaches are highly dependent"
+    },
+    {
+      "chunk_id": "C13",
+      "page": 1,
+      "text": "nd judg-\nment. However, such approaches are highly dependent on expert\nknowledge, have low detection ef\ufb01ciency, and are dif\ufb01cult to\nimplement on a large scale. In addition, manual interpretation\nis prone to omissions and false detections, making it dif\ufb01cult\nto ensure the accuracy and reliability of the results. With the\nrapid development of high-resolution remote sensing technol-\nogy, landslide detection methods base"
+    },
+    {
+      "chunk_id": "C14",
+      "page": 1,
+      "text": "emote sensing technol-\nogy, landslide detection methods based on high-resolution opti-\ncal imagery acquired from satellite and airborne platforms have\nincreasingly become a research focus [3], [4], [5].\nIn recent years, deep learning has shown strong advantages in\nlandslide detection due to its end-to-end modeling, feature learn-\ningability,andhighlevelofautomation[6].Itsperformance,par-\nticularly in handling large-s"
+    },
+    {
+      "chunk_id": "C15",
+      "page": 1,
+      "text": "omation[6].Itsperformance,par-\nticularly in handling large-scale, high-resolution remote sensing\nimagery, has signi\ufb01cantly surpassed that of traditional machine\nlearning methods [7]. Many high-quality landslide datasets have\nbeen built from satellite, airborne and UAV imagery at dif-\nferent scales [3], [8], [9], [10], [11]. For example, the global\nhigh-resolution landslide dataset constructed by Liu et al. [11]\ninteg"
+    },
+    {
+      "chunk_id": "C16",
+      "page": 1,
+      "text": "ution landslide dataset constructed by Liu et al. [11]\nintegrates diverse remote sensing data sources covering vari-\nous terrains, triggering factors, and imaging platforms, greatly\nadvancing research on landslide detection methods. Despite\nthe growing availability of data and continuous improvement\nin model performance, landslide detection still faces multiple\nchallenges, especially in multisource data fusion and cr"
+    },
+    {
+      "chunk_id": "C17",
+      "page": 1,
+      "text": "ple\nchallenges, especially in multisource data fusion and cross-\ndomain generalization. As shown in Fig. 1, landslide detection is\nchallengedbythescaledifferenceamonglandslides,theimaging\nconditiondiscrepanciesacrossremotesensingplatforms,andthe\n\u00a9 2026 The Authors. This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see\nhttps://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "chunk_id": "C18",
+      "page": 2,
+      "text": "MAO et al.: CS-MAMBA: A NOVEL MAMBA-BASED FRAMEWORK FOR LANDSLIDE DETECTION\n8665\nFig. 1.\nGlobal distribution of landslide and major challenges in landslide detection. Sixteen representative landslide sites worldwide are marked based on publicly\navailable datasets.\nenvironmental variability of occurrence regions. These factors\ncause landslides to exhibit large differences in size, texture,\ncolor, and boundary features"
+    },
+    {
+      "chunk_id": "C19",
+      "page": 2,
+      "text": "e differences in size, texture,\ncolor, and boundary features across images, resulting in sub-\nstantial accuracy degradation when existing models are applied\nto new regions or data sources. Therefore, developing a landslide\ndetection model with strong adaptability and generalization\ncapability across scales, imaging conditions, and environments\nhas become a key research issue [12].\nThe convolutional neural networks (C"
+    },
+    {
+      "chunk_id": "C20",
+      "page": 2,
+      "text": "ey research issue [12].\nThe convolutional neural networks (CNNs) have been widely\napplied to landslide detection, such as Mask R-CNN [13], ResU-\nNet [14], YOLO [15], SCGC-Net [16], but their inherent local\nreceptive \ufb01elds limit their ability to model long-range dependen-\ncies. Furthermore, repeated downsampling inevitably degrade\n\ufb01ne-grained boundary information, while conventional upsam-\npling and skip connections o"
+    },
+    {
+      "chunk_id": "C21",
+      "page": 2,
+      "text": "tion, while conventional upsam-\npling and skip connections often prove insuf\ufb01cient for restoring\nprecise edges [17]. Additionally, the lack of explicit cross-scale\nsemantic coordination leads to inconsistencies between high-\nlevel semantic predictions and low-level spatial details, partic-\nularly for landslides with complex geometries or small spatial\nextents [18]. The self-attention mechanism introduced by Trans-\nfo"
+    },
+    {
+      "chunk_id": "C22",
+      "page": 2,
+      "text": "s [18]. The self-attention mechanism introduced by Trans-\nformer architectures offers strong global modeling capability,\nyet suffers from high computational costs, sensitivity to dataset\nsize, and a tendency to overlook \ufb01ne-grained boundary infor-\nmation [19], [20], [21], the global attention mechanism tends\nto prioritize regional-level semantic consistency, which may\nsmooth out high-frequency boundary cues and conse"
+    },
+    {
+      "chunk_id": "C23",
+      "page": 2,
+      "text": "which may\nsmooth out high-frequency boundary cues and consequently\nexacerbate boundary ambiguity in landslide segmentation tasks.\nRecently, the Mamba state space model (SSM) has emerged as\na promising alternative. By leveraging state space modeling,\nMamba can ef\ufb01ciently capture long-range dependencies while\nmaintaining linear time complexity [22], and has demonstrated\nstrong performance in vision tasks including ima"
+    },
+    {
+      "chunk_id": "C24",
+      "page": 2,
+      "text": "emonstrated\nstrong performance in vision tasks including image classi\ufb01ca-\ntion, object detection, and segmentation [23], [24], [25], [26].\nHowever, existing Mamba-based vision models primarily focus\non ef\ufb01cient long-range modeling and often lack specialized\nmechanisms for multiscale semantic alignment and boundary-\naware feature fusion. This limitation restricts their effectiveness\nin complex landslide scenarios, and"
+    },
+    {
+      "chunk_id": "C25",
+      "page": 2,
+      "text": "icts their effectiveness\nin complex landslide scenarios, and their application in landslide\ndetection remains in its nascent stage.\nTo address the aforementioned issues, this article proposes a\nnovel landslide detection framework (CS-Mamba) designed to\nachieve comprehensive multiscale contextual integration, pre-\ncise preservation of boundary details, and strong robustness to\ncross-domain data. The CS-Mamba architect"
+    },
+    {
+      "chunk_id": "C26",
+      "page": 2,
+      "text": "rong robustness to\ncross-domain data. The CS-Mamba architecture comprises three\ncore modules.\n1) Cross embedding module (CEM), which fuses features at\ndifferent scales to enhance the representation of landslide\nmorphology.\n2) Multiscale aware visual state space (MAVSS) block,\nwhich combines the strengths of Mamba and CNNs by"
+    },
+    {
+      "chunk_id": "C27",
+      "page": 3,
+      "text": "8666\nIEEE JOURNAL OF SELECTED TOPICS IN APPLIED EARTH OBSERVATIONS AND REMOTE SENSING, VOL. 19, 2026\nintroducing bidirectional information \ufb02ow across different\nfeature levels and employing a gated fusion mechanism\nto integrate global and local features, thereby improving\nsegmentation accuracy and semantic consistency along\nboundaries.\n3) Semantic fusion module (SFM), which applies an\nattention-guided strategy to inte"
+    },
+    {
+      "chunk_id": "C28",
+      "page": 3,
+      "text": "le (SFM), which applies an\nattention-guided strategy to integrate multilevel features,\nbridging the gap between global context and local de-\ntails, and dynamically adjusting features across layers to\nimprove segmentation performance for blurred or frag-\nmented landslide regions.\nCS-Mamba was systematically evaluated on three landslide\ndatasets. The results show that it outperforms existing main-\nstream methods on mul"
+    },
+    {
+      "chunk_id": "C29",
+      "page": 3,
+      "text": "how that it outperforms existing main-\nstream methods on multiple metrics such as F1-score and mIoU,\nachieving the highest mIoU of 86.18% on the Bijie dataset [8],\n90.90% on the global very-high-resolution landslide mapping\n(GVLM) dataset [10], and 87.11% on the large-scale mul-\ntisource high-resolution landslide dataset (LMHLD) [11]. It\nalso demonstrates excellent robustness in cross-domain test-\ning, requiring only"
+    },
+    {
+      "chunk_id": "C30",
+      "page": 3,
+      "text": "cellent robustness in cross-domain test-\ning, requiring only a small number of samples to adapt the\nmodel to previously unseen datasets. In summary, the proposed\nCS-Mamba provides a high-performance, ef\ufb01cient, and highly\ngeneralizable solution for high-resolution remote sensing-based\nlandslide detection, offering signi\ufb01cant theoretical value and\npractical potential for the development of intelligent geological\nhazard"
+    },
+    {
+      "chunk_id": "C31",
+      "page": 3,
+      "text": "tential for the development of intelligent geological\nhazard monitoring systems.\nII. RELATED WORK\nA. Landslide Detection in Deep Learning\nEarly landslide detection models often employed CNN, which\nstack convolution and pooling layers followed by fully con-\nnected layers [7], [27], [28]. Subsequently, Ji et al. [8] introduced\na novel attention module to develop a more complex and spe-\ncialized CNN architecture and con"
+    },
+    {
+      "chunk_id": "C32",
+      "page": 3,
+      "text": "op a more complex and spe-\ncialized CNN architecture and constructed an optical landslide\ndataset, \ufb01lling a gap in the \ufb01eld of landslide detection. Yi and\nZhang [29] further investigated the application of CNN to optical\nimagery-based landslide detection and proposed LandsNet, a\ncascaded end-to-end CNN. To enhance multiscale modeling\ncapabilities, Liu et al. [30] replaced the original bilinear inter-\npolation in the"
+    },
+    {
+      "chunk_id": "C33",
+      "page": 3,
+      "text": "[30] replaced the original bilinear inter-\npolation in the decoder with channel attention mechanisms and\natrous spatial pyramid pooling. Considering the instability of ex-\nisting landslide detection models in complex scenarios and their\nlimited boundary delineation accuracy, Li et al. [31] designed a\ncontrastive learning-guided landslide detection model with high\nrobustness. By incorporating residual blocks and chan"
+    },
+    {
+      "chunk_id": "C34",
+      "page": 3,
+      "text": "h high\nrobustness. By incorporating residual blocks and channel atten-\ntion mechanisms into the U-Net+++ architecture, they achieved\nsigni\ufb01cant improvements in boundary segmentation accuracy.\nWang et al. [32] innovatively designed a gated dual-stream CNN\nthat largely mitigated information loss during deep downsam-\npling; however, the intrinsic local receptive \ufb01eld of CNN still\nrestricts their ability to model long-ra"
+    },
+    {
+      "chunk_id": "C35",
+      "page": 3,
+      "text": "e \ufb01eld of CNN still\nrestricts their ability to model long-range dependencies, limiting\nattention to global contextual relationships.\nThe emergence of the Transformer architecture has provided\nan alternative solution. To address the wide-ranging terrain\nvariations and morphological diversity of landslides in remote\nsensing imagery, Lv et al. [20] designed the Shape-Enhanced\nFig. 2.\n2D-selective-scan (SS2D).\nVision Tra"
+    },
+    {
+      "chunk_id": "C36",
+      "page": 3,
+      "text": "Shape-Enhanced\nFig. 2.\n2D-selective-scan (SS2D).\nVision Transformer (ShapeFormer) to more accurately capture\nand preserve multiscale shape features of landslides. Similarly,\nHuang et al. [33] combined morphological edge detection with\nSwin-Transformer to further improve the accuracy of landslide\nshape and boundary extraction. To leverage the ef\ufb01ciency of\nCNN in local feature extraction and the strength of transforme"
+    },
+    {
+      "chunk_id": "C37",
+      "page": 3,
+      "text": "N in local feature extraction and the strength of transformers\nin global dependency modeling, researchers have explored hy-\nbrid CNN\u2013Transformer architectures to achieve complementary\nbene\ufb01ts. Li et al. [34] coupled CNN and Transformer in a\nmultiscale feature fusion scene parsing framework to link the\nrich features of landslides, enhancing model expressiveness.\nWu et al. [35] integrated shallow local features from CN"
+    },
+    {
+      "chunk_id": "C38",
+      "page": 3,
+      "text": "ss.\nWu et al. [35] integrated shallow local features from CNN\nwith deep global features from Transformers through multistage\nfusion, effectively improving cross-scale feature representation\nand boundary delineation accuracy in landslide detection.\nDespite their superior performance compared with single-\narchitecture models, CNN\u2013Transformer hybrids still have limi-\ntations: the Transformer module entails high computat"
+    },
+    {
+      "chunk_id": "C39",
+      "page": 3,
+      "text": "limi-\ntations: the Transformer module entails high computational and\nmemory costs, which can create resource bottlenecks when pro-\ncessing high-resolution remote sensing imagery; furthermore,\nthe feature fusion between CNN and Transformers often relies\non manually designed mechanisms and lacks ef\ufb01cient modeling\nof cross-scale sequential dependencies. The recently proposed\nMamba architecture [22] offers a new researc"
+    },
+    {
+      "chunk_id": "C40",
+      "page": 3,
+      "text": "cently proposed\nMamba architecture [22] offers a new research direction for re-\nmote sensing applications such as landslide detection. Based on\nthe SSM, Mamba achieves long-sequence modeling with linear\ncomputational complexity, overcoming the quadratic complex-\nity constraint of global attention in Transformers.\nB. Mamba Architecture\nThe Mamba architecture, proposed by Gu and Dao [22], is\nbuilt upon the SSM and aims"
+    },
+    {
+      "chunk_id": "C41",
+      "page": 3,
+      "text": "proposed by Gu and Dao [22], is\nbuilt upon the SSM and aims to achieve global modeling of\nlong sequences with linear time complexity. The fundamental\nconcept of SSM is to represent the dynamic relationship between\nthe input sequence and the hidden states using continuous-time\nstate equations, which can be expressed as follows:\nh\u2032 (t) = Ah (t) + Bx (t) , y (t) = Ch (t) + Dx(t)\n(1)\nwhere h(t) denotes the hidden state,"
+    },
+    {
+      "chunk_id": "C42",
+      "page": 3,
+      "text": "t) = Ch (t) + Dx(t)\n(1)\nwhere h(t) denotes the hidden state, while x(t) and y(t) repre-\nsent the input and output, respectively. The matrices A, B, C,\nand D are learnable parameters. Building upon the conventional\nSSM, Mamba incorporates a selective mechanism, in which\nthe state-transition parameters are dynamically generated dur-\ning computation. This design enables the model to adaptively\nregulate the proportion of"
+    },
+    {
+      "chunk_id": "C43",
+      "page": 3,
+      "text": "n enables the model to adaptively\nregulate the proportion of information retained and forgotten\naccording to the input content. Such a mechanism substantially"
+    },
+    {
+      "chunk_id": "C44",
+      "page": 4,
+      "text": "MAO et al.: CS-MAMBA: A NOVEL MAMBA-BASED FRAMEWORK FOR LANDSLIDE DETECTION\n8667\nFig. 3.\nArchitecture of the proposed CS-Mamba.\nenhances the granularity of information selection and the capa-\nbility for modeling long-range dependencies, while maintaining\nlinear growth in both computational cost and memory usage.\nTheoriginal Mambamodel was designedfor one-dimensional\nsequence tasks, whereas VMamba [24] extends it to t"
+    },
+    {
+      "chunk_id": "C45",
+      "page": 4,
+      "text": "ensional\nsequence tasks, whereas VMamba [24] extends it to the com-\nputer vision domain. At its core lies the visual SSM, which\nincorporates the 2D selective scan (SS2D) to enable global de-\npendency modeling of two-dimensional images while retaining\nlinear computational complexity. Since image features in the\n2D spatial domain lack a strict sequential order, but require\ncapturing contextual information along both ho"
+    },
+    {
+      "chunk_id": "C46",
+      "page": 4,
+      "text": ", but require\ncapturing contextual information along both horizontal and ver-\ntical directions, VMamba introduces a four-directional scanning\nstrategy within SS2D, as illustrated in Fig. 2.\nIII. PROPOSED METHOD\nThis section primarily presents the overall architecture of\nCS-Mamba. As shown in Fig. 3, the model is inspired by the\nU-Net architecture and consists of three main modules: CEM, it\nexplicitly align semantic r"
+    },
+    {
+      "chunk_id": "C47",
+      "page": 4,
+      "text": "s of three main modules: CEM, it\nexplicitly align semantic representations across different spatial\nscales, mitigating semantic inconsistency caused by large-scale\nvariations of landslides. MAVSS block, it serves as the core\ncomponent of the network, jointly modeling long-range global\ndependencies and \ufb01ne-grained local details to improve semantic\nconsistency and boundary delineation. SFM, it is applied in\nthe decodin"
+    },
+    {
+      "chunk_id": "C48",
+      "page": 4,
+      "text": "and boundary delineation. SFM, it is applied in\nthe decoding stage to adaptively integrate global semantics into\nmultiscale feature maps, further re\ufb01ning ambiguous boundaries\nand fragmented regions. Finally, a lightweight segmentation\nhead predicts the landslide mask at the original resolution.\nFig. 4.\nCross embedding module.\nThe subsequent sections provide a detailed description of each\nmodule and the corresponding"
+    },
+    {
+      "chunk_id": "C49",
+      "page": 4,
+      "text": "a detailed description of each\nmodule and the corresponding data \ufb02ow mechanisms.\nA. Cross Embedding Module\nTo address the challenge of cross-scale semantic inconsis-\ntency caused by large variations in landslide size, the encoding\nstage of CS-Mamba employs a CEM as the initial feature extrac-\ntion unit. The core function of CEM is to encode landslide fea-\ntures at multiple spatial scales in a coordinated manner, ena"
+    },
+    {
+      "chunk_id": "C50",
+      "page": 4,
+      "text": "ures at multiple spatial scales in a coordinated manner, enabling\n\ufb01ne-grained local textures and broad contextual structures to be\nrepresented within a uni\ufb01ed semantic space. As illustrated in\nFig. 4, taking the \ufb01rst encoding stage as an example, the CEM\nconstructs four parallel convolutional branches, each using a\ndistinct kernel size K{\u08a04, 8, 16, 32} and a shared stride setting"
+    },
+    {
+      "chunk_id": "C51",
+      "page": 5,
+      "text": "8668\nIEEE JOURNAL OF SELECTED TOPICS IN APPLIED EARTH OBSERVATIONS AND REMOTE SENSING, VOL. 19, 2026\nFig. 5.\nMultiscale aware visual state space block.\nto ensure that the output tensors maintain consistent spatial\nresolution. Each branch focuses on contextual information at a\nspeci\ufb01c scale, where the sampling regions share the same spatial\ncenter, but vary in coverage extent.\nTo balance computational ef\ufb01ciency and re"
+    },
+    {
+      "chunk_id": "C52",
+      "page": 5,
+      "text": "n coverage extent.\nTo balance computational ef\ufb01ciency and representation ca-\npacity, CEM adopts a nonuniform channel allocation strat-\negy, where branches with larger receptive \ufb01elds are assigned\nfewer channels. This design effectively controls computational\ncost while preserving the ability to model multiscale landslide\ncharacteristics. Similar CEM structures are applied at different\nencoding stages, with kernel siz"
+    },
+    {
+      "chunk_id": "C53",
+      "page": 5,
+      "text": "es are applied at different\nencoding stages, with kernel sizes and stride settings adapted to\nthe network\u2019s downsampling process to form a pyramid-shaped\nsemantic hierarchy.\nB. Multiscale Aware Visual State Space Block\nThe MAVSS block is the key module of CS-Mamba, designed\nto address cross-scale semantic inconsistency and boundary\nambiguity in landslide detection. The neck of the model consists\nof L stacked MAVSS bl"
+    },
+    {
+      "chunk_id": "C54",
+      "page": 5,
+      "text": "ection. The neck of the model consists\nof L stacked MAVSS blocks. Each MAVSS block contains\nan Ef\ufb01cient Global SS2D, a feed-forward neural network, and\nresidual connection.\nAs illustrated in Fig. 5(b), the ef\ufb01cient global SS2D incorpo-\nrates both a global branch and a local branch. The global branch\nuses the modeling mechanism of the vision SSM to capture\nlong-range spatial dependencies and geomorphological seman-\nti"
+    },
+    {
+      "chunk_id": "C55",
+      "page": 5,
+      "text": "ng-range spatial dependencies and geomorphological seman-\ntic features across the image. The local branch adopts depthwise\nseparable convolutions to enhance the characterization of \ufb01ne-\ngrained local features such as landslide boundaries. The outputs\nof the two branches are integrated through a gated weighting\nmechanism, which further improves the consistency and dis-\ncriminative capacity of multiscale features. The"
+    },
+    {
+      "chunk_id": "C56",
+      "page": 5,
+      "text": "y and dis-\ncriminative capacity of multiscale features. The speci\ufb01c pro-\ncessing of the ef\ufb01cient global SS2D can be expressed as follows:\nFglobal = W2 \u00b7 LN(Scan(DWConv(W1 \u00b7 x)))\nFlocal = [1 \u2212\u03c3(\u03b1)]BN(Conv1(W \u00b7 x))\n+ \u03c3(\u03b1)BN(Conv3(W \u00b7 x))\nFfuse = Conv1(GELU(Conv1(LN(Fglobal + Flocal))))\n(2)\nwhere W denotes the linear layer weights, LN and BN refer to\nlayer normalization and batch normalization, respectively, Scan\nrepres"
+    },
+    {
+      "chunk_id": "C57",
+      "page": 5,
+      "text": "alization and batch normalization, respectively, Scan\nrepresents the SS2D operation, DWConv denotes the depthwise\nseparable convolution, GELU is the activation function, and\n\u03c3(\u03b1) is a learnable gating parameter activated by the Sigmoid\nfunction.\nTo further enhance cross-scale feature consistency, MAVSS\nincorporates a bidirectional cross-scale feature \ufb02ow mechanism\n(BiFlow), as shown in Fig. 5(a). In the bottom-up pat"
+    },
+    {
+      "chunk_id": "C58",
+      "page": 5,
+      "text": "hanism\n(BiFlow), as shown in Fig. 5(a). In the bottom-up path, high-\nlevel features are upsampled and fused with low-level features to\nsupplement global semantic information. In the top-down path,\nlow-level features are downsampled and fused with high-level\nfeatures to provide \ufb01ne-grained detail feedback.\nThe MAVSS module \ufb01rst processes the input multiscale fea-\ntures in parallel, where the EG-SS2D extracts both glob"
+    },
+    {
+      "chunk_id": "C59",
+      "page": 5,
+      "text": "fea-\ntures in parallel, where the EG-SS2D extracts both global and"
+    },
+    {
+      "chunk_id": "C60",
+      "page": 6,
+      "text": "MAO et al.: CS-MAMBA: A NOVEL MAMBA-BASED FRAMEWORK FOR LANDSLIDE DETECTION\n8669\nFig. 6.\nSemantics fusion module.\nlocal feature representations of the current layer. Subsequently,\ncross-layer features are dynamically weighted and fused with the\ncurrent layer features through the bidirectional \ufb02ow mechanism\n(BiFlow), which effectively promotes feature complementarity\nand consistency enhancement across different levels"
+    },
+    {
+      "chunk_id": "C61",
+      "page": 6,
+      "text": "entarity\nand consistency enhancement across different levels and re-\nceptive \ufb01elds. Through the combination of global\u2013local feature\nmodeling and bidirectional cross-scale interaction, MAVSS pro-\nduces multilevel representations that preserve \ufb01ne structural de-\ntails while maintaining semantic coherence across scales, which\nis crucial for accurate landslide segmentation under complex\ngeomorphological conditions.\nC. Se"
+    },
+    {
+      "chunk_id": "C62",
+      "page": 6,
+      "text": "egmentation under complex\ngeomorphological conditions.\nC. Semantic Fusion Module\nA After obtaining multiscale semantic features, an SFM is\nintroduced in the decoding stage to alleviate boundary ambi-\nguity and bridge the representational gap between local spatial\ndetails and global semantics.The SFM takes local features from\ndifferent encoder levels and global semantic features as inputs,\nas illustrated in Fig. 6. Lo"
+    },
+    {
+      "chunk_id": "C63",
+      "page": 6,
+      "text": "al semantic features as inputs,\nas illustrated in Fig. 6. Local features are \ufb01rst processed by a\n1 \u00d7 1 convolution followed by batch normalization to preserve\nspatial structures and boundary information. In parallel, global\nfeatures are transformed through two lightweight branches: one\nbranch generates spatial semantic weights via a 1 \u00d7 1 convolu-\ntion; batch normalization; and Sigmoid activation to adaptively\nmodula"
+    },
+    {
+      "chunk_id": "C64",
+      "page": 6,
+      "text": "h normalization; and Sigmoid activation to adaptively\nmodulatelocalfeatures,whiletheotherbranchproducesresidual\nglobal context to supplement semantic information.The seman-\ntic weights are applied to the local features through element-wise\nmultiplication, followed by residual fusion with the global con-\ntextual features. This adaptive fusion strategy enables spatially\nselective enhancement of ambiguous regions while"
+    },
+    {
+      "chunk_id": "C65",
+      "page": 6,
+      "text": "spatially\nselective enhancement of ambiguous regions while maintaining\n\ufb01ne-grained boundary details.After fusion, the enhanced multi-\nscale features are passed to the decoding stage, where they are\nupsampled, aligned, and integrated to produce accurate landslide\nsegmentation results.\nC. Loss Function\nTo further improve the accuracy of the model in landslide\nextraction tasks, especially when facing challenges such as"
+    },
+    {
+      "chunk_id": "C66",
+      "page": 6,
+      "text": "extraction tasks, especially when facing challenges such as large\nscale variance of landslide samples, severe class imbalance,\nand blurred landslide boundaries in the dataset, we design a\nstructure-aware composite loss function. This function dynam-\nically combines the adaptive binary cross-entropy (adaptive\nBCE) loss and the structure-aware dice loss, enabling simul-\ntaneous enhancement of pixel-level classi\ufb01cation"
+    },
+    {
+      "chunk_id": "C67",
+      "page": 6,
+      "text": "ling simul-\ntaneous enhancement of pixel-level classi\ufb01cation accuracy and\n\ufb01ne-structure segmentation capability. The formulation of the\nloss function is given as follows:\nL = \u03bb1 LABCE(y, \u02c6y) + \u03bb2LSDice(y, \u02c6y)\n(3)\nwhere y and \u02c6y denote the ground truth and the prediction of\nthe model, respectively, while \u03bb1 and \u03bb2 are the weighting\ncoef\ufb01cients of the two loss functions, which are set to 1 and\n0.5 by default.\nThe LABCE"
+    },
+    {
+      "chunk_id": "C68",
+      "page": 6,
+      "text": "functions, which are set to 1 and\n0.5 by default.\nThe LABCE employs a positive hyperparameter \u03b3 to control the\ndif\ufb01culty weighting, which adaptively assigns higher weights\nto hard-to-classify pixels. This design effectively alleviates the\nissues of class imbalance and hard examples. Its computation is\nde\ufb01ned as follows:\nLABCE = \u22121\nN\nN\n\u0002\ni = 1\n(1 + |yi \u2212\u02c6yi|)\u03b3[yi log \u02c6yi\n+ (1 \u2212yi) log (1 \u2212\u02c6yi)].\n(4)\nThe LSDice applie"
+    },
+    {
+      "chunk_id": "C69",
+      "page": 6,
+      "text": ")\u03b3[yi log \u02c6yi\n+ (1 \u2212yi) log (1 \u2212\u02c6yi)].\n(4)\nThe LSDice applies a gradient operator[36] to process the\nground truth y to compute its boundary response gi. which is\nused for pixel weighting to strengthen the model\u2019s attention to\nboundary regions. The computation is given as follows:\nLSDice = 1 \u22122 \u0003N\ni=1 (1 + \u03b1gi) yi \u02c6yi\n\u0003N\ni=1 yi + \u0003N\ni=1 \u02c6yi + \u03b5\n(5)\nwhere \u03b1 denotes a positive hyperparameter, and \u03b5 represents a\nsmall co"
+    },
+    {
+      "chunk_id": "C70",
+      "page": 6,
+      "text": "notes a positive hyperparameter, and \u03b5 represents a\nsmall constant introduced to prevent division by zero.\nIV. EXPERIMENT\nA. Experimental Con\ufb01guration\n1) Landslide Datasets: In this experiment, the proposed\nmodel is evaluated on several publicly available landslide\ndatasets, including the Bijie dataset [8], GVLM dataset [10],\nand LMHLD dataset [11], all of which provide pixel-level\nannotations for optical high resolu"
+    },
+    {
+      "chunk_id": "C71",
+      "page": 6,
+      "text": "hich provide pixel-level\nannotations for optical high resolution imagery. Fig. 7 presents\nrepresentative examples from these datasets, highlighting com-\nmon challenges encountered in optical landslide detection. the\nred boxes indicate blurred landslide boundaries, the blue boxes\nrepresent interference from complex backgrounds, and the yel-\nlow boxes denote occlusions caused by shadows. These datasets\nexhibit substant"
+    },
+    {
+      "chunk_id": "C72",
+      "page": 6,
+      "text": "cclusions caused by shadows. These datasets\nexhibit substantial diversity in terms of geographic environ-\nments, landslide types, and imaging conditions, thereby provid-\ning reliable data support for a comprehensive evaluation of the\nproposed method\u2019s performance. The detailed characteristics of\nthese datasets are given in Table I.\nThe Bijie dataset focuses on Bijie City in the northwest of\nGuizhou Province, China. I"
+    },
+    {
+      "chunk_id": "C73",
+      "page": 6,
+      "text": "on Bijie City in the northwest of\nGuizhou Province, China. It contains 770 landslide samples and\n2003 nonlandslide samples collected between May and August\n2018. The landslide samples include a total of 7.23 \u00d7 106 pixels\nand comprise rockfalls, rockslides, and several debris slides. The\nimage resolutions range from 61 \u00d7 61 pixels to 1239 \u00d7 1197\npixels."
+    },
+    {
+      "chunk_id": "C74",
+      "page": 7,
+      "text": "8670\nIEEE JOURNAL OF SELECTED TOPICS IN APPLIED EARTH OBSERVATIONS AND REMOTE SENSING, VOL. 19, 2026\nFig. 7.\nLandslide datasets and examples of challenges in landslide detection.\n(a) Examples of LHMLD dataset. (b) Examples of GVLM dataset. (c) Examples\nof Bijie dataset. The red boxes indicate blurred landslide boundaries, the blue\nboxes represent interference caused by complex backgrounds, and the yellow\nboxes denote"
+    },
+    {
+      "chunk_id": "C75",
+      "page": 7,
+      "text": "e caused by complex backgrounds, and the yellow\nboxes denote occlusions resulting from shadows in the imagery.\nTABLE I\nDIFFERENT LANDSLIDE DATASET STATISTICS\nThe GLVM dataset consists of 17 distinct landslide sites. It\ncontains bi-temporal images of these sites acquired from Google\nEarth, with a spatial resolution of up to 0.59 m. The dataset also\nincludes a variety of negative samples, such as nonlandslide\nterrain,"
+    },
+    {
+      "chunk_id": "C76",
+      "page": 7,
+      "text": "variety of negative samples, such as nonlandslide\nterrain, buildings, and transportation infrastructure. The image\nsizes range from 186 \u00d7 1749 pixels to 10828 \u00d7 7424 pixels.\nThe landslide samples contain a total of 3.24 \u00d7 107 pixels.\nThe LMHLD dataset includes high-resolution landslide im-\nagery from seven regions worldwide, collected using \ufb01ve differ-\nent satellite sensors. It contains 28185 image patches, with the"
+    },
+    {
+      "chunk_id": "C77",
+      "page": 7,
+      "text": "satellite sensors. It contains 28185 image patches, with the\nlandslide samples accounting for 5.74 \u00d7 107 pixels in total. The\nlandslide pixel counts in individual patches range from as few\nas one pixel to as many as 325589 pixels, covering a wide range\nof landslide scales and types.\n2) Evaluation Metrics: This article employs \ufb01ve commonly\nused quantitative evaluation metrics to comprehensively assess\nthe performance"
+    },
+    {
+      "chunk_id": "C78",
+      "page": 7,
+      "text": "valuation metrics to comprehensively assess\nthe performance of the proposed model: precision; recall; mean\nintersection over union (mIoU); pixel accuracy (PA); and the F1\nscore. These metrics are also widely adopted in other landslide\ndetection studies [7], [8], [9], [37]. The de\ufb01nitions of these\nmetrics are as follows:\nPrecision =\nTP\nTP + FP\n(6)\nRecall =\nTP\nTP + FN\n(7)\nmIoU =\nTP\nTP + FN + FP\n(8)\nOA =\nTP + TN\nTP + FP"
+    },
+    {
+      "chunk_id": "C79",
+      "page": 7,
+      "text": "TP + FN\n(7)\nmIoU =\nTP\nTP + FN + FP\n(8)\nOA =\nTP + TN\nTP + FP + TN + FN\n(9)\nF1 = 2\u00d7(Precision \u00d7 Recall)\nPrecision + Recall .\n(10)\nTrue positive (TP) refers to pixels that are actual landslide\npixels and are correctly predicted as landslide pixels by the\nmodel. False positive (FP) denotes nonlandslide pixels that are\nincorrectly classi\ufb01ed as landslide pixels. True negative (TN)\nrepresents pixels that are correctly iden"
+    },
+    {
+      "chunk_id": "C80",
+      "page": 7,
+      "text": "True negative (TN)\nrepresents pixels that are correctly identi\ufb01ed as nonlandslide\npixels, whereas false negative (FN) refers to landslide pixels that\nare incorrectly classi\ufb01ed as nonlandslide pixels, corresponding\nto missed detections. Precision measures the proportion of cor-\nrectly predicted landslide pixels among all pixels predicted as\nlandslides, where a higher value indicates better performance\nin reducing fals"
+    },
+    {
+      "chunk_id": "C81",
+      "page": 7,
+      "text": "a higher value indicates better performance\nin reducing false alarms. Recall evaluates the model\u2019s ability\nto detect actual landslide pixels, with a higher value indicating\na lower missed detection rate. Overall accuracy (OA) measures\nthe proportion of correctly classi\ufb01ed pixels over the entire image\nor dataset and serves as a fundamental indicator of overall\nclassi\ufb01cation performance.\nmIoU quanti\ufb01es the degree of ov"
+    },
+    {
+      "chunk_id": "C82",
+      "page": 7,
+      "text": "l\nclassi\ufb01cation performance.\nmIoU quanti\ufb01es the degree of overlap between the predicted\nlandslide region and the ground truth landslide region, represent-\ning an important measure of spatial consistency. The F1 score is\nthe harmonic mean of Precision and Recall and is particularly\nsuitable for comprehensive performance evaluation in scenarios\nwith severe class imbalance, such as when the proportion of\nlandslide pixel"
+    },
+    {
+      "chunk_id": "C83",
+      "page": 7,
+      "text": "ss imbalance, such as when the proportion of\nlandslide pixels is relatively small.\n3) Implementation Details: All experiments in this article\nwere conducted on an Ubuntu 20.04.5 LTS system, using an\nNVIDIA Tesla T4 GPU with 16 GB of memory for model\ntraining and evaluation. The experiments were implemented\nwith the PyTorch deep learning framework[38]. Different patch\nsizes were adopted for different datasets to compr"
+    },
+    {
+      "chunk_id": "C84",
+      "page": 7,
+      "text": "ent patch\nsizes were adopted for different datasets to comprehensively\nassess the \ufb02exibility of the model: 128 \u00d7 128 for the LMHLD\ndataset, 256 \u00d7 256 for the Bijie dataset, and 512 \u00d7 512 for the\nGVLM dataset.\nEach dataset was randomly divided into training, validation,\nand testing sets following a consistent ratio (8:1:1), ensuring that\nsamples from the same original image were assigned to the same\nsplit to avoid spa"
+    },
+    {
+      "chunk_id": "C85",
+      "page": 7,
+      "text": "original image were assigned to the same\nsplit to avoid spatial overlap between sets. During training, stan-\ndard data augmentation techniques, including random rotation\nand scaling, were applied to improve model generalization and\nrobustness to variations in landslide appearance.\nIn the backward stage, stochastic gradient descent was used\nas the optimizer with a momentum coef\ufb01cient of 0.9, an initial\nlearning rate"
+    },
+    {
+      "chunk_id": "C86",
+      "page": 7,
+      "text": "with a momentum coef\ufb01cient of 0.9, an initial\nlearning rate of 0.01, and a weight decay of 0.0005. The learning\nrate was scheduled using the MultiStepLR strategy, where a\ndecay factor of \u03b3 = 0.1 was applied at the 25th, 35th, and 45th\nepochs.\nB. Comparison With State-of-the-Art Methods\nTo benchmark the performance of the proposed method and\nverify its effectiveness, multiple deep learning models with\nstrong performan"
+    },
+    {
+      "chunk_id": "C87",
+      "page": 7,
+      "text": "iveness, multiple deep learning models with\nstrong performance in visual tasks were selected for comparison\nexperiments on three landslide datasets. These methods include\napproaches based on conventional CNN architectures as well as\nemerging Transformer and Mamba architectures. Speci\ufb01cally,\nthe models are FCN [39], UNet [40], ResUNet [41], SegNet\n[42], DeepLabV3+ [43], Unetformer [44], TransUNet [45],\nSegformer [46],"
+    },
+    {
+      "chunk_id": "C88",
+      "page": 7,
+      "text": "abV3+ [43], Unetformer [44], TransUNet [45],\nSegformer [46], Vmamba [24], and RS3Mamba [47]. The exper-\niments qualitatively and quantitatively analyze the performance"
+    },
+    {
+      "chunk_id": "C89",
+      "page": 8,
+      "text": "MAO et al.: CS-MAMBA: A NOVEL MAMBA-BASED FRAMEWORK FOR LANDSLIDE DETECTION\n8671\nTABLE II\nQUANTITATIVE PERFORMANCE OF VARIOUS METHODS ON LMHLD, GVLM AND BIJIE DATASETS\nFig. 8.\nVisual comparison of landslide detection results produced by different methods on LMHLD dataset.\nof CS-Mamba from two perspectives. Table II gives a com-\nprehensive comparison of CS-Mamba and other state-of-the-art\nmethods on the LMHLD, GVLM, a"
+    },
+    {
+      "chunk_id": "C90",
+      "page": 8,
+      "text": "mba and other state-of-the-art\nmethods on the LMHLD, GVLM, and Bijie datasets using three\naggregated metrics. The top three results are highlighted in\nred, orange, and green, respectively, in descending order of\nperformance. To further compare the detection performance of\ndifferent methods, representative samples from each dataset and\ntheir detection results from various models are selected.\nOn\nthe\nLMHLD\ndataset,\nthe"
+    },
+    {
+      "chunk_id": "C91",
+      "page": 8,
+      "text": "from various models are selected.\nOn\nthe\nLMHLD\ndataset,\nthe\nproposed\nCS-Mamba\ndemonstrates a clear advantage in the aggregated evaluation\nmetrics, achieving the best performance with an mIoU of\n87.11% and an F1 score of 92.93%, with the mIoU exceeding\nthe third-best result by 2.61%. As shown in Fig. 8, the detection\nresults show higher accuracy in both the boundaries and interior\nregions of landslides. Compared with"
+    },
+    {
+      "chunk_id": "C92",
+      "page": 8,
+      "text": "boundaries and interior\nregions of landslides. Compared with other models, CS-Mamba\nsigni\ufb01cantly reduces the red regions representing missed\ndetections, and the segmented patches align closely with the\nground truth. In particular, in small landslide patches and areas\nwith complex boundaries, many conventional methods, such as\nUNet, FCN, and Segformer, tend to miss a substantial number of\npixels, producing blurred or"
+    },
+    {
+      "chunk_id": "C93",
+      "page": 8,
+      "text": "o miss a substantial number of\npixels, producing blurred or even broken boundaries. In contrast,\nCS-Mamba yields clear boundaries with minimal missed and\nfalse detections, indicating that its cross-scale feature \ufb02ow and\nsemantic fusion mechanisms play a critical role in enhancing\nboundary restoration and \ufb01ne-grained recognition.\nFor the GVLM dataset, CS-Mamba also attains the highest\nscores in mIoU and F1, reaching 9"
+    },
+    {
+      "chunk_id": "C94",
+      "page": 8,
+      "text": "a also attains the highest\nscores in mIoU and F1, reaching 90.90% and 95.18%, respec-\ntively. It effectively suppresses false detections in scenes with\ncomplexbackgroundsandnumerousnonlandslideobjects,while\naccurately capturing boundary details. As shown in Fig. 9, the"
+    },
+    {
+      "chunk_id": "C95",
+      "page": 9,
+      "text": "8672\nIEEE JOURNAL OF SELECTED TOPICS IN APPLIED EARTH OBSERVATIONS AND REMOTE SENSING, VOL. 19, 2026\nFig. 9.\nVisual comparison of landslide detection results produced by different methods on GVLM dataset.\ndetection results reveal that, although models such as Segformer\nand RS3Mamba achieve relatively good performance in major\nlandslide regions, they often suffer from large missed detection\nareas (red) or false detect"
+    },
+    {
+      "chunk_id": "C96",
+      "page": 9,
+      "text": "ffer from large missed detection\nareas (red) or false detection areas (yellow) near landslide edges\nand fault zones. CS-Mamba produces more complete landslide\ncontours, with signi\ufb01cantly reduced false and missed detec-\ntion areas, and boundaries that closely match the labels. This\nadvantage can be attributed to the model\u2019s improved strategy\nfor integrating global and local information, enabling precise\ndetection and"
+    },
+    {
+      "chunk_id": "C97",
+      "page": 9,
+      "text": "lobal and local information, enabling precise\ndetection and strong suppression of nonlandslide objects in\ncomplex backgrounds, thus enhancing spatial consistency and\nreliability.\nOn the Bijie dataset, CS-Mamba also maintains leading de-\ntection performance, with an mIoU of 86.18% and an F1 score\nof 92.15%. As shown in Fig. 10, the results highlight its superior\ncapability in handling fragmented landslides, small targ"
+    },
+    {
+      "chunk_id": "C98",
+      "page": 9,
+      "text": "ior\ncapability in handling fragmented landslides, small targets, and\nregions with boundary adhesion. Compared with architectures\nsuch as UNetformer and Vmamba, the proposed method effec-\ntively reduces the yellow false detection areas and red missed\ndetection bands, producing smooth boundaries that closely align\nwith the ground truth contours. In complex terrains and under\nextreme conditions, CS-Mamba demonstrates no"
+    },
+    {
+      "chunk_id": "C99",
+      "page": 9,
+      "text": "rains and under\nextreme conditions, CS-Mamba demonstrates noticeably higher\ndetection accuracy for small patches and debris slides, showing\nstrong adaptability to \ufb01ne-grained features and enhanced spatial\nrepresentation capability.\nOverall, CS-Mamba achieves superior performance across\nthree landslide datasets. It excels at detecting landslide bound-\naries across varying scales and irregular shapes, signi\ufb01cantly\nredu"
+    },
+    {
+      "chunk_id": "C100",
+      "page": 9,
+      "text": "cross varying scales and irregular shapes, signi\ufb01cantly\nreducing missed detections. In challenging environments, the\nmodel exhibits strong discriminative ability, effectively sup-\npressing false alarms in scenarios with unclear boundaries or tar-\nget adhesion, thereby improving the overall detection accuracy.\nTABLE III\nABLATION EXPERIMENTS ON GVLM DATASET\nC. Ablation Experiment\nTo evaluate the contribution of each co"
+    },
+    {
+      "chunk_id": "C101",
+      "page": 9,
+      "text": "Ablation Experiment\nTo evaluate the contribution of each component in CS-\nMamba, a series of ablation experiments were conducted on the\nGVLM dataset under the default experimental settings. In these\nexperiments, the main backbone components of CS-Mamba\nwere replaced with VSSM blocks to construct a baseline model\nreferred to as the full VSSM architecture. The CEM, MAVSS,\nand SFM modules were then introduced sequentia"
+    },
+    {
+      "chunk_id": "C102",
+      "page": 9,
+      "text": "e CEM, MAVSS,\nand SFM modules were then introduced sequentially to quan-\ntify their individual contributions to the model\u2019s performance.\nTable III gives the detection results for different combinations\nof these modules.\nStarting\nfrom\nthe\nbaseline\nmodel,\nwe\nprogressively\nincorporate the CEM, MAVSS, and SFM modules, where the\nSFM essentially acts as a fusion unit that requires two inputs: the\nlocal features from the en"
+    },
+    {
+      "chunk_id": "C103",
+      "page": 9,
+      "text": "nit that requires two inputs: the\nlocal features from the encoder layers and the global semantics\nfrom the MAVSS. The CEM (A2) signi\ufb01cantly improves\nOA (+0.87%) and mIoU (+1.33%), indicating that explicit"
+    },
+    {
+      "chunk_id": "C104",
+      "page": 10,
+      "text": "MAO et al.: CS-MAMBA: A NOVEL MAMBA-BASED FRAMEWORK FOR LANDSLIDE DETECTION\n8673\nFig. 10.\nVisual comparison of landslide detection results produced by different methods on Bijie dataset.\nmultiscale embedding effectively enhances the model\u2019s ability\nto capture diverse landslide contexts. This improvement\nsuggests that aligning features across different spatial scales\nhelps reduce semantic inconsistency caused by large"
+    },
+    {
+      "chunk_id": "C105",
+      "page": 10,
+      "text": "l scales\nhelps reduce semantic inconsistency caused by large variations\nin landslide size.\nFurther introducing the MAVSS (A3) enhances both recall\nand mIoU, demonstrating the effectiveness of jointly modeling\nglobal contextual dependencies and \ufb01ne-grained local details.\nThis result con\ufb01rms that MAVSS plays a key role in alleviating\nscale-induced feature fragmentation and enhancing semantic\ncoherence. A comparison bet"
+    },
+    {
+      "chunk_id": "C106",
+      "page": 10,
+      "text": "mentation and enhancing semantic\ncoherence. A comparison between A3 and A4 shows that al-\nthough the standalone use of MAVSS (A4) yields some improve-\nments over the baseline, its combination with the CEM (A3)\nsubstantially boosts segmentation performance, re\ufb02ecting their\ncomplementary strengths. Incorporating the SFM (A5) leads to\na considerable increase in both F1 score and mIoU, underscoring\nthe importance of adap"
+    },
+    {
+      "chunk_id": "C107",
+      "page": 10,
+      "text": "both F1 score and mIoU, underscoring\nthe importance of adaptive semantic fusion in re\ufb01ning am-\nbiguous regions and improving boundary delineation. Finally,\nthe complete model (A6) achieves the best performance across\nall metrics, with particularly notable gains in mIoU (+4.80%)\nand F1 (+3.05%) compared with the baseline, validating the\nsynergistic bene\ufb01ts of integrating all three modules.\nTo further verify the pract"
+    },
+    {
+      "chunk_id": "C108",
+      "page": 10,
+      "text": "f integrating all three modules.\nTo further verify the practical contribution of each module\nto the model\u2019s perceptual capability, we conducted a visualiza-\ntion analysis of the intermediate feature maps for key module\ncombinations (A1, A2, A3, A6). As shown in Fig. 11, the\nbaseline model (A1) fails to fully capture the spatial extent of the\nlandslide regions, with weak and fragmented feature responses.\nAfter introdu"
+    },
+    {
+      "chunk_id": "C109",
+      "page": 10,
+      "text": "s, with weak and fragmented feature responses.\nAfter introducing the CEM (A2), the depiction of boundaries\nimproves, and background noise is effectively suppressed. With\nthe further addition of the MAVSS (A3), the activation responses\nover the landslide regions become more coherent, \ufb01lling the\ngaps between responses and improving semantic consistency.\nThe complete model (A6) exhibits the clearest and most spa-\ntially"
+    },
+    {
+      "chunk_id": "C110",
+      "page": 10,
+      "text": "mplete model (A6) exhibits the clearest and most spa-\ntially complete feature responses, with sharp boundaries and a\nmarkedly reduced false detection rate, fully demonstrating the\ncomplementary role of multiscale context modeling (M) and the\nSFM (S) in the feature extraction process.\nD. Model Complexity Analysis\nIn addition to demonstrating superior detection performance\nacross multiple landslide datasets, the comput"
+    },
+    {
+      "chunk_id": "C111",
+      "page": 10,
+      "text": "n performance\nacross multiple landslide datasets, the computational complexity\nof the model is an important factor that must be considered for\npractical applications. The number of \ufb02oating-point operations\n(FLOPs) and the memory footprint directly in\ufb02uence its poten-\ntial for deployment in large-scale and real-time remote sensing\nscenarios. FLOPs measure the computational complexity of the\nmodel, whereas the memory f"
+    },
+    {
+      "chunk_id": "C112",
+      "page": 10,
+      "text": "computational complexity of the\nmodel, whereas the memory footprint evaluates the network\u2019s\nmemory requirements. An ideal model should maintain low\nvalues in both FLOPs and memory consumption.\nAs given in Table IV, compared with other Mamba-series\nmodels with input size of 512 \u00d7 512 and batch size = 1,\nthe proposed CS-Mamba signi\ufb01cantly reduces computational\ncomplexity while maintaining reasonable memory usage. The"
+    },
+    {
+      "chunk_id": "C113",
+      "page": 10,
+      "text": "l\ncomplexity while maintaining reasonable memory usage. The\nstacking of MAVSS blocks in the bottleneck introduces some\nadditional complexity relative to lightweight models such as\nUNetformer and Segformer. Nevertheless, it is worth emphasiz-\ning that CS-Mamba achieves the highest mIoU of 90.90% while\nkeeping computational costs low, indicating that the proposed\narchitecture attains superior segmentation performance w"
+    },
+    {
+      "chunk_id": "C114",
+      "page": 10,
+      "text": "sed\narchitecture attains superior segmentation performance while\neffectively controlling complexity."
+    },
+    {
+      "chunk_id": "C115",
+      "page": 11,
+      "text": "8674\nIEEE JOURNAL OF SELECTED TOPICS IN APPLIED EARTH OBSERVATIONS AND REMOTE SENSING, VOL. 19, 2026\nFig. 11.\nFeature map visualization results from ablation experiment.\n(a) Imgaes. (b) GT. (c) Feature map from experiment A1. (d) Feature map\nfrom Experiment A2. (e) Feature map from experiment A3.(f) feature map from\nexperiment A6.\nTABLE IV\nCOMPARISON OF MODEL COMPLEXITY OF DIFFERENT METHODS\nFurthermore, to verify the"
+    },
+    {
+      "chunk_id": "C116",
+      "page": 11,
+      "text": "L COMPLEXITY OF DIFFERENT METHODS\nFurthermore, to verify the scalability and resource ef\ufb01-\nciency of CS-Mamba under different input sizes, we com-\npares the GFLOPs and memory usage of several architectures:\nRS3Mamba; VMamba; ResUNet; Segformer; and CS-Mamba\nwhen processing images with sizes ranging from 128 to 2048\npixels. As shown in Fig. 12(a), the computational cost of all\nmodels increases exponentially with input"
+    },
+    {
+      "chunk_id": "C117",
+      "page": 11,
+      "text": "tional cost of all\nmodels increases exponentially with input size. In medium\nto high resolution settings (512\u20132048), CS-Mamba achieves\na substantial reduction in FLOPs compared with RS3Mamba,\nVMamba, and ResUNet, re\ufb02ecting a more ef\ufb01cient structural\ndesign. Although its computation is slightly higher than that\nof Segformer, the overhead is acceptable given the superior\nsemantic modeling capability. Fig. 12(b) present"
+    },
+    {
+      "chunk_id": "C118",
+      "page": 11,
+      "text": "he superior\nsemantic modeling capability. Fig. 12(b) presents the memory\nusage trends, indicating that CS-Mamba consistently maintains\nmemory consumption within a reasonable range for input sizes\nbetween 128 and 1024, signi\ufb01cantly lower than ResUNet and\ncomparabletoRS3MambaandVMamba.Atthemaximuminput\nsizeof2048\u00d72048,CS-Mamba\u2019smemoryusageremainsbelow\n4 GB. Although there is an increase at this scale, it is still lower"
+    },
+    {
+      "chunk_id": "C119",
+      "page": 11,
+      "text": "though there is an increase at this scale, it is still lower\nthan that of the other four models, con\ufb01rming the proposed\nmodel\u2019s strong scalability and adaptability for deployment.\nE. Domain Generalization Analysis\nTo evaluate the generalization capability of CS-Mamba to het-\nerogeneous data from unseen domains, we designed a few-shot\nadaptation under domain shift experiment, which measures the\nability of a model to r"
+    },
+    {
+      "chunk_id": "C120",
+      "page": 11,
+      "text": "shift experiment, which measures the\nability of a model to rapidly recover or improve performance\nusing a small amount of target-domain data. Speci\ufb01cally, rep-\nresentative models that achieved strong performance in earlier\nexperiments were selected, including ResUNet, SegNet, UNet-\nformer, RS3Mamba, and our proposed CS-Mamba. All models\nwere \ufb01rst pre-trained on the LMHLD dataset, then \ufb01ne-tuned on\n1%, 5%, 10%, and 20"
+    },
+    {
+      "chunk_id": "C121",
+      "page": 11,
+      "text": "on the LMHLD dataset, then \ufb01ne-tuned on\n1%, 5%, 10%, and 20% of the GVLM dataset, and \ufb01nally tested\nin a new region with limited labeled samples.\nAs shown in Fig. 13, the proposed model consistently ranks\namong the top across all evaluation metrics in both zero-shot and\nfew-shot settings. Speci\ufb01cally, CS-Mamba achieves the highest\nmIoU and F1 score without using any target-domain samples,\ndemonstrating strong domain"
+    },
+    {
+      "chunk_id": "C122",
+      "page": 11,
+      "text": "using any target-domain samples,\ndemonstrating strong domain generalization capability. With\nonly 1% of labeled GVLM data, it exhibits a remarkable perfor-\nmance gain, surpassing all competing methods. This trend con-\ntinues as more data is provided, re\ufb02ecting the model\u2019s superior\nadaptability and sample ef\ufb01ciency. This strong generalization\nperformance can be attributed to the coordinated design of the\nproposed modu"
+    },
+    {
+      "chunk_id": "C123",
+      "page": 11,
+      "text": "be attributed to the coordinated design of the\nproposed modules. The CEM reduces scale-induced semantic\ndiscrepancies by aligning features across different spatial resolu-\ntions, which is particularly bene\ufb01cial when transferring between\ndatasets with heterogeneous imaging conditions. The MAVSS\nblock further enhances robustness by jointly modeling global\ncontextual dependencies and local structural information, pre-\nv"
+    },
+    {
+      "chunk_id": "C124",
+      "page": 11,
+      "text": "extual dependencies and local structural information, pre-\nventing the model from over\ufb01tting to domain-speci\ufb01c textures\nor appearance patterns. In addition, the SFM adaptively injects\nglobal semantic guidance into local feature maps, which helps\nstabilize boundary predictions and suppress noise in unseen\ndomains. In contrast, models such as SegNet and ResUNet show\nslower recovery rates and larger performance variatio"
+    },
+    {
+      "chunk_id": "C125",
+      "page": 11,
+      "text": "t show\nslower recovery rates and larger performance variations. These"
+    },
+    {
+      "chunk_id": "C126",
+      "page": 12,
+      "text": "MAO et al.: CS-MAMBA: A NOVEL MAMBA-BASED FRAMEWORK FOR LANDSLIDE DETECTION\n8675\nFig. 12.\nComputational complexity comparison of different models at different image resolutions. (a) Comparison in terms of GFLOPs for different input sizes.\n(b) Comparison in terms of memory usage for different input sizes.\nFig. 13.\nComparison of domain generalization and few-shot adaptation performance across different models.\nresults"
+    },
+    {
+      "chunk_id": "C127",
+      "page": 12,
+      "text": "hot adaptation performance across different models.\nresults suggest that the proposed model is well-suited for deploy-\nment in scenarios where labeled data are scarce or expensive to\nobtain, such as landslide monitoring in remote regions.\nV. DISCUSSION\nA. Advantages and Contributions\nThe comprehensive experimental results presented in Sec-\ntion IV demonstrate that the proposed CS-Mamba achieves\nstrong performance in"
+    },
+    {
+      "chunk_id": "C128",
+      "page": 12,
+      "text": "e that the proposed CS-Mamba achieves\nstrong performance in high-resolution optical imagery landslide\ndetection. Unlike conventional CNN, Transformer, or Mamba\napproaches that typically model features at a \ufb01xed scale, CS-\nMamba explicitly models multiscale feature consistency and\ncross-scale semantic alignment, which is critical for accurately\ndelineating complex landslide boundaries. The framework in-\ntegrates three"
+    },
+    {
+      "chunk_id": "C129",
+      "page": 12,
+      "text": "mplex landslide boundaries. The framework in-\ntegrates three key modules: the CEM for parallel multiscale\nconvolutional encoding; the MAVSS block for bidirectional\ninterlayer semantic \ufb02ow; and the SFM for adaptive global\u2013local\nsemantic integration.\nExtensive experiments were conducted on three represen-\ntative landslide datasets\u2014LMHLD, GVLM, and Bijie. CS-\nMamba achieved the highest mIoU of 87.11%, 90.90%, and"
+    },
+    {
+      "chunk_id": "C130",
+      "page": 13,
+      "text": "8676\nIEEE JOURNAL OF SELECTED TOPICS IN APPLIED EARTH OBSERVATIONS AND REMOTE SENSING, VOL. 19, 2026\nFig. 14.\nExamples for challenges in landslide detection from high resolution\nimagery. (a) Large-scale morphologically irregular landslides with high spectral\nsimilarity to bare ground. (b) Small-scale landslides missed during downsam-\npling. (c) Man-made structures misclassi\ufb01ed as landslides.\n86.18% on the respective"
+    },
+    {
+      "chunk_id": "C131",
+      "page": 13,
+      "text": "ctures misclassi\ufb01ed as landslides.\n86.18% on the respective datasets, surpassing other state-of-the-\nart models by margins of 0.45% to 15.87% in mIoU. The method\nalso maintains relatively low computational costs, indicating\nstrong deployment ef\ufb01ciency. Furthermore, CS-Mamba exhibits\nexcellent cross-domain generalization. Under a zero-shot setting\nwithout any target-domain data, the model achieves an mIoU of\n57% on th"
+    },
+    {
+      "chunk_id": "C132",
+      "page": 13,
+      "text": "target-domain data, the model achieves an mIoU of\n57% on the GVLM dataset. When only 10% of the target-domain\nsamples are used for \ufb01ne-tuning, CS-Mamba surpasses all com-\npeting models. These results demonstrate strong adaptability in\ndata-scarce scenarios.\nB. Limitations and Future Perspectives\nDespite the overall strong performance of CS-Mamba, several\nlimitations remain, particularly in challenging scenarios such"
+    },
+    {
+      "chunk_id": "C133",
+      "page": 13,
+      "text": "mitations remain, particularly in challenging scenarios such as\nsmall-scale landslides and densely vegetated or geomorpholog-\nically complex areas. In Fig. 14(a) and (b), large-scale, morpho-\nlogically irregular landslides exhibit high spectral similarity to\nbare ground, leading to extensive omission errors; small-scale\nlandslide targets are prone to being overlooked during downsam-\npling, resulting in missed detecti"
+    },
+    {
+      "chunk_id": "C134",
+      "page": 13,
+      "text": "verlooked during downsam-\npling, resulting in missed detections. In Fig. 14(c), man-made\nstructures such as buildings, due to their similar textures, are\noften misclassi\ufb01ed as landslides, producing a substantial number\nof FPs.We attribute these issues to two main causes:\n1) Most existing datasets adopt \ufb01xed-size image patches\nas model input. While this facilitates batch processing\nand computational resource managemen"
+    },
+    {
+      "chunk_id": "C135",
+      "page": 13,
+      "text": "itates batch processing\nand computational resource management, it can lead\nto insuf\ufb01cient contextual information in local regions\u2014\nparticularly when handling large-scale landslides or cross-\nregion geomorphology\u2014causing semantic discontinuities\nand structural fragmentation. During the limited contex-\ntual support provided by \ufb01xed-size patches, which weak-\nens the discriminative signals of tiny landslides, especially"
+    },
+    {
+      "chunk_id": "C136",
+      "page": 13,
+      "text": "s the discriminative signals of tiny landslides, especially\nwhen they are partially occluded or have low contrast to\nthe background.\n2) The CS-Mamba relies on high-resolution optical appear-\nance cues, which become unreliable in densely vegetated\nregions or geomorphologically complex environments.\nVegetation canopy and shadows can partially obscure\nlandslide bodies, and mixed pixels may blur the transition\nbetween la"
+    },
+    {
+      "chunk_id": "C137",
+      "page": 13,
+      "text": "bodies, and mixed pixels may blur the transition\nbetween landslide and background, leading to bound-\nary ambiguity and increased omission/commission errors.\nUnder such conditions, even with global\u2013local modeling,\nthe network may fail to recover clear boundary evidence\nfrom RGB imagery alone, which limits performance in\nheavily covered scenes.\nIn future work, we will focus on addressing these two aspects.\nSpeci\ufb01cally"
+    },
+    {
+      "chunk_id": "C138",
+      "page": 13,
+      "text": ", we will focus on addressing these two aspects.\nSpeci\ufb01cally, we plan to explore boundary and detail aware\ntraining objectives and dynamic receptive \ufb01eld mechanisms (or\nhigh-resolutionauxiliarybranches)topreserve\ufb01ne-grainedcues\nthat are easily lost during downsampling. Furthermore, incorpo-\nratingcomplementarymodalities (e.g., SAR, DEM, LiDAR) and\nvegetation or land-cover priors to provide structure and terrain\naware"
+    },
+    {
+      "chunk_id": "C139",
+      "page": 13,
+      "text": "or land-cover priors to provide structure and terrain\naware cues that are less sensitive to optical occlusion and inves-\ntigate hard negative mining and domain-invariant representation\nlearning to reduce FPs in appearance-similar backgrounds.\nVI. CONCLUSION\nThis article proposes a novel semantic segmentation frame-\nwork, CS-Mamba which speci\ufb01cally designed for landslide\ndetection in high-resolution remote sensing im"
+    },
+    {
+      "chunk_id": "C140",
+      "page": 13,
+      "text": "for landslide\ndetection in high-resolution remote sensing imagery. The pri-\nmary contribution lies in its architecture, which explicitly mod-\nels multiscale feature consistency and cross-scale semantic\nalignment\u2014two critical aspects often overlooked by existing\napproaches. By introducing the CEM early in the encoding\nstage, CS-Mamba effectively enhances the model\u2019s capability\nto capture both \ufb01ne-grained details and b"
+    },
+    {
+      "chunk_id": "C141",
+      "page": 13,
+      "text": "model\u2019s capability\nto capture both \ufb01ne-grained details and broad spatial context,\nthereby improving detection performance across landslides of\nvarying scales. The MAVSS blockincorporates bidirectional in-\nformation \ufb02ow between feature hierarchies and integrates global\nand local features through a gated fusion mechanism, boosting\nboundary delineation precision and semantic coherence. The\nSFM further bridges the gap be"
+    },
+    {
+      "chunk_id": "C142",
+      "page": 13,
+      "text": "n and semantic coherence. The\nSFM further bridges the gap between global context and local\ndetails by dynamically adjusting features across layers, lead-\ning to more accurate segmentation of blurred or fragmented\nlandslide regions. Extensive experiments conducted on three\ndiverse datasets\u2014LMHLD, GVLM, and Bijie, demonstrate that\nCS-Mamba consistently outperforms state-of-the-art methods in\nboth mIoU and F1-score, wit"
+    },
+    {
+      "chunk_id": "C143",
+      "page": 13,
+      "text": "orms state-of-the-art methods in\nboth mIoU and F1-score, with particularly notable advantages in\nsmall-object segmentation and boundary restoration tasks. In ad-\ndition, CS-Mamba exhibits strong cross-domain generalization,\nmaintaining high accuracy on unseen data even with minimal\n\ufb01ne-tuning. Its relatively low FLOPs and memory consumption\nfurther validate its practicality for real-world deployment.\nACKNOWLEDGMENT\nT"
+    },
+    {
+      "chunk_id": "C144",
+      "page": 13,
+      "text": "its practicality for real-world deployment.\nACKNOWLEDGMENT\nThe authors would like to thank all the editors and reviewers\nfor their careful reading and insightful remarks."
+    },
+    {
+      "chunk_id": "C145",
+      "page": 14,
+      "text": "MAO et al.: CS-MAMBA: A NOVEL MAMBA-BASED FRAMEWORK FOR LANDSLIDE DETECTION\n8677\nREFERENCES\n[1] U. Ozturk, E. Bozzolan, E. A. Holcombe, R. Shukla, F. Pianosi, and T.\nWagener, \u201cHow climate change and unplanned urban sprawl bring more\nlandslides,\u201d Nature, vol. 608, no. 7922, pp. 262\u2013265, 2022.\n[2] NBSC, China Statistical Yearbook 2024. Beijing, China: China Statistics\nPress, 2024.\n[3] R. N. Keyport, T. Oommen, T. R. Ma"
+    },
+    {
+      "chunk_id": "C146",
+      "page": 14,
+      "text": "atistics\nPress, 2024.\n[3] R. N. Keyport, T. Oommen, T. R. Martha, K. S. Sajinkumar, and J. S.\nGierke, \u201cA comparative analysis of pixel-and object-based detection of\nlandslides from very high-resolution images,\u201d Int. J. Appl. Earth Observ.\nGeoinf., vol. 64, pp. 1\u201311, 2018.\n[4] S. R. Meena et al., \u201cHR-GLDD: A globally distributed dataset using\ngeneralized deep learning (DL) for rapid landslide mapping on high-\nresoluti"
+    },
+    {
+      "chunk_id": "C147",
+      "page": 14,
+      "text": "learning (DL) for rapid landslide mapping on high-\nresolution (HR) satellite imagery,\u201d Earth Syst. Sci. Data, vol. 15, no. 7,\npp. 3283\u20133298, 2023.\n[5] W. C. Haneberg, W. F. Cole, and G. Kasali, \u201cHigh-resolution lidar-based\nlandslide hazard mapping and modeling, UCSF Parnassus Campus, San\nFrancisco, USA,\u201d Bull. Eng. Geol. Environ., vol. 68, no. 2, pp. 263\u2013276,\n2009.\n[6] A. Mohan, A. K. Singh, B. Kumar, and R. Dwivedi"
+    },
+    {
+      "chunk_id": "C148",
+      "page": 14,
+      "text": "6,\n2009.\n[6] A. Mohan, A. K. Singh, B. Kumar, and R. Dwivedi, \u201cReview on re-\nmote sensing methods for landslide detection using machine and deep\nlearning,\u201d Trans. Emerg. Telecommun. Technol., vol. 32, no. 7, 2021,\nArt. no. e3998.\n[7] O. Ghorbanzadeh, T. Blaschke, K. Gholamnia, S. R. Meena, D. Tiede, and\nJ. Aryal, \u201cEvaluation of different machine learning methods and deep-\nlearning convolutional neural networks for la"
+    },
+    {
+      "chunk_id": "C149",
+      "page": 14,
+      "text": "hods and deep-\nlearning convolutional neural networks for landslide detection,\u201d Remote\nSens., vol. 11, no. 2, 2019, Art. no. 196.\n[8] S. Ji, D. Yu, C. Shen, W. Li, and Q. Xu, \u201cLandslide detection from an\nopen satellite imagery and digital elevation model dataset using atten-\ntion boosted convolutional neural networks,\u201d Landslides, vol. 17, no. 6,\npp. 1337\u20131352, 2020.\n[9] O. Ghorbanzadeh, Y. Xu, P. Ghamisi, M. Kopp, a"
+    },
+    {
+      "chunk_id": "C150",
+      "page": 14,
+      "text": "52, 2020.\n[9] O. Ghorbanzadeh, Y. Xu, P. Ghamisi, M. Kopp, and D. Kreil, \u201cLand-\nslide4sense: Reference benchmark data and deep learning models for\nlandslide detection,\u201d IEEE Trans. Geosci. Remote Sens., vol. 60, pp. 1\u201317,\n2022.\n[10] X. Zhang, W. Yu, M.-O. Pun, and W. Shi, \u201cCross-domain landslide\nmapping from large-scale remote sensing images using prototype-\nguided domain-aware progressive representation learning,\u201d I"
+    },
+    {
+      "chunk_id": "C151",
+      "page": 14,
+      "text": "guided domain-aware progressive representation learning,\u201d ISPRS J. Pho-\ntogramm. Remote Sens., vol. 197, pp. 1\u201317, 2023.\n[11] G. Liu et al., \u201cLMHLD: A large-scale multi-source high-resolution land-\nslide dataset for landslide detection based on Deep learning,\u201d IEEE Trans.\nGeosci. Remote Sens., vol. 63, 2025, Art. no. 5648415.\n[12] Y. Liu and L. Wu, \u201cGeological disaster recognition on optical remote\nsensing images us"
+    },
+    {
+      "chunk_id": "C152",
+      "page": 14,
+      "text": "cal disaster recognition on optical remote\nsensing images using deep learning,\u201d Procedia Comput. Sci., vol. 91,\npp. 566\u2013575, 2016.\n[13] S. L. Ullo et al., \u201cA new mask R-CNN-based method for improved\nlandslide detection,\u201d IEEE J. Sel. Topics Appl. Earth Observ. Remote Sens.,\nvol. 14, pp. 3799\u20133810, 2021.\n[14] O. Ghorbanzadeh, H. Shahabi, A. Crivellari, S. Homayouni, T. Blaschke,\nand P. Ghamisi, \u201cLandslide detection us"
+    },
+    {
+      "chunk_id": "C153",
+      "page": 14,
+      "text": "ayouni, T. Blaschke,\nand P. Ghamisi, \u201cLandslide detection using deep learning and object-\nbased image analysis,\u201d Landslides, vol. 19, no. 4, pp. 929\u2013939,\n2022.\n[15] L. Cheng, J. Li, P. Duan, and M. Wang, \u201cA small attentional YOLO model\nfor landslide detection from satellite remote sensing images,\u201d Landslides,\nvol. 18, no. 8, pp. 2751\u20132765, 2021.\n[16] Y. Fan et al., \u201cSCGC-Net: Spatial context-guided calibration networ"
+    },
+    {
+      "chunk_id": "C154",
+      "page": 14,
+      "text": "et al., \u201cSCGC-Net: Spatial context-guided calibration network for\nmultisource RSI landslides detection,\u201d IEEE Trans. Geosci. Remote Sens.,\nvol. 63, 2025, Art. no. 5400817.\n[17] R. Hesse, S. Schaub, and S. Roth, \u201cContent-adaptive downsampling in\nconvolutional neural networks,\u201d in Proc. IEEE Conf. Comput. Vis. Pattern\nRecognit., 2023, pp. 4544\u20134553.\n[18] C. Chen, C. Yu, and S. Cai, \u201cAdvancing landslide recognition thro"
+    },
+    {
+      "chunk_id": "C155",
+      "page": 14,
+      "text": "en, C. Yu, and S. Cai, \u201cAdvancing landslide recognition through\nmulti-dimensional feature fusion and transformer architectures,\u201d Vis.\nComput., vol. 41, no. 13, pp. 11311\u201311325, 2025.\n[19] X. Tang, Z. Tu, Y. Wang, M. Liu, D. Li, and X. Fan, \u201cAutomatic detection\nof coseismic landslides using a new transformer method,\u201d Remote Sens.,\nvol. 14, no. 12, 2022, Art. no. 2884.\n[20] P. Lv, L. Ma, Q. Li, and F. Du, \u201cShapeFormer:"
+    },
+    {
+      "chunk_id": "C156",
+      "page": 14,
+      "text": "no. 2884.\n[20] P. Lv, L. Ma, Q. Li, and F. Du, \u201cShapeFormer: A shape-enhanced vision\ntransformer model for optical remote sensing image landslide detec-\ntion,\u201d IEEE J. Sel. Topics Appl. Earth Observ. Remote Sens., vol. 16,\npp. 2681\u20132689, 2023.\n[21] R. Huang and T. Chen, \u201cLandslide recognition from multi-feature remote\nsensing data based on improved transformers,\u201d Remote Sens., vol. 15,\nno. 13, 2023, Art. no. 3340.\n[2"
+    },
+    {
+      "chunk_id": "C157",
+      "page": 14,
+      "text": "ers,\u201d Remote Sens., vol. 15,\nno. 13, 2023, Art. no. 3340.\n[22] A. Gu and T. Dao, \u201cMamba: Linear-time sequence modeling with selective\nstate spaces,\u201d in Proc. 1st Conf. Lang. Modeling, 2024.\n[23] L. Zhu, B. Liao, Q. Zhang, X. Wang, W. Liu, and X. Wang, \u201cVision\nMamba: Ef\ufb01cient visual representation learning with bidirectional state\nspace model,\u201d in Proc. 41st Int. Conf. Mach. Learn., 2024.\n[24] Y. Liu et al., \u201cVmamba:"
+    },
+    {
+      "chunk_id": "C158",
+      "page": 14,
+      "text": "Int. Conf. Mach. Learn., 2024.\n[24] Y. Liu et al., \u201cVmamba: Visual state space model,\u201d in Proc. Adv. Neural\nInf. Process. Syst., 2024, vol. 37, pp. 103031\u2013103063.\n[25] C. Yang et al., \u201cPlainMamba: Improving non-hierarchical mamba in visual\nrecognition,\u201d in Proc. 35th Brit. Mach. Vis. Conf., Glasgow, U.K., 2024.\n[26] T. Huang, X. Pei, S. You, F. Wang, C. Qian, and C. Xu, \u201cLocalmamba:\nVisual state space model with wind"
+    },
+    {
+      "chunk_id": "C159",
+      "page": 14,
+      "text": ", and C. Xu, \u201cLocalmamba:\nVisual state space model with windowed selective scan,\u201d in Proc. Eur.\nConf. Comput. Vis., 2024, pp. 12\u201322.\n[27] H. Yu, Y. Ma, L. Wang, Y. Zhai, and X. Wang, \u201cA landslide intelligent\ndetection method based on CNN and RSG_R,\u201d in Proc. IEEE Int. Conf.\nMechatron. Automat., 2017, pp. 40\u201344.\n[28] A. Ding, Q. Zhang, X. Zhou, and B. Dai, \u201cAutomatic recognition of\nlandslide based on CNN and texture c"
+    },
+    {
+      "chunk_id": "C160",
+      "page": 14,
+      "text": "utomatic recognition of\nlandslide based on CNN and texture change detection,\u201d in Proc. 31st Youth\nAcademic Annu. Conf. Chin. Assoc. Automat., 2016, pp. 444\u2013448.\n[29] Y. Yi and W. Zhang, \u201cA new deep-learning-based approach for earthquake-\ntriggered landslide detection from single-temporal RapidEye satellite im-\nagery,\u201d IEEE J. Sel. Topics Appl. Earth Observ. Remote Sens., vol. 13,\npp. 6166\u20136176, 2020.\n[30] X. Liu et a"
+    },
+    {
+      "chunk_id": "C161",
+      "page": 14,
+      "text": "Remote Sens., vol. 13,\npp. 6166\u20136176, 2020.\n[30] X. Liu et al., \u201cFeature-fusion segmentation network for landslide detection\nusing high-resolution remote sensing images and digital elevation model\ndata,\u201d IEEE Trans. Geosci. Remote Sens., vol. 61, 2023, Art. no. 4500314.\n[31] P. Li, Y. Wang, G. Xu, and L. Wang, \u201cLandslideCL: Towards robust\nlandslide analysis guided by contrastive learning,\u201d Landslides, vol. 20,\nno. 2,"
+    },
+    {
+      "chunk_id": "C162",
+      "page": 14,
+      "text": "guided by contrastive learning,\u201d Landslides, vol. 20,\nno. 2, pp. 461\u2013474, 2023.\n[32] X. Wang et al., \u201cGdsnet: A gated dual-stream convolutional neural network\nfor automatic recognition of coseismic landslides,\u201d Int. J. Appl. Earth\nObserv. Geoinf., vol. 127, 2024, Art. no. 103677.\n[33] Y. Huang et al., \u201cMAST: An earthquake-triggered landslides extraction\nmethod combining morphological analysis edge recognition with sw"
+    },
+    {
+      "chunk_id": "C163",
+      "page": 14,
+      "text": "od combining morphological analysis edge recognition with swin-\ntransformer deep learning model,\u201d IEEE J. Sel. Topics Appl. Earth Observ.\nRemote Sens., vol. 17, pp. 2586\u20132595, 2023.\n[34] P. Li, Y. Wang, T. Si, K. Ullah, W. Han, and L. Wang, \u201cMFFSP: Multi-scale\nfeature fusion scene parsing network for landslides detection based on\nhigh-resolution satellite images,\u201d Eng. Appl. Artif. Intell., vol. 127, 2024,\nArt. no. 1"
+    },
+    {
+      "chunk_id": "C164",
+      "page": 14,
+      "text": "ages,\u201d Eng. Appl. Artif. Intell., vol. 127, 2024,\nArt. no. 107337.\n[35] L. Wu et al., \u201cLandslide mapping based on a hybrid CNN-transformer\nnetwork and deep transfer learning using remote sensing images with\ntopographic and spectral features,\u201d Int. J. Appl. Earth Observ. Geoinf.,\nvol. 126, 2024, Art. no. 103612.\n[36] J. Canny, \u201cA computational approach to edge detection,\u201d IEEE Trans.\nPattern Anal. Mach. Intell., no. 6"
+    },
+    {
+      "chunk_id": "C165",
+      "page": 14,
+      "text": "e detection,\u201d IEEE Trans.\nPattern Anal. Mach. Intell., no. 6, pp. 679\u2013698, 2009.\n[37] F. Catani, \u201cLandslide detection by deep learning of non-nadiral and crowd-\nsourced optical images,\u201d Landslides, vol. 18, no. 3, pp. 1025\u20131044, 2021.\n[38] A. Paszke et al., \u201cPyTorch: An imperative style, high-performance deep\nlearning library,\u201d in Proc. Adv. Neural Inf. Process. Syst., 2019, vol. 32,\npp. 8026\u20138037.\n[39] J. Long, E. S"
+    },
+    {
+      "chunk_id": "C166",
+      "page": 14,
+      "text": "ess. Syst., 2019, vol. 32,\npp. 8026\u20138037.\n[39] J. Long, E. Shelhamer, and T. Darrell, \u201cFully convolutional networks\nfor semantic segmentation,\u201d in Proc. IEEE Conf. Comput. Vis. Pattern\nRecognit., 2015, pp. 3431\u20133440.\n[40] O. Ronneberger, P. Fischer, and T. Brox, \u201cU-Net: Convolutional networks\nfor biomedical image segmentation,\u201d in Proc. Int. Conf. Med. image\nComput. Comput.-Assist. Intervention, 2015, pp. 234\u2013241.\n[4"
+    },
+    {
+      "chunk_id": "C167",
+      "page": 14,
+      "text": "Comput. Comput.-Assist. Intervention, 2015, pp. 234\u2013241.\n[41] F. I. Diakogiannis, F. Waldner, P. Caccetta, and C. Wu, \u201cResUNet-a: A\ndeep learning framework for semantic segmentation of remotely sensed\ndata,\u201d ISPRS J. Photogramm. Remote Sens., vol. 162, pp. 94\u2013114, 2020.\n[42] V. Badrinarayanan, A. Kendall, and R. Cipolla, \u201cSegnet: A deep convolu-\ntional encoder-decoder architecture for image segmentation,\u201d IEEE Trans"
+    },
+    {
+      "chunk_id": "C168",
+      "page": 14,
+      "text": "der-decoder architecture for image segmentation,\u201d IEEE Trans.\nPattern Anal. Mach. Intell., vol. 39, no. 12, pp. 2481\u20132495, 2017.\n[43] L.-C. Chen, Y. Zhu, G. Papandreou, F. Schroff, and H. Adam, \u201cEncoder-\ndecoder with atrous separable convolution for semantic image segmenta-\ntion,\u201d in Proc. Eur. Conf. Comput. Vis., 2018, pp. 801\u2013818.\n[44] L. Wang et al., \u201cUNetFormer: A UNet-like transformer for ef\ufb01cient\nsemantic segme"
+    },
+    {
+      "chunk_id": "C169",
+      "page": 14,
+      "text": "tFormer: A UNet-like transformer for ef\ufb01cient\nsemantic segmentation of remote sensing urban scene imagery,\u201d ISPRS\nJ. Photogramm. Remote Sens., vol. 190, pp. 196\u2013214, 2022.\n[45] J. Chen et al., \u201cTransUNet: Rethinking the U-net architecture design for\nmedicalimagesegmentationthroughthelensoftransformers,\u201dMed.Image\nAnal., vol. 97, 2024, Art. no. 103280.\n[46] E. Xie, W. Wang, Z. Yu, A. Anandkumar, J. M. Alvarez, and P. L"
+    },
+    {
+      "chunk_id": "C170",
+      "page": 14,
+      "text": "Xie, W. Wang, Z. Yu, A. Anandkumar, J. M. Alvarez, and P. Luo,\n\u201cSegFormer: Simple and ef\ufb01cient design for semantic segmentation with\ntransformers,\u201d in Proc. Adv. Neural Inf. Process. Syst., 2021, vol. 34,\npp. 12077\u201312090.\n[47] X. Ma, X. Zhang, and M.-O. Pun, \u201cRs 3 Mamba: Visual state space model\nfor remote sensing image semantic segmentation,\u201d IEEE Geosci. Remote\nSens. Lett., vol. 21, 2024, Art. no. 6011405."
+    },
+    {
+      "chunk_id": "C171",
+      "page": 15,
+      "text": "8678\nIEEE JOURNAL OF SELECTED TOPICS IN APPLIED EARTH OBSERVATIONS AND REMOTE SENSING, VOL. 19, 2026\nYanrong Mao received the B.E. and M.S. degrees\nin geodetection and information technology from the\nChina University of Geosciences, Wuhan, China, in\n2022 and 2025, respectively.\nHe is currently an intern with the Oriental Space\nPort Research Institute, Yantai, China, where he is in-\nvolved in research on satellite con"
+    },
+    {
+      "chunk_id": "C172",
+      "page": 15,
+      "text": ", China, where he is in-\nvolved in research on satellite constellation construc-\ntion and intelligent services. His research interests\nincludepotentiall-andslidesidenti\ufb01cationandremote\nsensing applications.\nHaiming Zhang received the Ph.D. degrees in pho-\ntogrammetry and remote sensing from Wuhan Uni-\nversity, Wuhan, China, in 2025 and the M.E. degree\nin surveying and mapping engineering from Jilin\nUniversity, Changc"
+    },
+    {
+      "chunk_id": "C173",
+      "page": 15,
+      "text": "veying and mapping engineering from Jilin\nUniversity, Changchun, China, in 2021.\nHe is currently a Postdoctoral Researcher with the\nState Key Laboratory of Information Engineering in\nSurveying, Mapping and Remote Sensing, Wuhan\nUniversity, Wuhan, China. His research interests in-\nclude high-resolution remote sensing image change\ndetection, land cover and land use change analysis,\nbuilding damage detection and assessm"
+    },
+    {
+      "chunk_id": "C174",
+      "page": 15,
+      "text": "d use change analysis,\nbuilding damage detection and assessment, and disaster analysis.\nRongfan Dai received the B.S. and M.S. degrees in\ngeodetection and information technology from the\nChina University of Geosciences, Wuhan, China, in\n2013 and 2017, respectively, and the Ph.D. degree\nin electronic information engineering with Wuhan\nUniversity, Wuhan, China, in 2025.\nHe is currently a joint Postdoctoral Researcher w"
+    },
+    {
+      "chunk_id": "C175",
+      "page": 15,
+      "text": ", in 2025.\nHe is currently a joint Postdoctoral Researcher with\nthe Oriental Space Port Research Institute and Wuhan\nUniversity. His research interests include geomet-\nric processing and radiometric calibration of remote\nsensing satellites, video stabilization, information ex-\ntraction, and on-orbit processing.\nTingjianYangreceivedtheB.S.degreeingeographic\ninformation systems from Henan University of Urban\nConstructi"
+    },
+    {
+      "chunk_id": "C176",
+      "page": 15,
+      "text": "nformation systems from Henan University of Urban\nConstruction, Pingdingshan, China, in 2020\nFrom 2020 to 2025, he was a Research Assistant\nwith Wuhan University, Wuhan, China. He is cur-\nrently a Software R&D Engineer with the Oriental\nSpace Port Research Institute. His research inter-\nests include remote sensing image processing, im-\nage super-resolution, object recognition, and change\ndetection.\nGuanting Liu recei"
+    },
+    {
+      "chunk_id": "C177",
+      "page": 15,
+      "text": "object recognition, and change\ndetection.\nGuanting Liu received the M.S. degree in geolog-\nical resources and geological engineering with the\nSchool of Future Technology, China University of\nGeosciences, Wuhan, China, in 2024\nHe is currently with the Institute of Space and\nEarth Information Science, The Chinese University\nof Hong Kong, Hong Kong. His research interests\ninclude landslide detection and deep learning."
+    }
+  ]
+}

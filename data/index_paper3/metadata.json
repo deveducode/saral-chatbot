@@ -1,0 +1,921 @@
+{
+  "source_pdf": "paper3.pdf",
+  "embedding_model": "all-MiniLM-L6-v2",
+  "records": [
+    {
+      "chunk_id": "C1",
+      "page": 1,
+      "text": "Academic Editors: Fumio Yamazaki\nand Dongping Ming\nReceived: 5 March 2026\nRevised: 27 May 2026\nAccepted: 29 May 2026\nPublished: 2 June 2026\nCopyright: \u00a9 2026 by the authors.\nLicensee MDPI, Basel, Switzerland.\nThis article is an open access article\ndistributed under the terms and\nconditions of the Creative Commons\nAttribution (CC BY) license.\nArticle\nFrom Landslide Detection to Multi-Source LLM-Based\nReporting: A Comp"
+    },
+    {
+      "chunk_id": "C2",
+      "page": 1,
+      "text": "dslide Detection to Multi-Source LLM-Based\nReporting: A Complete Framework for Rapid Assessment of\nPost-Disaster Scenarios\nMohammed Alruqimi 1\n, Abdelkader Riche 2, Pierluigi Confuorto 2,*\n, Mawloud Guermoui 1\n,\nSilvia Bianchini 2\nand Farid Melgani 1\n1\nDepartment of Information Engineering and Computer Science, University of Trento, Via Sommarive 9,\n38122 Trento, Italy; mohammed.alruqimi@unitn.it (M.A.); mawloud.guer"
+    },
+    {
+      "chunk_id": "C3",
+      "page": 1,
+      "text": "ento, Italy; mohammed.alruqimi@unitn.it (M.A.); mawloud.guermoui@unitn.it (M.G.);\nfarid.melgani@unitn.it (F.M.)\n2\nDepartment of Earth Sciences, University of Florence, Via La Pira 4, 50121 Florence, Italy;\nabdelkader.riche@unifi.it (A.R.); silvia.bianchini@unifi.it (S.B.)\n*\nCorrespondence: pierluigi.confuorto@unifi.it\nHighlights\nWhat are the main findings?\n\u2022\nAn end-to-end framework is proposed for landslide detection"
+    },
+    {
+      "chunk_id": "C4",
+      "page": 1,
+      "text": "An end-to-end framework is proposed for landslide detection and reporting.\n\u2022\nApplied to a large real-world landslide event in Italy, the framework generates expert-\nstyle reports.\nWhat are the implications of the main findings?\n\u2022\nThe approach can support rapid post-event landslide screening and prioritization,\nreducing the time and effort needed for fully manual mapping and reporting.\n\u2022\nThe framework offers a transf"
+    },
+    {
+      "chunk_id": "C5",
+      "page": 1,
+      "text": "anual mapping and reporting.\n\u2022\nThe framework offers a transferable blueprint for using remote sensing and AI to produce\npreliminary decision-support information for rapid post-disaster landslide assessment.\nAbstract\nTimely landslide detection and rapid qualitative assessment are fundamental to effective\nwarning systems, hazard management, and risk mitigation. Yet, current practices that rely\non on-site surveys and ma"
+    },
+    {
+      "chunk_id": "C6",
+      "page": 1,
+      "text": ". Yet, current practices that rely\non on-site surveys and manual expert assessment remain risky, costly, and time-consuming.\nThese limitations result in substantial delays between the event and the availability of\nactionable information. This study proposes a hybrid, multi-model framework that fuses\nRGB remote-sensing imagery with geospatial layers to enable timely landslide detection\nand actionable reporting. The pi"
+    },
+    {
+      "chunk_id": "C7",
+      "page": 1,
+      "text": "timely landslide detection\nand actionable reporting. The pipeline couples an enhanced SegFormer (denoted as SDF-\nSegFormer-B2) model for landslide localization, a feature extraction technique for per-slide\ngeo-attribute computation, and a lightweight instruction-tuned LLM (Mistral-7B-Instruct-\nv0.3) for structured, expert-style reporting. Although a few previous studies have explored\nlandslide captioning, to our kno"
+    },
+    {
+      "chunk_id": "C8",
+      "page": 1,
+      "text": "vious studies have explored\nlandslide captioning, to our knowledge this is the first framework designed to generate\nstructured technical reports enriched with terrain-context interpretation and qualitative\nintervention-priority indicators. Experiments use 26,758 georeferenced RGB tiles (64 \u00d7 64)\nwith 3 m of spatial resolution from PlanetScope satellite imagery over Emilia\u2013Romagna,\nItaly, with 68,592 annotated landsli"
+    },
+    {
+      "chunk_id": "C9",
+      "page": 1,
+      "text": "ry over Emilia\u2013Romagna,\nItaly, with 68,592 annotated landslide boxes collected after the May 2023 rainfall events\n(~200 mm in 48 h on 1\u20133 May; 200\u2013250 mm in 48 h on 16\u201317 May). The proposed SDF-\nSegFormer-B2 segmentation model achieved a precision of 85.54%, recall of 72.31%, and\nan F1-score of 78.39% on the unseen test dataset. To evaluate the quality of the generated\nlandslide reports, 100 images were selected for"
+    },
+    {
+      "chunk_id": "C10",
+      "page": 1,
+      "text": "e generated\nlandslide reports, 100 images were selected for domain-expert assessment. Among these,\n58% of the reports were rated as \u201cVery Good,\u201d 30% as \u201cGood,\u201d 8% as \u201cAcceptable,\u201d and 4% as\nRemote Sens. 2026, 18, 1821\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C11",
+      "page": 2,
+      "text": "Remote Sens. 2026, 18, 1821\n2 of 21\n\u201cPoor.\u201d When considering only reports with complete and accurate inputs, 81.48% were\nrated \u201cVery Good,\u201d and 96.30% were rated either \u201cGood\u201d or \u201cVery Good.\u201d By integrating\ncomplementary models and modalities, the proposed approach automates localization-\nto-reporting and enables the generation of terrain-aware landslide summaries that may\nsupport preliminary decision-making and rapi"
+    },
+    {
+      "chunk_id": "C12",
+      "page": 2,
+      "text": "maries that may\nsupport preliminary decision-making and rapid post-disaster screening.\nKeywords: landslide reporting; landslide segmentation; landslide analysis; remote sensing\nimages captioning; SegFormer; LLM\n1. Introduction\nLandslides are widespread geomorphic processes that threaten lives, livelihoods, and\ncritical infrastructure, especially in mountainous settings and tectonically active regions.\nTheir rapid ons"
+    },
+    {
+      "chunk_id": "C13",
+      "page": 2,
+      "text": "us settings and tectonically active regions.\nTheir rapid onset and destructive power make timely detection and analysis indispensable\nfor risk reduction, early warning, and efficient post-event response. Traditional field-based\nmethods, while accurate, are time-consuming, costly, and often infeasible in remote or\nhazardous areas [1,2]. These limitations have motivated a shift toward remote sensing and\nartificial inte"
+    },
+    {
+      "chunk_id": "C14",
+      "page": 2,
+      "text": "motivated a shift toward remote sensing and\nartificial intelligence (AI), which together enable large-scale, data-driven approaches for\nlandslide detection, segmentation, and susceptibility modeling [1,3].\nSubstantial progress has been made in automating landslide detection through deep\nlearning.\nObject-detection architectures such as YOLO variants offer real-time local-\nization with reduced computational cost [4\u20136]"
+    },
+    {
+      "chunk_id": "C15",
+      "page": 2,
+      "text": "al-time local-\nization with reduced computational cost [4\u20136], while semantic segmentation models\u2014\nincluding U-Net, DeepLab, and SegFormer\u2014enable pixel-level delineation of landslide\nfootprints [2,7\u201312]. In parallel, studies have shown that integrating spectral imagery with\nancillary geospatial attributes consistently improves both detection accuracy and model\ninterpretability compared with RGB-only approaches [1,13\u20131"
+    },
+    {
+      "chunk_id": "C16",
+      "page": 2,
+      "text": "l\ninterpretability compared with RGB-only approaches [1,13\u201316].\nDespite this progress, existing studies focus on detection or susceptibility mapping,\nleaving a critical gap between raw model outputs and the actionable information required\nfor hazard management. Current post-event workflows still depend heavily on expert\neffort to interpret fragmented data and compile assessment reports. Meanwhile, recent\nadvances in"
+    },
+    {
+      "chunk_id": "C17",
+      "page": 2,
+      "text": "d compile assessment reports. Meanwhile, recent\nadvances in vision-language model (VLM) work for remote sensing largely emphasized\ncaptioning and related scene-description tasks [17,18]. Although effective for image-level\ninterpretation, many of these models still lack explicit geospatial reasoning based on\nterrain and environmental attributes, which is essential for decision-oriented geohazard\nassessment. This limit"
+    },
+    {
+      "chunk_id": "C18",
+      "page": 2,
+      "text": "ntial for decision-oriented geohazard\nassessment. This limitation is important because landslide occurrence and severity are\ncontrolled by interacting topographic, geological, and material factors [19]. Therefore,\ncredible post-event landslide reporting should combine image evidence with geospatial\ncontext, which can reduce errors and hallucinations and improve practical usefulness.\nTo address the abovementioned gaps"
+    },
+    {
+      "chunk_id": "C19",
+      "page": 2,
+      "text": "ove practical usefulness.\nTo address the abovementioned gaps, this study presents a framework for automated\nlandslide detection and reporting to support actionable geohazard intelligence. The system\nfollows a multi-stage pipeline: (i) detect and localize landslides in remote-sensing imagery;\n(ii) extract geo-features for affected areas; and (iii) generate structured, expert-style reports.\nThe resulting outputs includ"
+    },
+    {
+      "chunk_id": "C20",
+      "page": 2,
+      "text": "ructured, expert-style reports.\nThe resulting outputs include geospatial characterization, analytical interpretation, and\nconcise priority intervention recommendations. For landslide localization, a SegFormer\narchitecture was extended by replacing the original loss function with a combined Focal\u2013\nDice loss and integrating a slope channel through a lightweight auxiliary encoder. To\nenrich each detected region with phy"
+    },
+    {
+      "chunk_id": "C21",
+      "page": 2,
+      "text": "t auxiliary encoder. To\nenrich each detected region with physical context, threshold-based feature extraction\ntechniques are applied to ingest ancillary geospatial layers\u2014Digital Elevation Model (DEM),\nslope, Normalized Difference Vegetation Index (NDVI), and lithology\u2014and infer key geo-\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C22",
+      "page": 3,
+      "text": "Remote Sens. 2026, 18, 1821\n3 of 21\nattributes. These attributes, together with the detected regions, are then provided to a Large\nLanguage Model (LLM) that produces comprehensive landslide reports.\nThe technical contribution of this work lies in three key areas:\nFirst, a geospatially grounded LLM architecture: The proposed framework explicitly\nconditions the language model on physically meaningful geo-attributes. Th"
+    },
+    {
+      "chunk_id": "C23",
+      "page": 3,
+      "text": "e language model on physically meaningful geo-attributes. This grounding\nstrategy addresses a fundamental challenge in geoscientific LLM applications, transforming\nthe output from generic, hallucination-prone image captions into rigorous, expert-level\nreports that are both physically consistent and geospatially reliable. Second, enhancing\npixel-level localization accuracy with the introduced SDF-SegFormer-B2 model. T"
+    },
+    {
+      "chunk_id": "C24",
+      "page": 3,
+      "text": "ation accuracy with the introduced SDF-SegFormer-B2 model. Third, end-\nto-end automation for operational deployment: the framework introduces a streamlined\npipeline from satellite imagery acquisition to preliminary assessment report generation for\npost-disaster response support.\nThis paper is structured as follows: Section 2 describes the dataset and the proposed\nframework with the experimental setup; Section 3 prese"
+    },
+    {
+      "chunk_id": "C25",
+      "page": 3,
+      "text": "posed\nframework with the experimental setup; Section 3 presents the results and evaluation;\nSection 4 provides discussion and outlines limitations; and Section 5 concludes the paper\nand highlights directions for future work.\n2. Materials and Methods\n2.1. Study Area and Dataset\nThe dataset used in this study comprises 26,758 georeferenced RGB tiles sourced\nfrom PlanetScope (https://www.planet.com/explorer, accessed on"
+    },
+    {
+      "chunk_id": "C26",
+      "page": 3,
+      "text": "om PlanetScope (https://www.planet.com/explorer, accessed on 20 January 2025) in\nGeoTIFF format. Each tile is 64 \u00d7 64 pixels at 3 m spatial resolution. The imagery covers the\nEmilia\u2013Romagna region of Italy. Tile selection was guided by the availability and quality\nof post-event satellite imagery. Due to cloud coverage in some areas immediately after the\nevent of 1\u201317 May 2023, imagery was selected within a temporal w"
+    },
+    {
+      "chunk_id": "C27",
+      "page": 3,
+      "text": "t of 1\u201317 May 2023, imagery was selected within a temporal window of up to 30 days\nfollowing the event. Priority was given to cloud-free images acquired as close as possible\nto the event date, while in other cases, the most suitable imagery within this timeframe\nwas used. The dataset was divided into 19,324 tiles for training, 4832 for validation, and\n2602 for testing. Furthermore, the dataset exhibits class imbalanc"
+    },
+    {
+      "chunk_id": "C28",
+      "page": 3,
+      "text": "or testing. Furthermore, the dataset exhibits class imbalance between landslide\nand non-landslide pixels. Landslide pixels represent approximately 7.75% of the training\nset and 7.60% of the validation set, while in the test set, they account for about 5.37%,\nwith non-landslide pixels exceeding 90% across all subsets. In May 2023, two extreme\nrainfall events hit the region: the first (1\u20133 May) delivered ~200 mm in 48"
+    },
+    {
+      "chunk_id": "C29",
+      "page": 3,
+      "text": "hit the region: the first (1\u20133 May) delivered ~200 mm in 48 h; the second\n(16\u201317 May) brought 200\u2013250 mm over the same duration, affecting overlapping\nzones [20\u201322]. Each event corresponds to a 100\u2013300-year return period; together, they\nrepresent a 500-year event. Image selection followed a 30-day post-event window to miti-\ngate cloud cover: we prioritized the earliest cloud-free scenes and otherwise used the best\nav"
+    },
+    {
+      "chunk_id": "C30",
+      "page": 3,
+      "text": "he earliest cloud-free scenes and otherwise used the best\navailable imagery within that window. In addition to the RGB data, each tile is supported\nwith four auxiliary geospatial layers: digital elevation model (DEM), slope, normalized\ndifference vegetation index (NDVI), and lithology.\nFigure 1 situates the study area within Italy, illustrating the terrain context alongside\nthe susceptibility map by [23], which delin"
+    },
+    {
+      "chunk_id": "C31",
+      "page": 3,
+      "text": "ontext alongside\nthe susceptibility map by [23], which delineates extensive high to very high susceptibility\nbelts along the northern Apennines. Geologically, the area spans the northern Apennines\nand includes >600 formations from Jurassic to Miocene, dominated by sedimentary suc-\ncessions (flysch, marls, clays, and tectonic m\u00e9langes) [24]. The western\u2013central sector\n(Piacenza\u2013Bologna) is mainly Ligurian/Sub-Ligurian"
+    },
+    {
+      "chunk_id": "C32",
+      "page": 3,
+      "text": "al sector\n(Piacenza\u2013Bologna) is mainly Ligurian/Sub-Ligurian, with clay-rich, low-strength forma-\ntions and block-in-matrix m\u00e9langes (the \u201cArgille Scagliose\u201d) that are especially failure-\nprone; by contrast, the eastern Apennines and ridge zones are underlain by more compe-\ntent Tuscan\u2013Umbrian sandstone\u2013marl sequences, which are comparatively more stable.\nLandslides are annotated with 68,592 bounding boxes, which we"
+    },
+    {
+      "chunk_id": "C33",
+      "page": 3,
+      "text": "ndslides are annotated with 68,592 bounding boxes, which we generated by convert-\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C34",
+      "page": 4,
+      "text": "Remote Sens. 2026, 18, 1821\n4 of 21\ning polygons from the [20] landslide inventory shapefile (publicly available at Zenodo:\nhttps://zenodo.org/records/13742643, accessed on 28 May 2026) into bounding boxes. The\nstatistical distribution of mapped landslides reveals a pronounced dominance of small-area\nevents and a limited number of large failures. All image tiles in the dataset contain at\nleast one or more landslides,"
+    },
+    {
+      "chunk_id": "C35",
+      "page": 4,
+      "text": "iles in the dataset contain at\nleast one or more landslides, ensuring full spatial relevance for detection and character-\nization tasks. As shown in Figure 2 (left), the area distribution is heavily concentrated\ntoward smaller landslide sizes, with only a few instances representing large surface extents.\nSimilarly, Figure 2 (right) demonstrates that the majority of image tiles contain between\n1 and 5 landslide instan"
+    },
+    {
+      "chunk_id": "C36",
+      "page": 4,
+      "text": "rity of image tiles contain between\n1 and 5 landslide instances, with frequency rapidly declining as the number of occurrences\nincreases. This behavior reflects the natural imbalance of landslide inventories, where\nminor slope failures are far more frequent than large-scale movements.\nFigure 1. Study area location. The main panel shows the Emilia\u2013Romagna administrative boundary\nover a DEM, the inset locates Emilia\u2013Ro"
+    },
+    {
+      "chunk_id": "C37",
+      "page": 4,
+      "text": "inistrative boundary\nover a DEM, the inset locates Emilia\u2013Romagna within Italy, and displays the national landslide\nsusceptibility map.\nFigure 2. Distribution of landslide instances and area values.\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C38",
+      "page": 5,
+      "text": "Remote Sens. 2026, 18, 1821\n5 of 21\n2.2. Proposed Model Framework\nThe proposed framework (as illustrated in Figure 3) combines RGB imagery with\ngeospatial layers to generate structured, domain-specific reports for landslide-affected\nareas. To this end, the framework follows a three-stage pipeline: (i) landslide identification\nand localization; (ii) per-slide geo-attribute extraction from auxiliary rasters; and (iii)"
+    },
+    {
+      "chunk_id": "C39",
+      "page": 5,
+      "text": "geo-attribute extraction from auxiliary rasters; and (iii) report\ngeneration with a compact instruction-tuned LLM. This end-to-end design eliminates the\nneed for region proposal steps, streamlining the pipeline and substantially improving both\nspeed and efficiency. The three stages are described below.\nFigure 3. The proposed framework consisting of three stages: Stage 1\u2014SDF-SegFormer-B2 landslide\nidentification and"
+    },
+    {
+      "chunk_id": "C40",
+      "page": 5,
+      "text": "ages: Stage 1\u2014SDF-SegFormer-B2 landslide\nidentification and localization; Stage 2\u2014Feature extraction from auxiliary geo-layers; Stage 3\u2014LLM-\nbased landslide reporting.\n2.2.1. Stage 1: Landslide Localization\nThe first stage of the proposed framework focuses on identifying and localizing land-\nslides in remote sensing imagery. To achieve this, two distinct approaches were investigated:\nobject detection using YOLOv11 (b"
+    },
+    {
+      "chunk_id": "C41",
+      "page": 5,
+      "text": "roaches were investigated:\nobject detection using YOLOv11 (bounding-box localization) and semantic segmentation\n(pixel-wise delineation) via SegFormer. Multiple variants of SegFormer-based architectures\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C42",
+      "page": 6,
+      "text": "Remote Sens. 2026, 18, 1821\n6 of 21\nwere evaluated. The SegFormer architecture [25] consists of a hierarchical encoder and a\nlightweight MLP decoder designed to balance global context with local detail.\nThe encoder is divided into four Transformer blocks (Blocks 1\u20134) that extract multi-\nscale features through three key modules: Overlap Patch Embedding (OPE) for preserving\nedge continuity, Efficient Multi-head Self-At"
+    },
+    {
+      "chunk_id": "C43",
+      "page": 6,
+      "text": "for preserving\nedge continuity, Efficient Multi-head Self-Attention (EMSA) for modeling long-range depen-\ndencies with low complexity, and a Mix Feed-Forward Network (Mix-FFN). An important\ninnovation is the use of 3 \u00d7 3 depth-wise convolutions within the Mix-FFN to provide spa-\ntial awareness; this eliminates the need for fixed positional encodings, allowing the model\nto remain robust across various input resolution"
+    },
+    {
+      "chunk_id": "C44",
+      "page": 6,
+      "text": "g the model\nto remain robust across various input resolutions. The decoder then takes the hierarchical\nfeature maps Fi, where i in {1, 2, 3, 4}, upsamples them to a unified resolution of H\n4 \u00d7 W\n4 \u00d7 C,\nand concatenates them. This simple MLP-based approach fuses multi-level features to\ngenerate the final segmentation map, achieving high precision on complex boundaries\nwhile maintaining a highly efficient and streamlin"
+    },
+    {
+      "chunk_id": "C45",
+      "page": 6,
+      "text": "oundaries\nwhile maintaining a highly efficient and streamlined design.\nIn this work, a baseline configuration was established by training a compact SegFormer\nmodel on RGB imagery alone using weighted cross-entropy. Building on this, we performed\nan ablation study. Specifically, we evaluated various SegFormer backbone capacities, tested\na compound loss function (Focal + Dice), and explored the integration of slope as"
+    },
+    {
+      "chunk_id": "C46",
+      "page": 6,
+      "text": "on (Focal + Dice), and explored the integration of slope as an\nauxiliary topographic band through an AuxEncoder. This lightweight auxiliary CNN\nencoder, composed of three stride-2 convolutional layers (~140 K parameters), maps the\nslope map to the Transformer Block-2 feature resolution. A Squeeze-and-Excitation gate\nthen uses globally pooled auxiliary features to generate per-channel attention weights\nthat modulate t"
+    },
+    {
+      "chunk_id": "C47",
+      "page": 6,
+      "text": "es to generate per-channel attention weights\nthat modulate the Block-2 RGB hidden state before it enters the MLP decoder. This early-\nstage injection preserves spatial granularity while providing sufficient semantic context\nfor terrain-aware feature selection. The loss function (Focal + Dice) is mathematically\nexpressed in Equations (1)\u2013(3) as follows:\nL = 0.5Lfocal + 0.5Ldice\n(1)\nLfocal = \u22121\nN\u2211\ni\n\u03b1t(1 \u2212pt)\u03b3log(pt)\n("
+    },
+    {
+      "chunk_id": "C48",
+      "page": 6,
+      "text": ".5Lfocal + 0.5Ldice\n(1)\nLfocal = \u22121\nN\u2211\ni\n\u03b1t(1 \u2212pt)\u03b3log(pt)\n(2)\nLdice = 1 \u2212\n2\u2211\ni\np(1)\ni\nyi + 1\n\u2211i p(1)\ni\n+ \u2211i yi + 1\n(3)\nwhere N is the number of pixels, pt is the predicted probability for the ground-truth class,\n\u03b1t in {0.75, 0.25} is the class-balancing weight for foreground and background, respec-\ntively. \u03b3 is the focusing parameter that down-weights easy examples, p(1)\ni\nis the predicted\nforeground probability at"
+    },
+    {
+      "chunk_id": "C49",
+      "page": 6,
+      "text": "examples, p(1)\ni\nis the predicted\nforeground probability at pixel i, and yi in {0, 1} is the ground-truth label. The auxil-\niary features are fused into the encoder, where a band (e.g., slope) branch generates a\nchannel-wise attention vector that recalibrates the Block-2 RGB features, as expressed by\nEquations (4) and (5).\n\u03b1 = \u03c3(W2\u03b4(W1 \u00b7 G\u039bP( fs)))\n(4)\nh\u2217\n2 = h2 \u2299\u03b1\n(5)\nwhere G\u039bP denotes global average pooling, \u03b4 is R"
+    },
+    {
+      "chunk_id": "C50",
+      "page": 6,
+      "text": "= h2 \u2299\u03b1\n(5)\nwhere G\u039bP denotes global average pooling, \u03b4 is ReLU, \u03c3 is the sigmoid activation, and\n( fs) is the slope feature map at Block-2 resolution. W1 and W2 are the learnable weight\nmatrices of two fully connected layers inside the SE gate. The resulting h\u2217\n2 replaces h2 before\npropagating to the subsequent encoder stages. Additionally, an object-detection strategy\nwas evaluated based on YOLOv11 [26] and RT-DETR"
+    },
+    {
+      "chunk_id": "C51",
+      "page": 6,
+      "text": "ion strategy\nwas evaluated based on YOLOv11 [26] and RT-DETRv2 [27].\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C52",
+      "page": 7,
+      "text": "Remote Sens. 2026, 18, 1821\n7 of 21\n2.2.2. Stage 2: Geo-Attribute Extraction\nIn this stage, auxiliary geospatial layers (DEM, slope, NDVI, and lithology) are re-\ntrieved for each landslide instance detected in Stage 1. These layers capture essential\nterrain, vegetation, and lithological characteristics that influence landslide occurrence.\nFrom these datasets, geospatially referenced features were extracted correspond"
+    },
+    {
+      "chunk_id": "C53",
+      "page": 7,
+      "text": ", geospatially referenced features were extracted corresponding to the\nlocation of each detected landslide. The extracted values are then processed through a\nthreshold-ranging procedure to classify continuous variables (e.g., elevation, slope, NDVI)\nand group lithological units into meaningful categories. This process generates a per-\nlandslide attribute set that integrates spatial, topographic, and environmental des"
+    },
+    {
+      "chunk_id": "C54",
+      "page": 7,
+      "text": "that integrates spatial, topographic, and environmental descriptors\nwith the detection metadata obtained from the first stage. Such integration provides a\nrobust contextual foundation for the LLMs to perform in-depth technical analysis and\ninterpretative assessment. The integrated geo-attribute layers and the procedure employed\nfor the threshold ranging are described as follows.\n\u2022\nDEM: A 5 m DEM from the Emilia\u2013Roma"
+    },
+    {
+      "chunk_id": "C55",
+      "page": 7,
+      "text": "described as follows.\n\u2022\nDEM: A 5 m DEM from the Emilia\u2013Romagna Geoportal (https://geoportale.regione.\nemilia-romagna.it/catalogo/dati-cartografici/altimetria/layer-2, accessed on 28 May\n2026) was used and resampled to 3 m to match PlanetScope tiles. Elevation reflects re-\nlief and gravitational potential, modulating drainage and failure patterns. In this study,\nthe DEM was classified as moderate\u2013low elevation (41.34"
+    },
+    {
+      "chunk_id": "C56",
+      "page": 7,
+      "text": "udy,\nthe DEM was classified as moderate\u2013low elevation (41.34\u2013198.50 m), high elevation\n(198.50\u2013355.66 m), and extremely high elevation (355.66\u2013512.82 m). The thresholds\nwere defined by dividing the observed elevation range (~41\u2013513 m) into three equal\nintervals to ensure balanced representation across terrain classes. This equal-interval\napproach has been widely used in susceptibility and geomorphological studies whe"
+    },
+    {
+      "chunk_id": "C57",
+      "page": 7,
+      "text": "dely used in susceptibility and geomorphological studies when\nno universally accepted elevation thresholds exist, as it allows meaningful comparison\nbetween lowland, mid-altitude, and upland environments [28].\n\u2022\nSlope: It was computed from the 5 m DEM, which had been resampled to 3 m,\nusing the (planar gradient in degrees). Because steepness increases driving stresses\nwhile moderate gradients can store colluvium that"
+    },
+    {
+      "chunk_id": "C58",
+      "page": 7,
+      "text": "g stresses\nwhile moderate gradients can store colluvium that mobilizes during intense rainfall,\nthe slope was classified as moderate (0.00\u201315.00\u25e6) and steep (15.00\u201345.00\u25e6). The\nthreshold of 15\u25e6was selected based on practical applications and land suitability\nclassifications reported in previous studies, where gentle to moderate slopes (<15\u25e6)\nare often considered stable for agriculture and settlement, while steeper sl"
+    },
+    {
+      "chunk_id": "C59",
+      "page": 7,
+      "text": "ered stable for agriculture and settlement, while steeper slopes (>15\u25e6)\nare more prone to instability and erosion [28]. This two-class division also provides\na parsimonious scheme that captures the primary contrast between low-gradient\ndepositional zones and higher-gradient unstable slopes within the Emilia\u2013Romagna\nstudy area.\n\u2022\nNDVI: Was derived from PlanetScope NIR and red bands using the standard formula\nNDVI = (N"
+    },
+    {
+      "chunk_id": "C60",
+      "page": 7,
+      "text": "Scope NIR and red bands using the standard formula\nNDVI = (NIR \u2212Red)/(NIR + Red) [29]. To reflect canopy density and related root\nreinforcement, NDVI was classified as Low vegetation (NDVI < 0.4) and Dense vege-\ntation (NDVI > 0.4). The threshold of 0.4 was chosen because lower values typically\ncorrespond to sparse or stressed vegetation, whereas higher values indicate closed\ncanopy cover and denser biomass [30].\n\u2022\nL"
+    },
+    {
+      "chunk_id": "C61",
+      "page": 7,
+      "text": "es indicate closed\ncanopy cover and denser biomass [30].\n\u2022\nLithology: Was rasterized from the National Lithological Map of Italy (1:500,000),\navailable through the ISPRA geological web viewer: https://sgi2.isprambiente.it/\nviewersgi2, accessed on 28 May 2026) to the 3 m grid. Because material strength, fabric,\npermeability, and swelling behavior govern failure style and frequency, lithology\nwas grouped into 5 classes"
+    },
+    {
+      "chunk_id": "C62",
+      "page": 7,
+      "text": "re style and frequency, lithology\nwas grouped into 5 classes: (1) clays and marls; (2) alluvium, debris, and glacial\ndeposits; (3) pelagic limestones, marls, and travertines; (4) sands, sandstones, and\nconglomerates; and (5) gypsum, anhydrite, and evaporitic salts.\nFigure 4 provides representative samples across the RGB and all GEO-layers (DEM, slope,\nNDVI, and lithology), and Table 1 summarizes the class thresholds"
+    },
+    {
+      "chunk_id": "C63",
+      "page": 7,
+      "text": "and lithology), and Table 1 summarizes the class thresholds used for each layer.\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C64",
+      "page": 8,
+      "text": "Remote Sens. 2026, 18, 1821\n8 of 21\nFigure 4. RGB images and corresponding auxiliary geo-layers.\nTable 1. Classes and thresholds for geo-layers.\nLayer\nClass\nRange\nDEM\nModerate\u2013low elevation\n41.34\u2013198.50 m\nHigh elevation\n198.50\u2013355.66 m\nExtremely high elevation\n355.66\u2013512.82 m\nSlope\nModerate slope\n0.00\u201315.00\u25e6\nSteep slope\n15.00\u201345.00\u25e6\nNDVI\nLow vegetation\n<0.4\nDense vegetation\n>0.4\nLithology\nClass 1\nClays and marls\nClas"
+    },
+    {
+      "chunk_id": "C65",
+      "page": 8,
+      "text": "Dense vegetation\n>0.4\nLithology\nClass 1\nClays and marls\nClass 2\nAlluvium, debris, and glacial deposits\nClass 3\nPelagic limestones, marls, and travertines\nClass 4\nSands, sandstones, and conglomerates\nClass 5\nGypsum, anhydrite, and evaporitic salts\n2.2.3. Stage 3: Report Generation with Mistral\nFor the report generation stage, we employed Mistral-7B-Instruct-v0.3, a state-of-the-\nart open-source instruction-tuned large"
+    },
+    {
+      "chunk_id": "C66",
+      "page": 8,
+      "text": "0.3, a state-of-the-\nart open-source instruction-tuned large language model developed by Mistral AI [31].\nThis model builds upon the Mistral-7B architecture, which utilizes a dense transformer\ndesign optimized for efficiency and high-quality text generation. Mistral-7B-Instruct-v0.3\nis specifically fine-tuned for instruction following and reasoning tasks, offering a strong\nbalance between efficiency, fluency, and con"
+    },
+    {
+      "chunk_id": "C67",
+      "page": 8,
+      "text": "fering a strong\nbalance between efficiency, fluency, and contextual understanding despite its relatively\ncompact size compared to larger LLMs. To guide the landslide reporting process, we\ndesigned structured prompts enriched with metadata derived from the previous two stages\n(Stages 1 and 2), as shown in Figure 5. The metadata comprises the geographic coordinates\nof detected landslides identified in Stage 1, which ar"
+    },
+    {
+      "chunk_id": "C68",
+      "page": 8,
+      "text": "nates\nof detected landslides identified in Stage 1, which are further utilized to compute spatial\ndescriptors such as the area of each landslide and the relative distances among multiple\ninstances within a scene. Additionally, geo-attributes generated in Stage 2 are incorporated\nfor each detected landslide to provide detailed contextual information. To enhance the\nmodel\u2019s capability in this domain-specific task, a fe"
+    },
+    {
+      "chunk_id": "C69",
+      "page": 8,
+      "text": "ce the\nmodel\u2019s capability in this domain-specific task, a few-shot learning strategy was employed.\nThis approach embeds a set of expert-curated exemplars within the prompting context,\nenabling the model to infer task-specific patterns and generate analytically consistent,\ndomain-relevant outputs. Specifically, six exemplars were hand-crafted from scratch by a\ndomain expert (geologist), independently of the training a"
+    },
+    {
+      "chunk_id": "C70",
+      "page": 8,
+      "text": "a\ndomain expert (geologist), independently of the training and test sets, and chosen to cover\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C71",
+      "page": 9,
+      "text": "Remote Sens. 2026, 18, 1821\n9 of 21\na diverse range of terrain and lithological regimes\u2014including clastic, carbonate, evaporitic,\nand clay\u2013marl settings under varying slope, elevation, and vegetation conditions.\nFigure 5. LLM prompt metadata input.\n2.3. Experimental Setup\nAll experiments were conducted on a Linux system equipped with a GPU GeForce\nRTX 3090.\nAs detailed above, the implementation followed a three-stage"
+    },
+    {
+      "chunk_id": "C72",
+      "page": 9,
+      "text": "As detailed above, the implementation followed a three-stage pipeline:\n(1) landslide localization with SegFormer, (2) geo-attributes extraction and thresholding,\nand (3) report generation with Mistral-7B-Instruct-v0.3.\nSegFormer has been adopted as the foundation of our segmentation framework. We\nsystematically ablate three design axes: (i) the backbone capacity (MiT-B0, ~3.7 M pa-\nrameters, vs. MiT-B2, ~25.4 M param"
+    },
+    {
+      "chunk_id": "C73",
+      "page": 9,
+      "text": "city (MiT-B0, ~3.7 M pa-\nrameters, vs. MiT-B2, ~25.4 M parameters), (ii) the training loss function, and (iii) the\nintegration of auxiliary topographic information. Table 2 summarizes all evaluated architec-\ntures, including the SegFormer variants and the YOLOv11 and RT-DETRv2 object-detection\nbaselines. Both backbones were initialized from ImageNet-1k pretrained checkpoints\n(NVIDIA/mit-b0 and NVIDIA/mit-b2), while t"
+    },
+    {
+      "chunk_id": "C74",
+      "page": 9,
+      "text": "ained checkpoints\n(NVIDIA/mit-b0 and NVIDIA/mit-b2), while the AuxEncoder (~140 K parameters) was\ntrained from scratch jointly with the main network. Training employs the AdamW opti-\nmizer (lr = 6 \u00d7 10\u22125, weight decay = 0.01) with a linear warm-up over the first five epochs\nfollowed by cosine annealing. Mixed-precision training (AMP) is used for all MiT-B2\nvariants to reduce memory footprint and accelerate convergenc"
+    },
+    {
+      "chunk_id": "C75",
+      "page": 9,
+      "text": "ariants to reduce memory footprint and accelerate convergence.\nTable 2. Evaluated model architecture.\nModel\nBackbone\nLoss Function\nInput\nParams\nSegFormer-B0\nMiT-B0\nWeighted\nCross-Entropy\nRGB\n~3.7 M\nFD-SegFormer-B0\nMiT-B0\nFocal + Dice\nRGB\n~3.7 M\nFD-SegFormer-B2\nMiT-B2\nFocal + Dice\nRGB\n~25.4 M\nSDF-SegFormer-B2\nMiT-B2\nFocal + Dice\nRGB + Slope\n~25.5 M\nYOLOv11\nYOLOv11n\nBCE + CIoU + DFL\nRGB\n~2.6 M\nRT-DETRv2\nResNet-101vd\nVF"
+    },
+    {
+      "chunk_id": "C76",
+      "page": 9,
+      "text": "LOv11n\nBCE + CIoU + DFL\nRGB\n~2.6 M\nRT-DETRv2\nResNet-101vd\nVFL + L1 + GIoU\nRGB\n~77.4 M\nYOLOv11 and RT-DETRv2 were additionally evaluated as object-detection bench-\nmarks, while the proposed pipeline itself relies on SegFormer. Since the two detectors differ\nsubstantially in architecture, each was fine-tuned with the training recipe recommended by\nits official repository rather than with artificially matched settings."
+    },
+    {
+      "chunk_id": "C77",
+      "page": 9,
+      "text": "repository rather than with artificially matched settings. YOLOv11 was initialized\nfrom the COCO-pretrained yolo11n checkpoint (Ultralytics) [26] using its default optimizer,\naugmentation stack, and loss formulation: BCE for classification, CIoU for bounding-box\nregression, and DFL for distribution focal loss. RT-DETRv2 was initialized from the COCO-\npretrained rtdetr_v2_r101vd checkpoint (ResNet-101vd backbone, Hug"
+    },
+    {
+      "chunk_id": "C78",
+      "page": 9,
+      "text": "ined rtdetr_v2_r101vd checkpoint (ResNet-101vd backbone, Hugging Face release\nPekingU/rtdetr_v2_r101vd) [27] and fine-tuned using a loss formulation comprising Vari-\nfocal Loss (VFL), L1, and GIoU for bounding-box regression. Both baselines share the same\ntrain/validation/test split as SegFormer to guarantee a fair comparison at the data level. In\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C79",
+      "page": 10,
+      "text": "Remote Sens. 2026, 18, 1821\n10 of 21\nterms of computational performance, the localization stage was efficient on an NVIDIA\nGeForce RTX 3090 GPU with 24 GB of VRAM under single-image end-to-end inference,\nusing a batch size of 1. The full 2,602-tile test set was processed in approximately 33 s for\nYOLOv11 (~11 ms/tile), 37 s for SDF-SegFormer-B2 (~14 ms/tile), and 92 s for RT-DETRv2\n(~29 ms/tile). The end-to-end runti"
+    },
+    {
+      "chunk_id": "C80",
+      "page": 10,
+      "text": ", and 92 s for RT-DETRv2\n(~29 ms/tile). The end-to-end runtime is dominated by the report generation stage, where\nMistral required approximately 11 s per tile to generate a complete report. This results in\nan end-to-end processing time dominated by the LLM inference, highlighting a trade-off\nbetween report quality and latency in the current framework. For performance assessment,\nwe conducted both quantitative and qua"
+    },
+    {
+      "chunk_id": "C81",
+      "page": 10,
+      "text": "rformance assessment,\nwe conducted both quantitative and qualitative evaluations. Quantitative assessments were\nperformed separately for the detection stage to measure the accuracy and effectiveness\nof this component independently. Subsequently, domain experts evaluated the generated\nreports for correctness, completeness, and domain-specific quality.\n3. Results\n3.1. Landslide Localisation\nTable 3 summarizes the top-p"
+    },
+    {
+      "chunk_id": "C82",
+      "page": 10,
+      "text": "lts\n3.1. Landslide Localisation\nTable 3 summarizes the top-performing SegFormer configurations retained according\nto validation metrics, in addition to the results of YOLOv11 and RT-DETRv2. Out of\n2602 images in the test dataset, containing a total of 8533 ground truth landslides, the\nmodel correctly detected 6170 instances (TP), with 1045 false positives (FP) and 2363 false\nnegatives (FN). Precision P, recall R, and"
+    },
+    {
+      "chunk_id": "C83",
+      "page": 10,
+      "text": "P) and 2363 false\nnegatives (FN). Precision P, recall R, and F1-score are computed as P =\nTP\nTP+FP, R =\nTP\nTP+FN ,\nand F1 = 2\u00b7(P\u00b7R)\nP+R , yielding the values reported in Table 3 (85.54%, 72.31%, and 78.39%,\nrespectively). Visual comparisons between the ground truth and the evaluated models\u2019\npredictions are presented in Figures 6 and 7. The most pronounced behavioral shift arises\nfrom replacing weighted cross-entropy"
+    },
+    {
+      "chunk_id": "C84",
+      "page": 10,
+      "text": "havioral shift arises\nfrom replacing weighted cross-entropy with the combined Focal\u2013Dice loss, accompanied\nby an updated training regime and linear warm-up scheduling. This is reflected most\ndirectly in the precision jump (e.g., 77.82% to 82.11% when moving to FD-SegFormer-\nB0), even though it comes with a recall trade-off (74.13% to 69.12%), suggesting the loss\ncombination is making the model more conservative (fewe"
+    },
+    {
+      "chunk_id": "C85",
+      "page": 10,
+      "text": "loss\ncombination is making the model more conservative (fewer false positives but also missing\nsome positives). Scaling up the backbone to MiT-B2 and retaining Focal\u2013Dice further\nimproves overall balance, with FD-SegFormer-B2 and especially SDF-SegFormer-B2 (RGB\n+ Slope) producing the most stable masks and the best overall scores (highest F1 and\nIoU, with SDF-B2 leading at 78.39% F1/63.92% IoU). Finally, YOLOv11 lags"
+    },
+    {
+      "chunk_id": "C86",
+      "page": 10,
+      "text": "F-B2 leading at 78.39% F1/63.92% IoU). Finally, YOLOv11 lags in overlap\n(IoU 52.78%), consistent with less accurate pixel-level localization compared with the\nsegmentation models. However, for the object detection models, the results reveal a clear\ntrade-off: RT-DETRv2 attains higher recall by identifying more landslide instances but\nintroduces substantial false positives (low precision), whereas YOLOv11 achieves hig"
+    },
+    {
+      "chunk_id": "C87",
+      "page": 10,
+      "text": "alse positives (low precision), whereas YOLOv11 achieves higher\nprecision with fewer false detections at the expense of lower recall. RT-DETRv2 could be\ninterpreted as a high-recall object-detection benchmark rather than as the best-performing\noperational model in the proposed pipeline. Its IoU of 59.37% indicates reasonable spatial\noverlap for matched detections, but the large number of unmatched false-positive boxe"
+    },
+    {
+      "chunk_id": "C88",
+      "page": 10,
+      "text": "tions, but the large number of unmatched false-positive boxes\nsubstantially reduces its precision to 30.79%.\nTable 3. Evaluation of landslide localization performance on the test dataset.\nModel\nPrecision\nRecall\nF1-Score\nIoU\nSDF-SegFormer-B2\n85.54%\n72.31%\n78.39%\n63.92%\nFD-SegFormer-B2\n83.46%\n72.07%\n77.35%\n63.06%\nFD-SegFormer-B0\n82.11%\n69.12%\n75.03%\n58.60%\nSegFormer-B0\n77.82%\n74.13%\n75.94%\n61.12%\nYOLOv11\n78.26%\n62.94%"
+    },
+    {
+      "chunk_id": "C89",
+      "page": 10,
+      "text": "Former-B0\n77.82%\n74.13%\n75.94%\n61.12%\nYOLOv11\n78.26%\n62.94%\n69.76%\n52.78%\nRT-DETRv2\n30.79%\n75.92%\n43.81%\n59.37%\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C90",
+      "page": 11,
+      "text": "Remote Sens. 2026, 18, 1821\n11 of 21\nFigure 6. Visual comparison of landslide object detection results using YOLO and RT-DETRv2 (blue\nboxes are the GT and the red boxes are the predictions).\nFigure 7. Visual comparison of landslide pixel-level segmentation across different SegFormer-based\nconfigurations.\nOn the other hand, false negatives are mainly observed in areas where satellite image\nacquisition occurred with a"
+    },
+    {
+      "chunk_id": "C91",
+      "page": 11,
+      "text": "in areas where satellite image\nacquisition occurred with a temporal delay following the landslide event, in some cases\nexceeding three weeks. In such situations, partial vegetation regrowth and natural surface\nrecovery can obscure landslide signatures, reducing their visibility in RGB imagery and\nmaking detection more challenging. These observations highlight the influence of both\nspectral similarity and acquisition"
+    },
+    {
+      "chunk_id": "C92",
+      "page": 11,
+      "text": "ht the influence of both\nspectral similarity and acquisition timing on model performance, particularly in complex\nor evolving post-event environments. To provide a comprehensive view of the model\nperformance, an overall spatial representation of landslide detection results over the test\narea is presented in Figure 8. This visualization highlights the distribution of true positives,\nfalse positives, and false negative"
+    },
+    {
+      "chunk_id": "C93",
+      "page": 11,
+      "text": "ution of true positives,\nfalse positives, and false negatives, offering insights into the behavior of the model under\nvarying landscape conditions. The analysis indicates that some false positive detections\noccur in regions with spectral characteristics similar to landslides, such as bare soil, exposed\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C94",
+      "page": 12,
+      "text": "Remote Sens. 2026, 18, 1821\n12 of 21\nrock, or recently disturbed agricultural surfaces, which exhibit reflectance patterns close to\nactual landslide areas.\nFigure 8. Overview of landslide detection performance across the test area, highlighting correct\ndetections and misclassification patterns.\n3.2. Report Generation\nStructured terrain context reports represent the final output of the framework. For\neach input image,"
+    },
+    {
+      "chunk_id": "C95",
+      "page": 12,
+      "text": "ent the final output of the framework. For\neach input image, the model is instructed to generate a four-section structured report, as\nshown in Figure 9.\nFigure 9. Pseudo-template of the LLM prompt for report generation.\n(i) Summary: presents a statistical overview of the image, encompassing the number of\nlandslides, their size classifications, and the presence of any overlapping occurrences. The\nsize classification i"
+    },
+    {
+      "chunk_id": "C96",
+      "page": 12,
+      "text": "ce of any overlapping occurrences. The\nsize classification is defined as follows (in number of pixels, where each pixel represents an\narea of 3 \u00d7 3 m): \u201cvery large\u201d (>3000), \u201clarge\u201d (2001\u20133000), \u201cmedium\u201d (501\u20132000), \u201csmall\u201d\n(101\u2013500), and \u201cvery small\u201d (0\u2013100).\n(ii) Geospatial Features: provides a slide-by-slide characterization of DEM, slope,\nNDVI, and lithology, accompanied by a deterministic rule-based conclusion d"
+    },
+    {
+      "chunk_id": "C97",
+      "page": 12,
+      "text": "logy, accompanied by a deterministic rule-based conclusion derived from\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C98",
+      "page": 13,
+      "text": "Remote Sens. 2026, 18, 1821\n13 of 21\nthese features. For instance, sparse vegetation combined with steep slopes is interpreted as\naccelerating landslide activity, while dense vegetation on moderate slopes is associated with\nterrain stabilization. Similarly, clay-rich lithologies with vegetation cover suggest resistance\nto spread, whereas sandy substrates on slopes promote flow-like failures. These rule-based\nconclusi"
+    },
+    {
+      "chunk_id": "C99",
+      "page": 13,
+      "text": "slopes promote flow-like failures. These rule-based\nconclusions are provided as grounding inputs to the LLM to constrain its interpretation\nand avoid hallucination.\n(iii) Overall Analysis: presents a comprehensive scene-level geological interpretation\nthat synthesizes the detected landslides with their associated geo-attributes.\n(iv) Priority Assessment: provides both overall and detailed evaluations of the land-\nsli"
+    },
+    {
+      "chunk_id": "C100",
+      "page": 13,
+      "text": "vides both overall and detailed evaluations of the land-\nslide. The assessment includes three elements. First, it indicates the priority intervention\nlevel, categorized as low, medium, or high, with a justification synthesized from all detected\nlandslides. These priorities were determined qualitatively based on terrain elevation, slope\nsteepness, lithological strength, vegetation cover, and the spatial proximity of m"
+    },
+    {
+      "chunk_id": "C101",
+      "page": 13,
+      "text": "l strength, vegetation cover, and the spatial proximity of multiple\nfailures, which together reflect the urgency of potential intervention. A qualitative over-\nall priority indicator is inferred by the LLM based on the combination of these terrain\nattributes and the spatial configuration of detected slides (overlap, adjacency), guided\nby domain-expert-curated few-shot examples embedded in the prompt that enforce con-"
+    },
+    {
+      "chunk_id": "C102",
+      "page": 13,
+      "text": "d few-shot examples embedded in the prompt that enforce con-\nsistent reasoning patterns grounded in geomorphological principles. Second, it reports\nthe conditional outlook in prose for three scenarios: short intense rainfall, prolonged wet\nseason or snowmelt, and vegetation loss due to NDVI decline, harvesting, or wildfire. Each\nscenario is described within the text and assigned a likelihood level of low, medium, or"
+    },
+    {
+      "chunk_id": "C103",
+      "page": 13,
+      "text": "the text and assigned a likelihood level of low, medium, or\nhigh. Additionally, the report includes a probable velocity estimate classified according to\nthe Cruden and Varnes [32] scale, which defines seven levels: extremely slow, very slow,\nslow, moderate, rapid, very rapid, and extremely rapid. The probable velocity is reported\nas complementary contextual information intended to support the interpretation of the\nde"
+    },
+    {
+      "chunk_id": "C104",
+      "page": 13,
+      "text": "information intended to support the interpretation of the\ndetected landslide behavior. However, it is not directly incorporated into the priority assess-\nment score, since no direct kinematic measurements or temporal displacement observations\nare available within the scope of the proposed rapid post-disaster framework. Conse-\nquently, the overall priority and the overall risk are derived exclusively from the extracte"
+    },
+    {
+      "chunk_id": "C105",
+      "page": 13,
+      "text": "d the overall risk are derived exclusively from the extracted\ngeo-attributes and surrounding spatial configuration. The reported velocity class should\ntherefore be interpreted as a qualitative approximation of potential movement behavior\nrather than as a measured parameter used in the operational prioritization process, and\nit is not intended to replace physically based analyses or monitoring-driven evaluations\nwhen"
+    },
+    {
+      "chunk_id": "C106",
+      "page": 13,
+      "text": "ically based analyses or monitoring-driven evaluations\nwhen direct displacement or velocity measurements are available. To ensure a reliable\nevaluation, the reports were assessed qualitatively with the support of three domain ex-\nperts. One expert conducted the evaluation, which was subsequently verified by the other\ntwo experts. The two additional experts independently reviewed the initial assessments to\nconfirm the"
+    },
+    {
+      "chunk_id": "C107",
+      "page": 13,
+      "text": "ndependently reviewed the initial assessments to\nconfirm their validity and consistency. In cases of uncertainty or disagreement, a consensus\nwas reached through discussion, ensuring that the final evaluation reflects a validated\nagreement among all experts rather than a single subjective judgment. For this evaluation,\n100 tiles were selected from the detection test set using guided stratified sampling. Each\ntile was"
+    },
+    {
+      "chunk_id": "C108",
+      "page": 13,
+      "text": "ion test set using guided stratified sampling. Each\ntile was labeled according to the Stage 1 localization outcome, including correct detections,\nfalse positives, false negatives, and mixed cases, and according to the Stage 2 geo-attribute\nclasses, including DEM, slope, NDVI, and lithology. The sampling procedure considered\nthe available classes within each auxiliary layer (e.g., DEM elevation classes, slope-gradient"
+    },
+    {
+      "chunk_id": "C109",
+      "page": 13,
+      "text": "auxiliary layer (e.g., DEM elevation classes, slope-gradient\nclasses, NDVI vegetation classes, and lithological categories), and the final subset was\nselected to represent the observed combinations between these geo-attribute classes across\nthe different tiles. The final subset was chosen to cover the main observed combinations\nof detection quality and terrain conditions while also preserving variation in the number"
+    },
+    {
+      "chunk_id": "C110",
+      "page": 13,
+      "text": "in conditions while also preserving variation in the number\nand size of landslide instances, thereby preventing the qualitative assessment from being\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C111",
+      "page": 14,
+      "text": "Remote Sens. 2026, 18, 1821\n14 of 21\nbiased toward a specific localization pattern or terrain regime in the study area. For each\nimage, the Mistral model was prompted with geospatial metadata obtained and derived\nfrom Stage 1 and Stage 2. The reports were then evaluated manually across multiple\ndimensions, addressing the four report sections from different perspectives, as detailed in\nthe following subsection.\n3.2.1."
+    },
+    {
+      "chunk_id": "C112",
+      "page": 14,
+      "text": "erspectives, as detailed in\nthe following subsection.\n3.2.1. Reports Evaluation Concept\nTo ensure a systematic and comprehensive assessment of the generated reports, a manual\nexpert-based evaluation was performed following a structured evaluation rubric grounded in\nthree complementary metrics: Score, Noisy Information, and Missing Information, as defined\nin Table 4. Each metric was independently applied to evaluate t"
+    },
+    {
+      "chunk_id": "C113",
+      "page": 14,
+      "text": "Table 4. Each metric was independently applied to evaluate the quality of specific sections\nwithin the generated reports. The evaluation was limited to Section 1, Section 3, and Section 4,\nwhereas Section 2 was excluded from the expert evaluation because it is structured metadata\ndeterministically extracted from the source rasters using the fixed threshold rules defined in\nTable 1. Subsequently, a Global Score is der"
+    },
+    {
+      "chunk_id": "C114",
+      "page": 14,
+      "text": "ules defined in\nTable 1. Subsequently, a Global Score is derived to provide an integrated measure that reflects\nthe overall quality and coherence of the report. For the scoring metric, the possible values\nare defined as follows: \u2018Very Good\u2019 when the caption is free of irrelevant information and\nprovides strong domain-focused interpretation with coherent terrain-context analysis. \u2018Good\u2019\nwhen only minor issues are pres"
+    },
+    {
+      "chunk_id": "C115",
+      "page": 14,
+      "text": "ain-context analysis. \u2018Good\u2019\nwhen only minor issues are present, such as a missing attribute that does not significantly\naffect quality, while the report still delivers solid domain-centered interpretation and useful\ncontextual analysis. \u2018Acceptable\u2019 when issues arise due to the inclusion of irrelevant information,\nwhich slightly undermines clarity, but the report still offers meaningful contextual insights\noverall."
+    },
+    {
+      "chunk_id": "C116",
+      "page": 14,
+      "text": "report still offers meaningful contextual insights\noverall. \u2018Poor\u2019 applies to all other cases.\nTable 4. Evaluation metrics of the generated reports.\nMetric\nDescription\nPossible Values\nScore\nEvaluates report quality in terms of reasoning, relevance, and\ndepth from a domain-expert perspective.\nVery good, good, acceptable, and poor\nNoisy Info\nFalse positive (FP): any factual mismatch between the report\nand the ground tr"
+    },
+    {
+      "chunk_id": "C117",
+      "page": 14,
+      "text": "): any factual mismatch between the report\nand the ground truth, i.e., any incorrect statement about the\nfour ground-truth geo-attributes (DEM, slope, lithology, and\nNDVI) or about the ground-truth landslide instances\n(e.g., landslides reported where none exist, incorrect count, or\nmis-delineated boundaries). The flag is set to Yes if at least one\nsuch mismatch is found in the evaluated section.\nYes, No\nMissing Info"
+    },
+    {
+      "chunk_id": "C118",
+      "page": 14,
+      "text": "tch is found in the evaluated section.\nYes, No\nMissing Info\nFalse negative (FN): any omission of information that is present\nin the ground truth, i.e., any of the four ground-truth\ngeo-attributes (DEM, slope, lithology, NDVI) or any\nground-truth landslide instance that is not mentioned in the\nreport. The flag is set to Yes if at least one such omission is\nfound in the evaluated section.\nYes, No\nThe domain experts app"
+    },
+    {
+      "chunk_id": "C119",
+      "page": 14,
+      "text": "und in the evaluated section.\nYes, No\nThe domain experts apply their own knowledge together with the available ground\ntruth data, including slide bounding boxes and geospatial attributes, to ensure a robust\nand comprehensive evaluation. A global score is then estimated for the report as a whole,\nreflecting both its technical accuracy and domain relevance.\n3.2.2. Reports Evaluation Results\nRepresentative examples of e"
+    },
+    {
+      "chunk_id": "C120",
+      "page": 14,
+      "text": "2.2. Reports Evaluation Results\nRepresentative examples of expert-evaluated reports are provided in Figures 10 and 11\nto illustrate variations in detection accuracy and assessment quality. In the first case\n(Figure 11), the report received a rating of \u2018Very Good\u2019, as all landslides within the scene\nwere correctly detected with bounding boxes closely aligned with the ground truth. The\nhttps://doi.org/10.3390/rs1811182"
+    },
+    {
+      "chunk_id": "C121",
+      "page": 14,
+      "text": "with the ground truth. The\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C122",
+      "page": 15,
+      "text": "Remote Sens. 2026, 18, 1821\n15 of 21\ngeo-attributes of all three landslides were accurately extracted and presented in the report,\nleading to high-quality outputs and \u2018Very Good\u2019 evaluations for both the analysis and\nhazard assessment. In contrast, the second case (Figure 10) corresponds to a report rated\nas \u2018Acceptable\u2019. This lower rating was due to the failure to detect the small landslide in\nthe lower-right portio"
+    },
+    {
+      "chunk_id": "C123",
+      "page": 15,
+      "text": "lure to detect the small landslide in\nthe lower-right portion of the image and a slight spatial offset in the bounding box of the\nupper landslide compared to the ground truth. Table 5 summarizes the distribution of\nscores across the evaluated report sections and the global evaluation. Results indicate\nthat the majority of the reports (58%) were rated as \u2018Very Good\u2019 as the global score, while\n(30%) were rated as \u2018Good"
+    },
+    {
+      "chunk_id": "C124",
+      "page": 15,
+      "text": "y Good\u2019 as the global score, while\n(30%) were rated as \u2018Good\u2019, with (8%) rated as \u2018Acceptable\u2019, and (4%) as \u2018Poor\u2019. While the\nstrongest section-level performance was observed in Section 3: Analysis and Observation\nand Section 4: Priority Assessment, where almost two-thirds of the outputs were rated\n\u2018Very Good\u2019 (71% and 70% respectively).\nTable 5. Scores for the evaluated sections and global evaluation.\nScore\nSummary"
+    },
+    {
+      "chunk_id": "C125",
+      "page": 15,
+      "text": "the evaluated sections and global evaluation.\nScore\nSummary\nAnalysis and\nObservation\nPriority\nAssessment\nGlobal Score\nVery Good\n34%\n71%\n70%\n58%\nGood\n42%\n18%\n17%\n30%\nAcceptable\n18%\n7%\n9%\n8%\nPoor\n6%\n3%\n4%\n4%\nFigure 10. Example of a report evaluated as \u2018Acceptable\u2019.\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C126",
+      "page": 16,
+      "text": "Remote Sens. 2026, 18, 1821\n16 of 21\nFigure 11. Example of a report evaluated as \u2018Very Good\u2019.\nThe lower performance observed in Section 1 (Summary) is primarily attributable to\nerrors in the landslide identification stage, as this section directly relies on the outputs of\nthe SegFormer model.\nTables 6 and 7 present the rates of missing information and noisy information as\nreported by the evaluators. As mentioned abov"
+    },
+    {
+      "chunk_id": "C127",
+      "page": 16,
+      "text": "information as\nreported by the evaluators. As mentioned above, the missing and noisy content observed\nin the Summary section primarily originated from identification and localization errors\nin Stage 1, including false positives (FP) and false negatives (FN), as well as polygon\nboundary inaccuracies. However, as shown in Table 7, 100% of the reports contained\nno noisy information in Section 4, and 94% of them were als"
+    },
+    {
+      "chunk_id": "C128",
+      "page": 16,
+      "text": "no noisy information in Section 4, and 94% of them were also free of noisy information\nin Section 3. This interpretation is further supported by the results in Table 8, where,\nconsidering only rows with clean inputs, i.e.,those for which SegFormer produced an\nerror-free detection (no false positives, no false negatives) fed to the LLM, experts assigned\n81% of the reports a \u201cVery Good\u201d global score, 15% a \u201cGood\u201d scor"
+    },
+    {
+      "chunk_id": "C129",
+      "page": 16,
+      "text": "of the reports a \u201cVery Good\u201d global score, 15% a \u201cGood\u201d score, 4% an \u201cAcceptable\u201d\nscore, and 0% a \u201cPoor\u201d score. These findings clearly demonstrate the high quality and\nreliability of the reports generated by the proposed pipeline. The 4% of reports rated as\n\u2018Poor\u2019 are attributable to Stage 1 detection errors; under error-free detection inputs, the \u2018Poor\u2019\nrate reduces to 0% (Table 8), confirming that the report genera"
+    },
+    {
+      "chunk_id": "C130",
+      "page": 16,
+      "text": "e reduces to 0% (Table 8), confirming that the report generation component does not\nintroduce independent failure modes.\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C131",
+      "page": 17,
+      "text": "Remote Sens. 2026, 18, 1821\n17 of 21\nTable 6. Missing info for the evaluated sections.\nMissing Info\nSummary\nAnalysis and Observation\nPriority Assessment\nYes\n21%\n19%\n16%\nNo\n79%\n81%\n84%\nTable 7. Noisy info for the evaluated sections.\nNoisy Info\nSummary\nAnalysis and Observation\nPriority Assessment\nYes\n11%\n3%\n0%\nNo\n89%\n97%\n100%\nTable 8. Global score with only clean data (tiles with error-free SegFormer detection).\nScore"
+    },
+    {
+      "chunk_id": "C132",
+      "page": 17,
+      "text": "ean data (tiles with error-free SegFormer detection).\nScore\nPercentage\nVery Good\n81.48%\nGood\n14.81%\nAcceptable\n3.70%\nPoor\n0%\n4. Discussion\nThe results demonstrate that the proposed framework addresses an important chal-\nlenge in rapid post-disaster assessment by generating structured and technically useful\nlandslide reports. Our enhanced SegFormer exhibits robust performance on a challenging\ndataset, while the findin"
+    },
+    {
+      "chunk_id": "C133",
+      "page": 17,
+      "text": "obust performance on a challenging\ndataset, while the findings also underscore the value of enriching the LLM input with\ngeospatial context, integrating geo-band features such as DEM, slope, NDVI, and lithology\nto support more domain-relevant interpretations grounded in terrain-context information.\nSpecifically, multi-source data integration operates at two complementary levels within\nthe framework. At the detection"
+    },
+    {
+      "chunk_id": "C134",
+      "page": 17,
+      "text": "complementary levels within\nthe framework. At the detection level, slope data is fused into the SegFormer encoder\nvia a Squeeze-and-Excitation attention mechanism, enhancing the model performance\nas confirmed by the ablation results in Table 3, with the slope-augmented model (SDF-\nSegFormer-B2) improving F1-score from 77.35% to 78.39% and IoU from 63.06% to 63.92%\nover the RGB-only variant. At the reporting level, al"
+    },
+    {
+      "chunk_id": "C135",
+      "page": 17,
+      "text": "63.92%\nover the RGB-only variant. At the reporting level, all four geo-layers (DEM, slope, NDVI,\nand lithology) are extracted per slide and provided as metadata to the LLM, grounding its\ninterpretation in physical terrain properties. Nevertheless, the generated reports should\nbe interpreted as qualitative terrain-context summaries intended for rapid post-disaster\nscreening, rather than as quantitative geotechnical ha"
+    },
+    {
+      "chunk_id": "C136",
+      "page": 17,
+      "text": "aster\nscreening, rather than as quantitative geotechnical hazard assessments or physically based\nlandslide forecasting products.\nThe framework automates the full workflow from landslide localization to report\ngeneration, delivering timely preliminary analyses that may support rapid post-disaster\nassessment activities. Producing preliminary reports automatically, it mitigates the costs\nand safety risks of on-site surv"
+    },
+    {
+      "chunk_id": "C137",
+      "page": 17,
+      "text": "lly, it mitigates the costs\nand safety risks of on-site surveys, particularly in areas affected by ongoing instability\nor adverse weather. In addition, it provides comprehensive geospatial characterization\nof impacted areas and delivers domain-specific insights, including event interpretation,\npriority assessment, and actionable recommendations, thereby supporting expert decision-\nmaking and intervention planning. Th"
+    },
+    {
+      "chunk_id": "C138",
+      "page": 17,
+      "text": "orting expert decision-\nmaking and intervention planning. The generated outputs can also serve as structured\ninputs for downstream AI agents tasked with developing mitigation or response plans.\nThe framework showed promising performance when processing complex or low-quality\nimagery and may potentially be adapted to other natural hazards, highlighting its practical\nvalue for rapid screening and disaster-response supp"
+    },
+    {
+      "chunk_id": "C139",
+      "page": 17,
+      "text": "actical\nvalue for rapid screening and disaster-response support.\nOverall, the findings reported in Section 3 demonstrate the reliability and generaliz-\nability of the proposed pipeline. The performance of the segmentation stage on the unseen\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C140",
+      "page": 18,
+      "text": "Remote Sens. 2026, 18, 1821\n18 of 21\ntest set, together with the independent expert assessment of the generated reports, suggests\nthat the framework produces outputs that are consistent with the ground truth at both the\npixel and the semantic level, which we interpret as a preliminary indication of its reliability\nwithin the scope of this study. However, the generated reports remain dependent on the\nquality of the ex"
+    },
+    {
+      "chunk_id": "C141",
+      "page": 18,
+      "text": "generated reports remain dependent on the\nquality of the extracted geo-attributes and detected landslide regions and therefore should\nbe considered as preliminary decision-support outputs rather than substitutes for detailed\nexpert geotechnical assessment or monitoring-based hazard analysis. The framework relies\non geospatial layers (DEM, slope, NDVI, and lithology) that are broadly available at a\nglobal scale, whic"
+    },
+    {
+      "chunk_id": "C142",
+      "page": 18,
+      "text": "ithology) that are broadly available at a\nglobal scale, which in principle makes it transferable to other study areas where comparable\ninputs can be obtained.\nA limitation of this study is that all image tiles in the dataset contain at least one\nlandslide instance, meaning that the model was not exposed to background-only (nega-\ntive) samples during training or evaluation. Consequently, the reported precision may be"
+    },
+    {
+      "chunk_id": "C143",
+      "page": 18,
+      "text": "or evaluation. Consequently, the reported precision may be\noptimistic and may not fully reflect performance under real-world conditions, where a\nlarge proportion of imagery is landslide-free, potentially leading to higher false positive\nrates in operational scenarios. This limitation is mainly due to the absence of an inde-\npendent dataset with similar characteristics to ours, particularly one that includes both\nlan"
+    },
+    {
+      "chunk_id": "C144",
+      "page": 18,
+      "text": "acteristics to ours, particularly one that includes both\nlandslide annotations and the same multi-source geospatial inputs (DEM, slope, NDVI,\nand lithology), which are essential for our model. As a result, conducting a more realistic\nevaluation with negative samples was not feasible within the scope of this study. Addi-\ntionally, each image tile covers a limited spatial extent (192 m \u00d7 192 m at 3 m resolution),\nwhich"
+    },
+    {
+      "chunk_id": "C145",
+      "page": 18,
+      "text": "ited spatial extent (192 m \u00d7 192 m at 3 m resolution),\nwhich may restrict the ability to capture the broader geomorphological context required\nfor comprehensive landslide analysis. While the integration of multi-source geospatial\ndata enables meaningful local interpretation, certain aspects, such as contributing area,\nflow paths, and downslope run-out, may extend beyond the boundaries of a single tile.\nConsequently,"
+    },
+    {
+      "chunk_id": "C146",
+      "page": 18,
+      "text": "xtend beyond the boundaries of a single tile.\nConsequently, scene-level interpretations generated by the model may not fully represent\nlarge-scale physical processes and should be interpreted within the spatial limits of the\ninput data.\nFuture work will focus on enhancing the robustness and generalization of the proposed\nframework by incorporating additional data sources and extending the spatial reasoning\ncapabiliti"
+    },
+    {
+      "chunk_id": "C147",
+      "page": 18,
+      "text": "data sources and extending the spatial reasoning\ncapabilities of the system. In particular, integrating alternative remote sensing modalities\nsuch as Synthetic Aperture Radar (SAR) imagery alongside optical data could improve\nlandslide detection performance under challenging conditions, including cloud cover and\nlow visibility. Furthermore, to address the limitations associated with the fixed tile size\n(192 m \u00d7 192"
+    },
+    {
+      "chunk_id": "C148",
+      "page": 18,
+      "text": "imitations associated with the fixed tile size\n(192 m \u00d7 192 m), future developments will explore the integration of spatial context across\nadjacent tiles by leveraging their geographic coordinates, enabling the LLM to perform\nmore comprehensive reasoning on landslide mechanisms, including contributing areas and\ndownslope processes. Finally, the priority level generated by the framework is intended\nas a first-order po"
+    },
+    {
+      "chunk_id": "C149",
+      "page": 18,
+      "text": "l generated by the framework is intended\nas a first-order post-event triage indicator to support rapid response efforts, rather than\na replacement for continuous monitoring-based hazard assessment. The integration of\nadditional data sources and temporal information is therefore considered a key direction\nfor improving the reliability and operational applicability of the system. In particular, the\ncurrent framework do"
+    },
+    {
+      "chunk_id": "C150",
+      "page": 18,
+      "text": "ility of the system. In particular, the\ncurrent framework does not incorporate direct kinematic measurements into the operational\nprioritization process, as the assessment is derived from geo-attribute extraction and\nsurrounding spatial configuration obtained from post-event data. Future integration of\nquantitative velocity observations from continuous monitoring systems (e.g., InSAR, GNSS)\nwould strengthen the physi"
+    },
+    {
+      "chunk_id": "C151",
+      "page": 18,
+      "text": "oring systems (e.g., InSAR, GNSS)\nwould strengthen the physical grounding of the framework and enable more robust and\nprecise hazard and priority assessments. Future evaluations could also further quantify\nexpert consistency using independent ratings and inter-rater reliability metrics such as\nCohen\u2019s or Fleiss\u2019 kappa.\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C152",
+      "page": 19,
+      "text": "Remote Sens. 2026, 18, 1821\n19 of 21\n5. Conclusions\nThis study advances rapid landslide intelligence by introducing a hybrid, multi-model\nframework that links landslide detection, geospatial attribute extraction, and structured,\nexpert-style reporting. The pipeline integrates satellite imagery with terrain and envi-\nronmental layers to move beyond maps and labels toward concise, decision-oriented\nsummaries suitable f"
+    },
+    {
+      "chunk_id": "C153",
+      "page": 19,
+      "text": "abels toward concise, decision-oriented\nsummaries suitable for hazard management. By providing context-rich analyses, the frame-\nwork strengthens evidence-based planning and policy decisions while reducing the cost\nand safety risks associated with traditional field surveys, particularly in regions character-\nized by complex terrain or adverse weather conditions. Expert evaluation indicates that\nthe proposed grounding"
+    },
+    {
+      "chunk_id": "C154",
+      "page": 19,
+      "text": "ons. Expert evaluation indicates that\nthe proposed grounding strategy (i.e., enriching the LLM input with geospatial context to\nanchor the generated narratives to scene-specific, physically meaningful cues) effectively\nmitigates \u201challucinations,\u201d a frequent challenge in vision-language models. The results\ndemonstrate that the LLM produced linguistically and physically consistent reports, with\n96% of outputs rated as"
+    },
+    {
+      "chunk_id": "C155",
+      "page": 19,
+      "text": "physically consistent reports, with\n96% of outputs rated as \u2018Good\u2019 or \u2018Very Good\u2019 when provided with accurate detection inputs.\nThese findings suggest that the integration of constraint-based prompting and geospatial at-\ntributes enables the model to generate expert-style analysis suitable for geohazard contexts.\nHowever, the framework\u2019s overall performance is currently sensitive to the initial detection\nstage. To ad"
+    },
+    {
+      "chunk_id": "C156",
+      "page": 19,
+      "text": "is currently sensitive to the initial detection\nstage. To address this, future work could investigate the use of high-resolution satellite\ndata and the integration of further segmentation and detection architectures. Additionally,\nadditional modalities (e.g., LiDAR, InSAR, rainfall/soil data) can be incorporated. Further-\nmore, there is significant potential to evolve this framework into an AI-agentic system. By\ninco"
+    },
+    {
+      "chunk_id": "C157",
+      "page": 19,
+      "text": "to evolve this framework into an AI-agentic system. By\nincorporating autonomous workflows, the system could perform more complex, multi-step\nreasoning, such as cross-referencing historical inventories or integrating real-time rainfall\ndata. Such advancements would further mature the framework into a scalable and reliable\ntool for early warning and post-disaster recovery in complex terrains.\nAuthor Contributions: M.A"
+    },
+    {
+      "chunk_id": "C158",
+      "page": 19,
+      "text": "ster recovery in complex terrains.\nAuthor Contributions: M.A.: Writing\u2014original draft, Software, Methodology, Conceptualization,\nand Data curation. A.R.: Writing\u2014original draft, Software, Methodology, Conceptualization, and\nData curation. P.C.: Writing\u2014review and editing, Methodology, Conceptualization, Data curation,\nand Supervision. M.G.: Writing\u2014review and editing, Software, Methodology, and Visualization. S.B.:\nW"
+    },
+    {
+      "chunk_id": "C159",
+      "page": 19,
+      "text": "d editing, Software, Methodology, and Visualization. S.B.:\nWriting\u2014review and editing, Methodology, Conceptualization, Data curation, and Supervision. F.M.:\nWriting\u2014review and editing, Methodology, Conceptualization, and Supervision. All authors have\nread and agreed to the published version of the manuscript.\nFunding: This study was carried out within the Space It Up project funded by the Italian Space\nAgency, ASI, a"
+    },
+    {
+      "chunk_id": "C160",
+      "page": 19,
+      "text": "ace It Up project funded by the Italian Space\nAgency, ASI, and the Ministry of University and Research, MUR, under contract n. 2024-5-E.0\u2013CUP\nn. I53D24000060005.\nData Availability Statement: Data will be made available on request.\nUse of Artificial Intelligence: Portions of the text were edited with the assistance of ChatGPT 5.1 to\nimprove clarity and stylistic quality.\nConflicts of Interest: The authors declare that"
+    },
+    {
+      "chunk_id": "C161",
+      "page": 19,
+      "text": "tic quality.\nConflicts of Interest: The authors declare that they have no known competing financial interests or\npersonal relationships that could have appeared to influence the work reported in this paper.\nReferences\n1.\nXu, Q.; Zhao, B.; Dai, K.; Dong, X.; Li, W.; Zhu, X.; Yang, Y.; Xiao, X.; Wang, X.; Huang, J.; et al. Remote Sensing for Landslide\nInvestigations: A Progress Report from China. Eng. Geol. 2023, 321,"
+    },
+    {
+      "chunk_id": "C162",
+      "page": 19,
+      "text": "ations: A Progress Report from China. Eng. Geol. 2023, 321, 107156. [CrossRef]\n2.\nLi, Y.; Fu, B.; Yin, Y.; Hu, X.; Wang, W.; Wang, W.; Li, X.; Long, G. Review on the Artificial Intelligence-Based Methods in Landslide\nDetection and Susceptibility Assessment: Current Progress and Future Directions. Intell. Geoengin. 2024, 1, 1\u201318. [CrossRef]\n3.\nGhorbanzadeh, O.; Xu, Y.; Ghamisi, P.; Kopp, M.; Kreil, D. Landslide4Sense:"
+    },
+    {
+      "chunk_id": "C163",
+      "page": 19,
+      "text": ".; Xu, Y.; Ghamisi, P.; Kopp, M.; Kreil, D. Landslide4Sense: Reference Benchmark Data and Deep Learning\nModels for Landslide Detection. IEEE Trans. Geosci. Remote Sens. 2022, 60, 5633017. [CrossRef]\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C164",
+      "page": 20,
+      "text": "Remote Sens. 2026, 18, 1821\n20 of 21\n4.\nDai, J.; Dai, X.; Zhang, R.; Ma, J.; Li, W.; Lu, H.; Li, W.; Liang, S.; Dai, T.; Shan, Y.; et al. Using Lightweight Method to Detect\nLandslide from Satellite Imagery. Int. J. Appl. Earth Obs. Geoinf. 2024, 135, 104303. [CrossRef]\n5.\nHou, H.; Chen, M.; Tie, Y.; Li, W. A Universal Landslide Detection Method in Optical Remote Sensing Images Based on Improved\nYOLOX. Remote Sens. 20"
+    },
+    {
+      "chunk_id": "C165",
+      "page": 20,
+      "text": "mote Sensing Images Based on Improved\nYOLOX. Remote Sens. 2022, 14, 4939. [CrossRef]\n6.\nWang, B.; Su, J.; Xi, J.; Chen, Y.; Cheng, H.; Li, H.; Chen, C.; Shang, H.; Yang, Y. Landslide Detection with MSTA-YOLO in Remote\nSensing Images. Remote Sens. 2025, 17, 2795. [CrossRef]\n7.\nSoares, L.P.; Dias, H.C.; Garcia, G.P.B.; Grohmann, C.H. Landslide Segmentation with Deep Learning: Evaluating Model\nGeneralization in Rainfall"
+    },
+    {
+      "chunk_id": "C166",
+      "page": 20,
+      "text": "h Deep Learning: Evaluating Model\nGeneralization in Rainfall-Induced Landslides in Brazil. Remote Sens. 2022, 14, 2237. [CrossRef]\n8.\nXu, Y.; Ouyang, C.; Xu, Q.; Wang, D.; Zhao, B.; Luo, Y. CAS Landslide Dataset: A Large-Scale and Multisensor Dataset for Deep\nLearning-Based Landslide Detection. Sci. Data 2024, 11, 12. [CrossRef]\n9.\nZhao, W.; Zhang, J.; Cai, J.; Ming, D. Hybrid-SegUFormer: A Hybrid Multi-Scale Network"
+    },
+    {
+      "chunk_id": "C167",
+      "page": 20,
+      "text": "J.; Ming, D. Hybrid-SegUFormer: A Hybrid Multi-Scale Network with Self-Distillation for Robust\nLandslide InSAR Deformation Detection. Remote Sens. 2025, 17, 3514. [CrossRef]\n10.\nSyed, H.M.; Oghaz, M.M.; Saheer, L.B. Semantic Segmentation for Landslide Detection Using Segformer. In Proceedings of the\nArtificial Intelligence XLI, Cambridge, UK, 17\u201319 December 2024; Bramer, M., Stahl, F., Eds.; Springer Nature: Cham, Sw"
+    },
+    {
+      "chunk_id": "C168",
+      "page": 20,
+      "text": "2024; Bramer, M., Stahl, F., Eds.; Springer Nature: Cham, Switzerland,\n2025; pp. 35\u201345.\n11.\nXi, L.; Yu, J.; Ge, D.; Pang, Y.; Zhou, P.; Hou, C.; Li, Y.; Chen, Y.; Dong, Y. SAM-CFFNet: SAM-Based Cross-Feature Fusion\nNetwork for Intelligent Identification of Landslides. Remote Sens. 2024, 16, 2334. [CrossRef]\n12.\nFang, C.; Fan, X.; Wang, X.; Nava, L.; Zhong, H.; Dong, X.; Qi, J.; Catani, F. A Globally Distributed Datas"
+    },
+    {
+      "chunk_id": "C169",
+      "page": 20,
+      "text": ".; Dong, X.; Qi, J.; Catani, F. A Globally Distributed Dataset of Coseismic Landslide\nMapping via Multi-Source High-Resolution Remote Sensing Images. Earth Syst. Sci. Data 2024, 16, 4817\u20134842. [CrossRef]\n13.\nAreerob, K.; Nguyen, V.-Q.; Li, X.; Inadomi, S.; Shimada, T.; Kanasaki, H.; Wang, Z.; Suganuma, M.; Nagatani, K.; Chun, P.;\net al. Multimodal Artificial Intelligence Approaches Using Large Language Models for Exp"
+    },
+    {
+      "chunk_id": "C170",
+      "page": 20,
+      "text": "Intelligence Approaches Using Large Language Models for Expert-Level Landslide Image Analysis.\nComput.-Aided Civ. Infrastruct. Eng. 2025, 40, 2900\u20132921. [CrossRef]\n14.\nZhang, Y.; Wu, W.; Qin, Y.; Lin, Z.; Zhang, G.; Chen, R.; Song, Y.; Lang, T.; Zhou, X.; Huangfu, W.; et al. Mapping Landslide\nHazard Risk Using Random Forest Algorithm in Guixi, Jiangxi, China. ISPRS Int. J. Geo-Inf. 2020, 9, 695. [CrossRef]\n15.\nDahal"
+    },
+    {
+      "chunk_id": "C171",
+      "page": 20,
+      "text": "a. ISPRS Int. J. Geo-Inf. 2020, 9, 695. [CrossRef]\n15.\nDahal, A.; Lombardo, L. Towards Physics-Informed Neural Networks for Landslide Prediction. Eng. Geol. 2025, 344, 107852.\n[CrossRef]\n16.\nWu, L.; Liu, R.; Ju, N.; Zhang, A.; Gou, J.; He, G.; Lei, Y. Landslide Mapping Based on a Hybrid CNN-Transformer Network and\nDeep Transfer Learning Using Remote Sensing Images with Topographic and Spectral Features. Int. J. Appl."
+    },
+    {
+      "chunk_id": "C172",
+      "page": 20,
+      "text": "Images with Topographic and Spectral Features. Int. J. Appl. Earth Obs. Geoinf.\n2024, 126, 103612. [CrossRef]\n17.\nKuckreja, K.; Danish, M.S.; Naseer, M.; Das, A.; Khan, S.; Khan, F.S. GeoChat: Grounded Large Vision-Language Model for\nRemote Sensing. In Proceedings of the 2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), Seattle, WA,\nUSA, 17\u201321 June 2024; IEEE Computer Society: Los Alamitos,"
+    },
+    {
+      "chunk_id": "C173",
+      "page": 20,
+      "text": "USA, 17\u201321 June 2024; IEEE Computer Society: Los Alamitos, CA, USA, 2024; pp. 27831\u201327840.\n18.\nHe, R.; Zhang, W.; Dou, J.; Jiang, N.; Xiao, H.; Zhou, J. Application of Artificial Intelligence in Three Aspects of Landslide Risk\nAssessment: A Comprehensive Review. Rock Mech. Bull. 2024, 3, 100144. [CrossRef]\n19.\nGuzzetti, F.; Mondini, A.C.; Cardinali, M.; Fiorucci, F.; Santangelo, M.; Chang, K.-T. Landslide Inventory"
+    },
+    {
+      "chunk_id": "C174",
+      "page": 20,
+      "text": "rucci, F.; Santangelo, M.; Chang, K.-T. Landslide Inventory Maps: New Tools for an\nOld Problem. Earth-Sci. Rev. 2012, 112, 42\u201366. [CrossRef]\n20.\nBerti, M.; Pizziolo, M.; Scaroni, M.; Generali, M.; Critelli, V.; Mulas, M.; Tondo, M.; Lelli, F.; Fabbiani, C.; Ronchetti, F.; et al.\nRER2023: The Landslide Inventory Dataset of the May 2023 Emilia-Romagna Meteorological Event. Earth Syst. Sci. Data 2025, 17,\n1055\u20131074. [Cr"
+    },
+    {
+      "chunk_id": "C175",
+      "page": 20,
+      "text": "ogical Event. Earth Syst. Sci. Data 2025, 17,\n1055\u20131074. [CrossRef]\n21.\nFilipponi, F.; Iadanza, C.; Vivaldi, V.; Zucca, F.; Meisina, C.; Ferrario, M.F.; Trigila, A. Hybrid Pixel-Based and Object-Based Image\nAnalysis Approach for Landslides Rapid Mapping: The Extreme Rainfall in Emilia-Romagna (Italy) May 2023 Case Study. Nat.\nHazards 2025, 121, 22549\u201322580. [CrossRef]\n22.\nFerrario, M.F.; Livio, F. Rapid Mapping of La"
+    },
+    {
+      "chunk_id": "C176",
+      "page": 20,
+      "text": "[CrossRef]\n22.\nFerrario, M.F.; Livio, F. Rapid Mapping of Landslides Induced by Heavy Rainfall in the Emilia-Romagna (Italy) Region in May\n2023. Remote Sens. 2024, 16, 122. [CrossRef]\n23.\nCaleca, F.; Lombardo, L.; Steger, S.; Tanyas, H.; Raspini, F.; Dahal, A.; Nefros, C.; M\u0103rg\u0103rint, M.C.; Drouin, V.; Jemec-Aufli\u02c7c, M.;\net al. Pan-European Landslide Risk Assessment: From Theory to Practice. Rev. Geophys. 2025, 63, e2"
+    },
+    {
+      "chunk_id": "C177",
+      "page": 20,
+      "text": "essment: From Theory to Practice. Rev. Geophys. 2025, 63, e2023RG000825. [CrossRef]\n24.\nSani, F.; Bonini, M.; Piccardi, L.; Vannucci, G.; Donne, D.D.; Benvenuti, M.; Moratti, G.; Corti, G.; Montanari, D.; Sedda, L.; et al.\nLate Pliocene\u2013Quaternary Evolution of Outermost Hinterland Basins of the Northern Apennines (Italy), and Their Relevance to\nActive Tectonics. Tectonophysics 2009, 476, 336\u2013356. [CrossRef]\n25.\nXie,"
+    },
+    {
+      "chunk_id": "C178",
+      "page": 20,
+      "text": "ics. Tectonophysics 2009, 476, 336\u2013356. [CrossRef]\n25.\nXie, E.; Wang, W.; Yu, Z.; Anandkumar, A.; Alvarez, J.M.; Luo, P. SegFormer: Simple and Efficient Design for Semantic\nSegmentation with Transformers. In Proceedings of the Advances in Neural Information Processing Systems, San Diego, CA, USA,\n6\u201314 December 2021; Ranzato, M., Beygelzimer, A., Dauphin, Y., Liang, P.S., Vaughan, J.W., Eds.; Curran Associates, Inc.:"
+    },
+    {
+      "chunk_id": "C179",
+      "page": 20,
+      "text": "Liang, P.S., Vaughan, J.W., Eds.; Curran Associates, Inc.: Red\nHook, NY, USA, 2021; Volume 34, pp. 12077\u201312090.\n26.\nJocher, G.; Qiu, J. Ultralytics YOLO11, version 11.0.0. 2024. Available online: https://github.com/ultralytics/ultralytics\n(accessed on 28 May 2026).\nhttps://doi.org/10.3390/rs18111821"
+    },
+    {
+      "chunk_id": "C180",
+      "page": 21,
+      "text": "Remote Sens. 2026, 18, 1821\n21 of 21\n27.\nLv, W.; Zhao, Y.; Chang, Q.; Huang, K.; Wang, G.; Liu, Y. RT-DETRv2: Improved Baseline with Bag-of-Freebies for Real-Time\nDetection Transformer 2024. arXiv 2024, arXiv:2407.17140.\n28.\nMashari, S.; Solaimani, K.; Omidvar, E. Landslide Susceptibility Mapping Using Multiple Regression and GIS Tools in Tajan Basin,\nNorth of Iran. Environ. Nat. Resour. Res. 2012, 2, 43\u201351. [CrossRe"
+    },
+    {
+      "chunk_id": "C181",
+      "page": 21,
+      "text": "of Iran. Environ. Nat. Resour. Res. 2012, 2, 43\u201351. [CrossRef]\n29.\nRouse, J.W.; Haas, R.H.; Schell, J.A.; Deering, D.W. Monitoring Vegetation Systems in the Great Plains with ERTS; NASA: Washington,\nDC, USA, 1973.\n30.\n\u00d6zyavuz, M.; Bilgili, C.; Sal\u0131c\u0131, A. Determination of Vegetation Changes with NDVI Method. J. Environ. Prot. Ecol. 2015, 16,\n264\u2013273.\n31.\nNadhavajhala, S.; Tong, Y. Rubra-Mistral-7B-Instruct-v0.3; Huggi"
+    },
+    {
+      "chunk_id": "C182",
+      "page": 21,
+      "text": "avajhala, S.; Tong, Y. Rubra-Mistral-7B-Instruct-v0.3; HuggingFace: New York, NY, USA, 2024. [CrossRef]\n32.\nCruden, D.M.; Varnes, D.J. Landslide Types and Processes, Transportation Research Board; U.S. National Academy of Sciences, Special\nReport; Transportation Research Board, National Research Council: Washington, DC, USA, 1996; Volume 247, pp. 36\u201375.\nDisclaimer/Publisher\u2019s Note: The statements, opinions and data c"
+    },
+    {
+      "chunk_id": "C183",
+      "page": 21,
+      "text": "laimer/Publisher\u2019s Note: The statements, opinions and data contained in all publications are solely those of the individual\nauthor(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to\npeople or property resulting from any ideas, methods, instructions or products referred to in the content.\nhttps://doi.org/10.3390/rs18111821"
+    }
+  ]
+}

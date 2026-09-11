@@ -83,11 +83,24 @@ python generate.py --index data/index \
   --instruction "Summarize the methodology used"
 ```
 
-**4. Run automatic evaluation:**
+**4. Run automatic evaluation (single paper):**
 ```bash
 python eval.py --index data/index \
   --audience "grad students" --length 90s --style technical \
   --instruction "Summarize the methodology used"
+```
+
+**4b. Run automatic evaluation across multiple papers (comparison table):**
+```bash
+python eval_multi.py --papers data/paper1.pdf data/paper2.pdf data/paper3.pdf \
+  --instruction "Summarize the methodology used" \
+  --audience "grad students" --length 90s --style technical
+```
+
+**4c. Run unit tests (chunking, math-preservation, citation extraction):**
+```bash
+pip install pytest
+pytest test_pipeline.py -v
 ```
 
 **5. Launch the chat UI:**
@@ -127,11 +140,25 @@ Full conversation log: [`logs/conversation_example.md`](logs/conversation_exampl
 
 ## Evaluation results
 
-Run on the sample landslide paper (instruction: "Summarize the methodology used",
-audience=grad students, length=90s, style=technical):
+Run on 3 test papers (per the brief's "small test set (3 papers)" requirement),
+with instruction="Summarize the methodology used", audience=grad students,
+length=90s, style=technical:
 
-- Citation coverage: **70.6%** of non-empty output lines carry at least one `[Cx]` tag
-- Factuality proxy (average sentence-to-source cosine similarity): **0.574**, computed across 19 cited sentences
+| Paper | Citation coverage (%) | Factuality proxy (avg similarity) | Sentences checked |
+|---|---|---|---|
+| paper1 (landslide susceptibility) | 100.0% | 0.558 | 9 |
+| paper2 | 100.0% | 0.595 | 9 |
+| paper3 | 100.0% | 0.606 | 8 |
+| **Average** | **100.0%** | **0.586** | — |
+
+**What these numbers mean:**
+- **Citation coverage (100%)** — every non-empty output line carries at least
+  one `[Cx]` provenance tag, consistently across all 3 papers.
+- **Factuality proxy (~0.55-0.61)** — average cosine similarity between each
+  generated (cited) sentence and the source chunk it cites. This is expected
+  to be well below 1.0 even for fully grounded, accurate text, since the model
+  paraphrases rather than copying verbatim; scores in this range indicate the
+  generated claims stay semantically close to their cited source.
 
 **What's not included, and why:** ROUGE/BERTScore against a human-authored
 reference script, and 3-rater human evaluation for audience-appropriateness,
@@ -147,9 +174,18 @@ reference scripts per test paper and run BERTScore against them, plus a small
   chosen over an API-based embedding model to keep the pipeline runnable
   offline/cheaply for a small conference-paper-sized corpus, per the brief's
   "use small conference papers to avoid excessive cost" guidance.
-- **Generator:** Gemini (`gemini-2.0-flash`) via API — fast and free-tier
+- **Generator:** Gemini (`gemini-3.6-flash`) via API — fast and free-tier
   friendly for a 1-day build; the prompt template is model-agnostic and could
   be swapped to an open 7B model or another API with no pipeline changes.
+- **Math-aware retrieval (implemented, not just proposed):** this is the exact
+  improvement proposed for SARAL in Part B — chunks containing LaTeX/math
+  blocks get a retrieval-score bonus whenever the user's instruction implies
+  equations matter (e.g. mentions "equation", "formula", "preserve the math").
+  See `retrieve.py`'s `Retriever.search(..., boost_math=True)` and
+  `instruction_wants_math()`; `generate.py` triggers it automatically. Verified
+  end-to-end: asking to "explain the precision and recall equations" reliably
+  retrieves the exact chunks containing those formulas and preserves them
+  inline in the output (e.g. `$Pr = \frac{TP}{TP + FP}$`).
 - **Retrieval quality depends on query specificity.** A generic query (e.g.
   "what is the main contribution?") can retrieve boilerplate sections like
   author bios, since those also use generic academic language. Domain-specific
@@ -159,6 +195,11 @@ reference scripts per test paper and run BERTScore against them, plus a small
   instructions (avoid offensive language, match requested accessibility level)
   rather than a separate classifier, given the time budget — a dedicated
   toxicity/accessibility classifier is a natural hardening step for production.
+- **Testing:** `test_pipeline.py` covers the pure-logic parts (math-block
+  protection/restoration surviving a round trip, chunking never splitting a
+  math expression across a boundary, citation-tag extraction and coverage
+  calculation) without requiring model downloads, so it runs in under a
+  second and can be used as a fast regression check after any change.
 
 ## Citations / external resources used
 
