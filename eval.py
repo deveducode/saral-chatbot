@@ -44,7 +44,7 @@ def extract_cited_sentences(text: str) -> list[tuple[str, list[str]]]:
         chunk_ids = re.findall(r"\[C(\d+)\]", sent)
         if chunk_ids:
             clean_sent = re.sub(r"\[C\d+\]", "", sent).strip()
-            if clean_sent:  # skip if only citation tags, no actual text
+            if clean_sent.strip(" .!?"):  # skip if only citation tags/punctuation, no actual text
                 pairs.append((clean_sent, [f"C{cid}" for cid in chunk_ids]))
     return pairs
 

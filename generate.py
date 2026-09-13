@@ -39,7 +39,7 @@ load_dotenv()
 logger = logging.getLogger(__name__)
 
 API_KEY: str | None = os.getenv("GEMINI_API_KEY")
-MODEL_NAME = "gemini-2.0-flash"  # fast + cheap, good enough for this task
+MODEL_NAME = "gemini-3.6-flash"  # fast + cheap, good enough for this task
 
 # Maximum retries on transient Gemini API errors (rate-limit, network, etc.)
 _MAX_RETRIES = 2
