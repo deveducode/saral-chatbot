@@ -1,158 +1,146 @@
 # Conversation log
 
-## initial generation — 2026-09-12T02:11:22
+## initial generation — 2026-09-14T23:01:55
 
-**Prompt:** Create 7-slide bullets for grad students focusing on the methodology, preserve equations
+**Prompt:** make 7 page slide for exaplinig this paper in proper technical way 
 
-**Output:**
-
-```
-## Slide Bullets
-
-### Slide 1: LSA Modeling Paradigms
-- Landslide susceptibility assessment (LSA) incorporates statistical models (STMs), machine learning (ML), and deep learning (DL) [C16].
-- Statistical models infer underlying data relationships while offering high interpretability and simplicity [C16].
-
-### Slide 2: Early LSA Methodologies
-- Early statistical LSA research originates from methods such as logistic regression, analytical hierarchy process, and information value [C16].
-- Additional foundational approaches include weight of evidence and frequency ratio techniques [C16].
-
-### Slide 3: Software Frameworks
-- PyTorch is configured as the primary artificial intelligence development framework [C66].
-- Keras and TensorFlow serve as supplementary tools in the development environment [C66].
-
-### Slide 4: Hyperparameter Optimization & Loss Setup
-- Optimizing hyperparameters is a pivotal phase in model debugging to achieve maximum performance [C66].
-- Model training utilizes the cross-entropy function as the loss function paired with the stochastic gradient descent optimization algorithm [C66].
-
-### Slide 5: Evaluation Metric: Precision
-- Precision evaluates the proportion of true positive predictions among all positive predictions [C71].
-- It is calculated using the equation: $Pr = \frac{TP}{TP + FP}$ [C71].
-
-### Slide 6: Evaluation Metric: Recall
-- Recall measures the ratio of correctly predicted landslide observations relative to actual landslide samples [C71].
-- It is expressed mathematically as: $Re = \frac{TP}{TP + FN}$ [C71].
-
-### Slide 7: Combined Evaluation: F1 Score
-- F1 Score combines Precision and Recall into a single evaluation metric [C71].
-- It represents the harmonic mean calculated as: $F1 = \frac{2*Pr *Re}{Pr + Re}$ [C71].
-
----
-
-## Speaker Script
-
-Landslide susceptibility assessment, or LSA, relies on statistical models (STMs), machine learning, and deep learning architectures [C16]. Statistical models infer underlying data relationships while offering simplicity and strong interpretability [C16]. Historically, LSA research originated from foundational methods including logistic regression, analytical hierarchy processes, information values, weights of evidence, and frequency ratios [C16]. Modern research interests in this domain focus heavily on deep learning techniques and susceptibility mapping [C133].
-
-To implement deep learning pipelines, PyTorch serves as the primary artificial intelligence development framework, complemented by Keras and TensorFlow as supplementary tools [C66]. Model debugging heavily depends on hyperparameter optimization to yield maximum model performance [C66]. For model optimization, the stochastic gradient descent algorithm is selected, paired with the cross-entropy loss function [C66].
-
-Model evaluation requires precise quantitative metrics [C71]. Precision measures the proportion of correctly predicted positive cases using $Pr = \frac{TP}{TP + FP}$ [C71]. Recall determines the ratio of correctly predicted landslide observations against actual landslide samples via $Re = \frac{TP}{TP + FN}$ [C71]. Finally, the F1 Score provides a single metric representing the harmonic mean of precision and recall, calculated as $F1 = \frac{2*Pr *Re}{Pr + Re}$ [C71]. Together, these framework setups and math metrics form a rigorous deep learning methodology for susceptibility assessment [C16][C66][C71].
-
----
-
-## Speaker Notes
-
-### Section 1: Foundations & Evolution (Slides 1–2)
-- Highlight the tradeoff between statistical interpretability and deep learning performance [C16].
-- Briefly trace historical LSA origins from statistical algorithms to modern deep learning [C16][C133].
-- Target timing: ~25 seconds for introduction and context.
-
-### Section 2: Implementation & Optimization (Slides 3–4)
-- Emphasize PyTorch as the core framework alongside TensorFlow and Keras [C66].
-- Stress that hyperparameter tuning with stochastic gradient descent and cross-entropy loss is critical for model debugging [C66].
-- Target timing: ~35 seconds for framework details.
-
-### Section 3: Evaluation Metrics (Slides 5–7)
-- Clearly distinguish True Positives ($TP$), False Positives ($FP$), and False Negatives ($FN$) during math metric delivery [C71].
-- Explain how F1 score unites $Pr$ and $Re$ into a single harmonic mean [C71].
-- Target timing: ~30 seconds for math equations and wrap-up.
-
----
-
-## Tweet Abstract
-
-Landslide susceptibility mapping leverages PyTorch, TensorFlow, and Keras alongside stochastic gradient descent and cross-entropy loss. Models are evaluated using mathematical metrics such as Precision $Pr = \frac{TP}{TP + FP}$, Recall, and F1 Score.
-```
-
-## edit — 2026-09-12T02:14:37
-
-**Prompt:** add more equations
 
 **Output:**
 
 ```
 ## Slide Bullets
 
-### Slide 1: LSA Modeling Paradigms
-- Landslide susceptibility assessment (LSA) incorporates statistical models (STMs), machine learning (ML), and deep learning (DL) [C16].
-- Statistical models infer underlying data relationships while offering high interpretability and simplicity [C16].
+### Slide 1: Semantic Misalignment in Landslide Extraction
+* Conventional upsampling and skip connections prove insufficient for restoring precise edges [C21].
+* A lack of explicit cross-scale semantic coordination causes inconsistencies between high-level semantic predictions and low-level spatial details [C21].
 
-### Slide 2: Early LSA Methodologies
-- Early statistical LSA research originates from methods such as logistic regression, analytical hierarchy process, and information value [C16].
-- Additional foundational approaches include weight of evidence and frequency ratio techniques [C16].
+### Slide 2: CS-Mamba Architecture Overview
+* The CS-Mamba architecture addresses cross-domain data challenges using three core modules [C26].
+* Primary components include the Cross Embedding Module (CEM) and the Multiscale Aware Visual State Space (MAVSS) block [C26].
 
-### Slide 3: Software Frameworks
-- PyTorch is configured as the primary artificial intelligence development framework [C66].
-- Keras and TensorFlow serve as supplementary tools in the development environment [C66].
+### Slide 3: Cross Embedding Module (CEM)
+* The CEM fuses features across multiple scales to enhance the representation of landslide morphology [C26].
+* Incorporating the CEM refines boundary depiction and effectively suppresses background noise [C109].
 
-### Slide 4: Hyperparameter Optimization & Loss Setup
-- Optimizing hyperparameters is a pivotal phase in model debugging to achieve maximum performance [C66].
-- Model training utilizes the cross-entropy function as the loss function paired with the stochastic gradient descent optimization algorithm [C66].
+### Slide 4: MAVSS Block Architecture
+* The neck of the architecture consists of $L$ stacked MAVSS blocks [C54].
+* Each MAVSS block integrates an Efficient Global SS2D, a feed-forward neural network, and a residual connection [C54].
 
-### Slide 5: Evaluation Metric: Precision
-- Precision evaluates the proportion of true positive predictions among all positive predictions [C71].
-- It is calculated using the equation: $Pr = \frac{TP}{TP + FP}$ [C71].
+### Slide 5: Efficient Global SS2D Mechanism
+* The Efficient Global SS2D incorporates both a global branch and a local branch [C54].
+* The global branch utilizes vision state space model (SSM) mechanisms to capture long-range spatial dependencies and geomorphological semantics [C54].
+* MAVSS activation responses fill gaps across landslide regions to establish spatial coherence [C109].
 
-### Slide 6: Evaluation Metric: Recall
-- Recall measures the ratio of correctly predicted landslide observations relative to actual landslide samples [C71].
-- It is expressed mathematically as: $Re = \frac{TP}{TP + FN}$ [C71].
+### Slide 6: Optimization and Training Scheme
+* Data splits are structured to assign original image sources to identical sets, preventing spatial overlap [C85].
+* Optimization is conducted using stochastic gradient descent (SGD) with a momentum coefficient of $0.9$, scaling, and rotation augmentations [C85].
 
-### Slide 7: Combined Evaluation: F1 Score
-- F1 Score combines Precision and Recall into a single evaluation metric [C71].
-- It represents the harmonic mean calculated as: $F1 = \frac{2*Pr *Re}{Pr + Re}$ [C71].
-
-### Slide 8: Evaluation Metric: Matthews Correlation Coefficient
-- Matthews Correlation Coefficient (MCC) takes into account TP, TN, FP, and FN, ranging from -1 to 1 [C72].
-- It is obtained via: $MCC = \frac{TL \times TN - FL \times FN}{\sqrt{(TL + FP) \times (TL + FN) \times (TN + FL) \times (TN + FN)}}$ [C72][C73].
-
-### Slide 9: Evaluation Metric: Kappa Coefficient
-- Kappa measures agreement between observed and expected classifications while accounting for chance agreement [C73].
-- It is calculated using: $Kappa = \frac{OA - Pe}{1 - Pe}$ [C73], where $Pe = \frac{(TP+FN)(TP+FP)+(FP+TN)(FN+TN)}{(TP + FP + TN + FN)^2}$ [C73].
+### Slide 7: Quantitative Evaluation Metrics
+* Model performance is measured using mean Intersection over Union $\text{mIoU} = \frac{TP}{TP + FN + FP}$ [C79].
+* Overall Accuracy and F1 metrics are evaluated via $\text{OA} = \frac{TP + TN}{TP + FP + TN + FN}$ and $\text{F1} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$ [C79].
+* The complete model (A6) achieves maximum spatial clarity and semantic consistency [C109].
 
 ---
 
 ## Speaker Script
 
-Landslide susceptibility assessment, or LSA, relies on statistical models (STMs), machine learning, and deep learning architectures [C16]. Statistical models infer underlying data relationships while offering simplicity and strong interpretability [C16]. Historically, LSA research originated from foundational methods including logistic regression, analytical hierarchy processes, information values, weights of evidence, and frequency ratios [C16]. Modern research interests in this domain focus heavily on deep learning techniques and susceptibility mapping [C133].
-
-To implement deep learning pipelines, PyTorch serves as the primary artificial intelligence development framework, complemented by Keras and TensorFlow as supplementary tools [C66]. Model debugging heavily depends on hyperparameter optimization to yield maximum model performance [C66]. For model optimization, the stochastic gradient descent algorithm is selected, paired with the cross-entropy loss function [C66].
-
-Model evaluation requires precise quantitative metrics [C71]. Precision measures the proportion of correctly predicted positive cases using $Pr = \frac{TP}{TP + FP}$ [C71]. Recall determines the ratio of correctly predicted landslide observations against actual landslide samples via $Re = \frac{TP}{TP + FN}$ [C71]. The F1 Score provides a single metric representing the harmonic mean of precision and recall, calculated as $F1 = \frac{2*Pr *Re}{Pr + Re}$ [C71]. Furthermore, the Matthews Correlation Coefficient accounts for all confusion matrix parameters through $MCC = \frac{TL \times TN - FL \times FN}{\sqrt{(TL + FP) \times (TL + FN) \times (TN + FL) \times (TN + FN)}}$ [C72][C73]. Finally, classification reliability is measured by the Kappa coefficient equation $Kappa = \frac{OA - Pe}{1 - Pe}$ [C73], where expected agreement is derived by $Pe = \frac{(TP+FN)(TP+FP)+(FP+TN)(FN+TN)}{(TP + FP + TN + FN)^2}$ [C73]. Together, these framework setups and math metrics form a rigorous deep learning methodology for susceptibility assessment [C16][C66][C71][C72][C73].
+Conventional skip connections fail to preserve precise edges in landslide extraction due to cross-scale semantic misalignment [C21]. To address this, CS-Mamba introduces a Cross Embedding Module (CEM) that fuses multiscale features to suppress background noise [C26][C109]. The neck consists of $L$ stacked MAVSS blocks featuring an Efficient Global SS2D module, which uses a vision SSM global branch to capture long-range spatial dependencies [C54]. Trained via SGD with a momentum coefficient of $0.9$, the full framework optimizes spatial boundaries and semantic consistency [C85][C109].
 
 ---
 
 ## Speaker Notes
 
-### Section 1: Foundations & Evolution (Slides 1–2)
-- Highlight the tradeoff between statistical interpretability and deep learning performance [C16].
-- Briefly trace historical LSA origins from statistical algorithms to modern deep learning [C16][C133].
-- Target timing: ~25 seconds for introduction and context.
+### Section 1: Problem & Architecture Overview (Slides 1–2)
+1. Emphasize why conventional upsampling fails on small spatial extents or complex landslide geometries.
+2. Introduce CS-Mamba as a hybrid approach combining state space models (SSMs) and CNN strengths.
+3. Timing cue: Keep overview to 8 seconds.
 
-### Section 2: Implementation & Optimization (Slides 3–4)
-- Emphasize PyTorch as the core framework alongside TensorFlow and Keras [C66].
-- Stress that hyperparameter tuning with stochastic gradient descent and cross-entropy loss is critical for model debugging [C66].
-- Target timing: ~35 seconds for framework details.
+### Section 2: Module Mechanics & Neck Design (Slides 3–5)
+1. Detail how the CEM multi-scale fusion directly improves boundary response over background noise.
+2. Walk through the dual-branch SS2D, highlighting the global SSM branch for geomorphological context.
+3. Timing cue: Keep structural details to 12 seconds.
 
-### Section 3: Evaluation Metrics (Slides 5–9)
-- Clearly distinguish True Positives ($TP$), True Negatives ($TN$), False Positives ($FP$), and False Negatives ($FN$) during math metric delivery [C71][C72].
-- Explain how F1 score unites $Pr$ and $Re$ into a single harmonic mean [C71].
-- Highlight full-matrix metrics including $MCC = \frac{TL \times TN - FL \times FN}{\sqrt{(TL + FP) \times (TL + FN) \times (TN + FL) \times (TN + FN)}}$ [C72][C73] and $Kappa = \frac{OA - Pe}{1 - Pe}$ with $Pe = \frac{(TP+FN)(TP+FP)+(FP+TN)(FN+TN)}{(TP + FP + TN + FN)^2}$ [C73].
-- Target timing: ~45 seconds for math equations and wrap-up.
+### Section 3: Training & Metric Formulations (Slides 6–7)
+1. Note the data split design preventing spatial leakage between training and testing sets.
+2. Reference exact metric definitions ($\text{mIoU}$, $\text{OA}$, $\text{F1}$) when presenting quantitative gains.
+3. Timing cue: Conclude training and results in 10 seconds.
 
 ---
 
 ## Tweet Abstract
 
-Landslide susceptibility mapping leverages PyTorch, TensorFlow, and Keras alongside stochastic gradient descent and cross-entropy loss. Models are evaluated using mathematical metrics such as Precision $Pr = \frac{TP}{TP + FP}$, Recall $Re = \frac{TP}{TP + FN}$, F1 Score $F1 = \frac{2*Pr *Re}{Pr + Re}$, MCC $MCC = \frac{TL \times TN - FL \times FN}{\sqrt{(TL + FP) \times (TL + FN) \times (TN + FL) \times (TN + FN)}}$, and Kappa $Kappa = \frac{OA - Pe}{1 - Pe}$.
+CS-Mamba advances landslide extraction by combining a Cross Embedding Module (CEM) with multiscale visual state space (MAVSS) blocks. Coupling CNN local features with vision SSM long-range dependencies enhances boundary accuracy and semantic consistency.
+```
+
+## edit — 2026-09-14T23:03:09
+
+**Prompt:** create in simple language also 
+
+**Output:**
+
+```
+## Slide Bullets
+
+### Slide 1: Issues with Standard Landslide Detection
+* Standard methods and simple connections struggle to show exact edges [C21].
+* Without aligning features across different scales, big-picture context does not match detailed local shapes [C21].
+
+### Slide 2: Overview of CS-Mamba
+* The CS-Mamba network handles complex data using three main modules [C26].
+* Key parts include the Cross Embedding Module (CEM) and the Multiscale Aware Visual State Space (MAVSS) block [C26].
+
+### Slide 3: Cross Embedding Module (CEM)
+* The CEM combines features at different scales to show landslide shapes better [C26].
+* Using the CEM makes boundaries clearer and reduces background clutter [C109].
+
+### Slide 4: MAVSS Block Architecture
+* The middle part (neck) of the model uses $L$ stacked MAVSS blocks [C54].
+* Each MAVSS block combines an Efficient Global SS2D, a neural network layer, and a skip connection [C54].
+
+### Slide 5: How Efficient Global SS2D Works
+* The Efficient Global SS2D uses both a global branch and a local branch [C54].
+* The global branch uses state space model (SSM) mechanisms to capture long-distance patterns and overall land shapes [C54].
+* MAVSS activations help fill gaps across landslide areas to keep the output clear and smooth [C109].
+
+### Slide 6: Training Method
+* Image splits ensure original image sources stay in the same set to avoid overlap [C85].
+* Training uses stochastic gradient descent (SGD) with a momentum of $0.9$, along with image scaling and rotation [C85].
+
+### Slide 7: Performance Metrics
+* Performance is measured with mean Intersection over Union $\text{mIoU} = \frac{TP}{TP + FN + FP}$ [C79].
+* Overall Accuracy and F1 scores are calculated as $\text{OA} = \frac{TP + TN}{TP + FP + TN + FN}$ and $\text{F1} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$ [C79].
+* The full model (A6) gets the best clear edges and consistent labeling [C109].
+
+---
+
+## Speaker Script
+
+Standard skip connections miss precise edges in landslides because big-picture context and fine details do not line up [C21]. To fix this, CS-Mamba uses a Cross Embedding Module (CEM) that mixes multiscale details and reduces background noise [C26][C109]. The middle network has $L$ stacked MAVSS blocks with an Efficient Global SS2D module, using a global SSM branch to track long-distance patterns [C54]. Trained using SGD with a momentum of $0.9$, the full system produces clearer boundaries and consistent results [C85][C109].
+
+---
+
+## Speaker Notes
+
+### Section 1: Problem & Architecture Overview (Slides 1–2)
+1. Explain simply why standard upsampling misses small or unusually shaped landslides.
+2. Introduce CS-Mamba as a smart combination of state space models (SSMs) and CNN strengths.
+3. Timing cue: Keep overview to 8 seconds.
+
+### Section 2: Module Mechanics & Neck Design (Slides 3–5)
+1. Show how combining scales in the CEM improves edges and cleans up background noise.
+2. Explain the two-branch SS2D, focusing on how the global SSM branch sees the whole land surface.
+3. Timing cue: Keep structural details to 12 seconds.
+
+### Section 3: Training & Metric Formulations (Slides 6–7)
+1. Mention how data splitting prevents training images from leaking into testing sets.
+2. Point out the exact metric formulas ($\text{mIoU}$, $\text{OA}$, $\text{F1}$) when showing final scores.
+3. Timing cue: Conclude training and results in 10 seconds.
+
+---
+
+## Tweet Abstract
+
+CS-Mamba improves landslide detection by combining a Cross Embedding Module (CEM) with multiscale visual state space (MAVSS) blocks. Combining local CNN details with long-range SSM patterns creates clearer edges and reliable predictions.
 ```
 
 **Diff:**
@@ -160,49 +148,98 @@ Landslide susceptibility mapping leverages PyTorch, TensorFlow, and Keras alongs
 ```diff
 --- before
 +++ after
-@@ -28,6 +28,14 @@
- - F1 Score combines Precision and Recall into a single evaluation metric [C71].
- - It represents the harmonic mean calculated as: $F1 = \frac{2*Pr *Re}{Pr + Re}$ [C71].
+@@ -1,62 +1,62 @@
+ ## Slide Bullets
  
-+### Slide 8: Evaluation Metric: Matthews Correlation Coefficient
-+- Matthews Correlation Coefficient (MCC) takes into account TP, TN, FP, and FN, ranging from -1 to 1 [C72].
-+- It is obtained via: $MCC = \frac{TL \times TN - FL \times FN}{\sqrt{(TL + FP) \times (TL + FN) \times (TN + FL) \times (TN + FN)}}$ [C72][C73].
-+
-+### Slide 9: Evaluation Metric: Kappa Coefficient
-+- Kappa measures agreement between observed and expected classifications while accounting for chance agreement [C73].
-+- It is calculated using: $Kappa = \frac{OA - Pe}{1 - Pe}$ [C73], where $Pe = \frac{(TP+FN)(TP+FP)+(FP+TN)(FN+TN)}{(TP + FP + TN + FN)^2}$ [C73].
-+
+-### Slide 1: Semantic Misalignment in Landslide Extraction
+-* Conventional upsampling and skip connections prove insufficient for restoring precise edges [C21].
+-* A lack of explicit cross-scale semantic coordination causes inconsistencies between high-level semantic predictions and low-level spatial details [C21].
++### Slide 1: Issues with Standard Landslide Detection
++* Standard methods and simple connections struggle to show exact edges [C21].
++* Without aligning features across different scales, big-picture context does not match detailed local shapes [C21].
+ 
+-### Slide 2: CS-Mamba Architecture Overview
+-* The CS-Mamba architecture addresses cross-domain data challenges using three core modules [C26].
+-* Primary components include the Cross Embedding Module (CEM) and the Multiscale Aware Visual State Space (MAVSS) block [C26].
++### Slide 2: Overview of CS-Mamba
++* The CS-Mamba network handles complex data using three main modules [C26].
++* Key parts include the Cross Embedding Module (CEM) and the Multiscale Aware Visual State Space (MAVSS) block [C26].
+ 
+ ### Slide 3: Cross Embedding Module (CEM)
+-* The CEM fuses features across multiple scales to enhance the representation of landslide morphology [C26].
+-* Incorporating the CEM refines boundary depiction and effectively suppresses background noise [C109].
++* The CEM combines features at different scales to show landslide shapes better [C26].
++* Using the CEM makes boundaries clearer and reduces background clutter [C109].
+ 
+ ### Slide 4: MAVSS Block Architecture
+-* The neck of the architecture consists of $L$ stacked MAVSS blocks [C54].
+-* Each MAVSS block integrates an Efficient Global SS2D, a feed-forward neural network, and a residual connection [C54].
++* The middle part (neck) of the model uses $L$ stacked MAVSS blocks [C54].
++* Each MAVSS block combines an Efficient Global SS2D, a neural network layer, and a skip connection [C54].
+ 
+-### Slide 5: Efficient Global SS2D Mechanism
+-* The Efficient Global SS2D incorporates both a global branch and a local branch [C54].
+-* The global branch utilizes vision state space model (SSM) mechanisms to capture long-range spatial dependencies and geomorphological semantics [C54].
+-* MAVSS activation responses fill gaps across landslide regions to establish spatial coherence [C109].
++### Slide 5: How Efficient Global SS2D Works
++* The Efficient Global SS2D uses both a global branch and a local branch [C54].
++* The global branch uses state space model (SSM) mechanisms to capture long-distance patterns and overall land shapes [C54].
++* MAVSS activations help fill gaps across landslide areas to keep the output clear and smooth [C109].
+ 
+-### Slide 6: Optimization and Training Scheme
+-* Data splits are structured to assign original image sources to identical sets, preventing spatial overlap [C85].
+-* Optimization is conducted using stochastic gradient descent (SGD) with a momentum coefficient of $0.9$, scaling, and rotation augmentations [C85].
++### Slide 6: Training Method
++* Image splits ensure original image sources stay in the same set to avoid overlap [C85].
++* Training uses stochastic gradient descent (SGD) with a momentum of $0.9$, along with image scaling and rotation [C85].
+ 
+-### Slide 7: Quantitative Evaluation Metrics
+-* Model performance is measured using mean Intersection over Union $\text{mIoU} = \frac{TP}{TP + FN + FP}$ [C79].
+-* Overall Accuracy and F1 metrics are evaluated via $\text{OA} = \frac{TP + TN}{TP + FP + TN + FN}$ and $\text{F1} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$ [C79].
+-* The complete model (A6) achieves maximum spatial clarity and semantic consistency [C109].
++### Slide 7: Performance Metrics
++* Performance is measured with mean Intersection over Union $\text{mIoU} = \frac{TP}{TP + FN + FP}$ [C79].
++* Overall Accuracy and F1 scores are calculated as $\text{OA} = \frac{TP + TN}{TP + FP + TN + FN}$ and $\text{F1} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$ [C79].
++* The full model (A6) gets the best clear edges and consistent labeling [C109].
+ 
  ---
  
  ## Speaker Script
-@@ -36,7 +44,7 @@
  
- To implement deep learning pipelines, PyTorch serves as the primary artificial intelligence development framework, complemented by Keras and TensorFlow as supplementary tools [C66]. Model debugging heavily depends on hyperparameter optimization to yield maximum model performance [C66]. For model optimization, the stochastic gradient descent algorithm is selected, paired with the cross-entropy loss function [C66].
- 
--Model evaluation requires precise quantitative metrics [C71]. Precision measures the proportion of correctly predicted positive cases using $Pr = \frac{TP}{TP + FP}$ [C71]. Recall determines the ratio of correctly predicted landslide observations against actual landslide samples via $Re = \frac{TP}{TP + FN}$ [C71]. Finally, the F1 Score provides a single metric representing the harmonic mean of precision and recall, calculated as $F1 = \frac{2*Pr *Re}{Pr + Re}$ [C71]. Together, these framework setups and math metrics form a rigorous deep learning methodology for susceptibility assessment [C16][C66][C71].
-+Model evaluation requires precise quantitative metrics [C71]. Precision measures the proportion of correctly predicted positive cases using $Pr = \frac{TP}{TP + FP}$ [C71]. Recall determines the ratio of correctly predicted landslide observations against actual landslide samples via $Re = \frac{TP}{TP + FN}$ [C71]. The F1 Score provides a single metric representing the harmonic mean of precision and recall, calculated as $F1 = \frac{2*Pr *Re}{Pr + Re}$ [C71]. Furthermore, the Matthews Correlation Coefficient accounts for all confusion matrix parameters through $MCC = \frac{TL \times TN - FL \times FN}{\sqrt{(TL + FP) \times (TL + FN) \times (TN + FL) \times (TN + FN)}}$ [C72][C73]. Finally, classification reliability is measured by the Kappa coefficient equation $Kappa = \frac{OA - Pe}{1 - Pe}$ [C73], where expected agreement is derived by $Pe = \frac{(TP+FN)(TP+FP)+(FP+TN)(FN+TN)}{(TP + FP + TN + FN)^2}$ [C73]. Together, these framework setups and math metrics form a rigorous deep learning methodology for susceptibility assessment [C16][C66][C71][C72][C73].
+-Conventional skip connections fail to preserve precise edges in landslide extraction due to cross-scale semantic misalignment [C21]. To address this, CS-Mamba introduces a Cross Embedding Module (CEM) that fuses multiscale features to suppress background noise [C26][C109]. The neck consists of $L$ stacked MAVSS blocks featuring an Efficient Global SS2D module, which uses a vision SSM global branch to capture long-range spatial dependencies [C54]. Trained via SGD with a momentum coefficient of $0.9$, the full framework optimizes spatial boundaries and semantic consistency [C85][C109].
++Standard skip connections miss precise edges in landslides because big-picture context and fine details do not line up [C21]. To fix this, CS-Mamba uses a Cross Embedding Module (CEM) that mixes multiscale details and reduces background noise [C26][C109]. The middle network has $L$ stacked MAVSS blocks with an Efficient Global SS2D module, using a global SSM branch to track long-distance patterns [C54]. Trained using SGD with a momentum of $0.9$, the full system produces clearer boundaries and consistent results [C85][C109].
  
  ---
  
-@@ -52,13 +60,14 @@
- - Stress that hyperparameter tuning with stochastic gradient descent and cross-entropy loss is critical for model debugging [C66].
- - Target timing: ~35 seconds for framework details.
+ ## Speaker Notes
  
--### Section 3: Evaluation Metrics (Slides 5–7)
--- Clearly distinguish True Positives ($TP$), False Positives ($FP$), and False Negatives ($FN$) during math metric delivery [C71].
-+### Section 3: Evaluation Metrics (Slides 5–9)
-+- Clearly distinguish True Positives ($TP$), True Negatives ($TN$), False Positives ($FP$), and False Negatives ($FN$) during math metric delivery [C71][C72].
- - Explain how F1 score unites $Pr$ and $Re$ into a single harmonic mean [C71].
--- Target timing: ~30 seconds for math equations and wrap-up.
-+- Highlight full-matrix metrics including $MCC = \frac{TL \times TN - FL \times FN}{\sqrt{(TL + FP) \times (TL + FN) \times (TN + FL) \times (TN + FN)}}$ [C72][C73] and $Kappa = \frac{OA - Pe}{1 - Pe}$ with $Pe = \frac{(TP+FN)(TP+FP)+(FP+TN)(FN+TN)}{(TP + FP + TN + FN)^2}$ [C73].
-+- Target timing: ~45 seconds for math equations and wrap-up.
+ ### Section 1: Problem & Architecture Overview (Slides 1–2)
+-1. Emphasize why conventional upsampling fails on small spatial extents or complex landslide geometries.
+-2. Introduce CS-Mamba as a hybrid approach combining state space models (SSMs) and CNN strengths.
++1. Explain simply why standard upsampling misses small or unusually shaped landslides.
++2. Introduce CS-Mamba as a smart combination of state space models (SSMs) and CNN strengths.
+ 3. Timing cue: Keep overview to 8 seconds.
+ 
+ ### Section 2: Module Mechanics & Neck Design (Slides 3–5)
+-1. Detail how the CEM multi-scale fusion directly improves boundary response over background noise.
+-2. Walk through the dual-branch SS2D, highlighting the global SSM branch for geomorphological context.
++1. Show how combining scales in the CEM improves edges and cleans up background noise.
++2. Explain the two-branch SS2D, focusing on how the global SSM branch sees the whole land surface.
+ 3. Timing cue: Keep structural details to 12 seconds.
+ 
+ ### Section 3: Training & Metric Formulations (Slides 6–7)
+-1. Note the data split design preventing spatial leakage between training and testing sets.
+-2. Reference exact metric definitions ($\text{mIoU}$, $\text{OA}$, $\text{F1}$) when presenting quantitative gains.
++1. Mention how data splitting prevents training images from leaking into testing sets.
++2. Point out the exact metric formulas ($\text{mIoU}$, $\text{OA}$, $\text{F1}$) when showing final scores.
+ 3. Timing cue: Conclude training and results in 10 seconds.
  
  ---
  
  ## Tweet Abstract
  
--Landslide susceptibility mapping leverages PyTorch, TensorFlow, and Keras alongside stochastic gradient descent and cross-entropy loss. Models are evaluated using mathematical metrics such as Precision $Pr = \frac{TP}{TP + FP}$, Recall, and F1 Score.
-+Landslide susceptibility mapping leverages PyTorch, TensorFlow, and Keras alongside stochastic gradient descent and cross-entropy loss. Models are evaluated using mathematical metrics such as Precision $Pr = \frac{TP}{TP + FP}$, Recall $Re = \frac{TP}{TP + FN}$, F1 Score $F1 = \frac{2*Pr *Re}{Pr + Re}$, MCC $MCC = \frac{TL \times TN - FL \times FN}{\sqrt{(TL + FP) \times (TL + FN) \times (TN + FL) \times (TN + FN)}}$, and Kappa $Kappa = \frac{OA - Pe}{1 - Pe}$.
+-CS-Mamba advances landslide extraction by combining a Cross Embedding Module (CEM) with multiscale visual state space (MAVSS) blocks. Coupling CNN local features with vision SSM long-range dependencies enhances boundary accuracy and semantic consistency.
++CS-Mamba improves landslide detection by combining a Cross Embedding Module (CEM) with multiscale visual state space (MAVSS) blocks. Combining local CNN details with long-range SSM patterns creates clearer edges and reliable predictions.
 ```
 
-**Why changed:** To satisfy the instruction to add more equations, mathematical formulas and slides for additional evaluation metrics—specifically the Matthews Correlation Coefficient and Kappa Coefficient—were added throughout the text.
+**Why changed:** Complex technical jargon and dense academic phrasing were replaced with simpler, plain language across all sections to make the content easier to read and understand.
